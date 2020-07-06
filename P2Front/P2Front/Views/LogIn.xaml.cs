@@ -16,7 +16,23 @@ namespace Pyecto2Datos1Fontend.ViewsModels
     {
         public LogIn()
         {
-            InitializeComponent();
+            InitializeComponent(); //Initialize the UI components defined in teh Xaml file
+            Init();
+        }
+
+        void Init()
+        {
+            BackgroundColor = ColorsFonts.BackgroundColor;
+            entry_email.PlaceholderColor = ColorsFonts.goldColor;
+            entry_email.TextColor = ColorsFonts.goldColor;
+            entry_email.FontFamily = ColorsFonts.contentFont;
+            entry_password.PlaceholderColor = ColorsFonts.goldColor;
+            entry_password.TextColor = ColorsFonts.goldColor;
+            entry_password.FontFamily = ColorsFonts.contentFont;
+
+            entry_email.Completed += (s, e) => entry_password.Focus();
+            entry_password.Completed += (s, e) => SignInProcedure(s, e);
+
         }
 
         void SignInProcedure(object sender, EventArgs e)
@@ -30,6 +46,11 @@ namespace Pyecto2Datos1Fontend.ViewsModels
             {
                 DisplayAlert("Login", "Login not correct; empty username or password", "Ok");
             }
+        }
+
+        void newAccountProcedure(object sender, EventArgs e)
+        {
+            
         }
     }
 }

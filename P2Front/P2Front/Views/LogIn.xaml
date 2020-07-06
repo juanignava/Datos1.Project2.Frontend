@@ -6,11 +6,29 @@
              mc:Ignorable="d"
              x:Class="Pyecto2Datos1Fontend.ViewsModels.LogIn">
     <ContentPage.Content>
-        <StackLayout>
-            <Entry x:Name = "entry_email" Placeholder="Email address" />
-            <Entry x:Name = "entry_password" Placeholder="Password" />
-            <ImageButton x:Name="button_signIn" Source="button_logIn.png"
+        <StackLayout x:Name="MasterLayout">
+
+            <StackLayout x:Name="LogoStack" VerticalOptions="FillAndExpand">
+                <Image x:Name="LogInIcon" Source="icon_logIn" Margin="0, 50, 0, 0"/>
+            </StackLayout>
+                        
+                         
+            
+            <StackLayout x:Name="LogInEntriesStack" VerticalOptions="StartAndExpand">
+                <StackLayout.Padding>
+                    <OnIdiom x:TypeArguments="Thickness">
+                        <OnIdiom.Phone>40, 0, 40, 0</OnIdiom.Phone>
+                    </OnIdiom>
+                </StackLayout.Padding>
+                
+                <Entry x:Name = "entry_email" Placeholder="Email address" FontFamily="Arial"/>
+                <Entry x:Name = "entry_password" Placeholder="Password" />
+                <ImageButton x:Name="button_signIn" Source="button_logIn.png"
                          HorizontalOptions="Center" Clicked="SignInProcedure"/>
+                <ImageButton x:Name="button_newAccount" Source="button_newAccount"
+                         HorizontalOptions="Center" Clicked ="newAccountProcedure"/>
+         
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
