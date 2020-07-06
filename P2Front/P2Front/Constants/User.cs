@@ -36,24 +36,34 @@ namespace P2Front.Constants
             this.Password = password;
         }
 
-        public User(String email, String name, int Age, String password, String username, Image userPicture,
-            HashSet<Recipe> myMenu, List<String> following, List<String> followers, List<Recipe> sharedRecipes)
+        public User(String email, String name, int Age, String password)
         {
+            if (email == null)
+                email = "";
+            else if (name == null)
+                name = "";
+            else if (password == null)
+                password = "";
+            //else if (Age == null)
+             //   Age = 0;
+
             this.Email = email;
             this.Name = name;
             this.Age = Age;
             this.Password = password;
-            this.Username = username;
-            this.UserPicture = userPicture;
-            this.MyMenu = myMenu;
-            this.Following = following;
-            this.Followers = followers;
-            this.SharedRecipes = sharedRecipes;
         }
 
         public bool CheckLogInInformation()
         {
             if (!this.Email.Equals("") && !this.Password.Equals(""))
+                return true;
+            else
+                return false;
+        }
+
+        public bool CheckSignUpInformation()
+        {
+            if (!this.Email.Equals("") && !this.Password.Equals("") && !this.Name.Equals("") && !this.Age.Equals(0))
                 return true;
             else
                 return false;

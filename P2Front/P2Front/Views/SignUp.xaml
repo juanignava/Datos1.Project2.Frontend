@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="P2Front.Views.SignUp">
+    <ContentPage.Content>
+        <StackLayout x:Name="MasterLayoutSignUp">
+
+            <StackLayout x:Name="SignUpStack" VerticalOptions="FillAndExpand">
+                <Image x:Name="LogInIcon" Source="icon_SignIn" Margin="0, 50, 0, 0"/>
+            </StackLayout>
+
+
+
+            <StackLayout x:Name="SignUpEntriesStack" VerticalOptions="StartAndExpand">
+                <StackLayout.Padding>
+                    <OnIdiom x:TypeArguments="Thickness">
+                        <OnIdiom.Phone>40, 0, 40, 0</OnIdiom.Phone>
+                    </OnIdiom>
+                </StackLayout.Padding>
+
+
+                <Entry x:Name = "entry_name" Placeholder="Name"/>
+                <Entry x:Name = "entry_age" Placeholder="Age"
+                       Keyboard="Numeric"/>
+                <Entry x:Name = "entry_email" Placeholder="Email address"/>
+                <Entry x:Name = "entry_password" Placeholder="Password" />
+                <ImageButton x:Name="button_signUp" Source="button_createAccount.png"
+                         HorizontalOptions="Center" Clicked="SignUpProcedure"/>
+                <ImageButton x:Name="button_newCompany" Source="button_newCompany"
+                         HorizontalOptions="Center" Clicked ="newCompanyProcedure"/>
+
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

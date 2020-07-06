@@ -1,6 +1,4 @@
 ﻿using P2Front.Constants;
-using P2Front.Views;
-using Pyecto2Datos1Fontend.ConstantModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,48 +8,64 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Pyecto2Datos1Fontend.ViewsModels
+namespace P2Front.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LogIn : ContentPage
+    public partial class SignUp : ContentPage
     {
-        public LogIn()
+        public SignUp()
         {
-            InitializeComponent(); //Initialize the UI components defined in teh Xaml file
+            InitializeComponent();
             Init();
         }
 
         void Init()
         {
             BackgroundColor = ColorsFonts.BackgroundColor;
+
+            entry_name.PlaceholderColor = ColorsFonts.goldColor;
+            entry_name.TextColor = ColorsFonts.goldColor;
+            entry_name.FontFamily = ColorsFonts.contentFont;
+
+            entry_age.PlaceholderColor = ColorsFonts.goldColor;
+            entry_age.TextColor = ColorsFonts.goldColor;
+            entry_age.FontFamily = ColorsFonts.contentFont;
+
             entry_email.PlaceholderColor = ColorsFonts.goldColor;
             entry_email.TextColor = ColorsFonts.goldColor;
             entry_email.FontFamily = ColorsFonts.contentFont;
+
             entry_password.PlaceholderColor = ColorsFonts.goldColor;
             entry_password.TextColor = ColorsFonts.goldColor;
             entry_password.FontFamily = ColorsFonts.contentFont;
 
+            entry_name.Completed += (s, e) => entry_age.Focus();
+            entry_age.Completed += (s, e) => entry_email.Focus();
             entry_email.Completed += (s, e) => entry_password.Focus();
-            entry_password.Completed += (s, e) => SignInProcedure(s, e);
-
+            entry_password.Completed += (s, e) => SignUpProcedure(s, e);
         }
 
-        void SignInProcedure(object sender, EventArgs e)
+        public void SignUpProcedure(object sender, EventArgs e)
         {
             User user = new User(entry_email.Text, entry_password.Text);
             if (user.CheckLogInInformation())
             {
-                DisplayAlert("Login", "Login Success", "Ok");
+                DisplayAlert("Login", "Sign up Successful", "Ok");
             }
             else
             {
-                DisplayAlert("Login", "Login not correct; empty username or password", "Ok");
+                DisplayAlert("Login", "Sign up incorrect, something is missing", "Ok");
             }
-        }
 
-        async void newAccountProcedure(object sender, EventArgs e)
+            
+        }
+        
+
+        
+
+        public void newCompanyProcedure(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new SignUp());
+
         }
     }
 }
