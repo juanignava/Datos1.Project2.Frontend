@@ -15,6 +15,7 @@ namespace P2Front.TabbedClasses
         public NewsFeed()
         {
             InitializeComponent();
+            BackgroundColor = P2Front.Constants.ColorsFonts.BackgroundColor;
         }
     }
 }

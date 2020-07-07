@@ -1,5 +1,7 @@
-﻿using System;
+﻿using P2Front.Constants;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +17,18 @@ namespace P2Front.TabbedClasses
         public SearchPage()
         {
             InitializeComponent();
+            Init();
+        }
+
+        void Init()
+        {
+            searchBar.BackgroundColor = ColorsFonts.BackgroundColor;
+            searchBar.CancelButtonColor = ColorsFonts.wineColor;
+            searchBar.PlaceholderColor = ColorsFonts.wineColor;
+            searchBar.TextColor = ColorsFonts.wineColor;
+
+            SearchByLabel.TextColor = ColorsFonts.wineColor;
+            SearchByLabel.BackgroundColor = ColorsFonts.BackgroundColor;
         }
     }
 }
