@@ -85,6 +85,9 @@
     <ImageAsset Include="Assets.xcassets\button_newAccount.png.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\goBackButton.png.imageset\goBackButton.png">
+      <Visible>false</Visible>
+    </ImageAsset>
     <ImageAsset Include="Assets.xcassets\icon_logIn.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
@@ -98,6 +101,9 @@
       <Visible>false</Visible>
     </ImageAsset>
     <ImageAsset Include="Assets.xcassets\button_createAccount.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\goBackButton.png.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />

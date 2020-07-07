@@ -1,4 +1,5 @@
 ﻿using P2Front.Constants;
+using Pyecto2Datos1Fontend.ViewsModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,8 @@ namespace P2Front.Views
         {
             InitializeComponent();
             Init();
+
+            NavigationPage.SetHasNavigationBar(this, false);
         }
 
         void Init()
@@ -56,16 +59,18 @@ namespace P2Front.Views
             {
                 DisplayAlert("Login", "Sign up incorrect, something is missing", "Ok");
             }
+        }
+        
+        async void backToLogin (object source, EventArgs e)
+        {
+            await Navigation.PushAsync(new LogIn());
 
-            
         }
         
 
-        
-
-        public void newCompanyProcedure(object sender, EventArgs e)
+        async void newCompanyProcedure(object sender, EventArgs e)
         {
-
+            await Navigation.PushAsync(new CompanySignUp());
         }
     }
 }

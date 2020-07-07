@@ -1,4 +1,5 @@
-﻿using P2Front.Constants;
+﻿using P2Front;
+using P2Front.Constants;
 using P2Front.Views;
 using Pyecto2Datos1Fontend.ConstantModels;
 using System;
@@ -15,10 +16,17 @@ namespace Pyecto2Datos1Fontend.ViewsModels
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LogIn : ContentPage
     {
+        
+
         public LogIn()
         {
+           
             InitializeComponent(); //Initialize the UI components defined in teh Xaml file
             Init();
+
+            NavigationPage.SetHasBackButton(this, false);
+
+            NavigationPage.SetHasNavigationBar(this, false);
         }
 
         void Init()
@@ -33,6 +41,8 @@ namespace Pyecto2Datos1Fontend.ViewsModels
 
             entry_email.Completed += (s, e) => entry_password.Focus();
             entry_password.Completed += (s, e) => SignInProcedure(s, e);
+
+
 
         }
 
@@ -51,7 +61,7 @@ namespace Pyecto2Datos1Fontend.ViewsModels
 
         async void newAccountProcedure(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new SignUp());
+            await Navigation.PushAsync(new SignUp());
         }
     }
 }

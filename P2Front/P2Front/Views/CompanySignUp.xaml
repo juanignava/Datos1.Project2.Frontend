@@ -4,20 +4,20 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="P2Front.Views.SignUp">
+             x:Class="P2Front.Views.CompanySignUp">
     <ContentPage.Content>
-        <StackLayout x:Name="MasterLayoutSignUp">
+        <StackLayout x:Name="MasterLayoutCompanySignUp">
 
-            <StackLayout x:Name="SignUpStack" VerticalOptions="FillAndExpand">
+            <StackLayout x:Name="CompanySignUpStack" VerticalOptions="FillAndExpand">
                 <ImageButton x:Name="button_goBack" Source="goBackButton.png"
-                             Clicked="backToLogin" Margin="10, 10, 10, 0"
+                             Clicked="backToSignUp" Margin="10, 10, 10, 0"
                              HorizontalOptions="Start"/>
-                <Image x:Name="SignUpIcon" Source="icon_SignIn" Margin="0, 30, 0, 0"/>
+                <Image x:Name="CompanySignUpIcon" Source="CompanySignUpIcon.png" Margin="0, 30, 0, 0"/>
             </StackLayout>
 
 
 
-            <StackLayout x:Name="SignUpEntriesStack" VerticalOptions="StartAndExpand">
+            <StackLayout x:Name="CompnySignUpEntriesStack" VerticalOptions="StartAndExpand">
                 <StackLayout.Padding>
                     <OnIdiom x:TypeArguments="Thickness">
                         <OnIdiom.Phone>40, 0, 40, 0</OnIdiom.Phone>
@@ -25,15 +25,14 @@
                 </StackLayout.Padding>
 
 
-                <Entry x:Name = "entry_name" Placeholder="Name"/>
-                <Entry x:Name = "entry_age" Placeholder="Age"
+                <Entry x:Name = "entry_companyName" Placeholder="Company Name"/>
+                <Entry x:Name = "entry_CompanyContactMethod" Placeholder="Contact Methods"/>
+                <Entry x:Name = "entry_serviceHours" Placeholder="Service hours"
                        Keyboard="Numeric"/>
-                <Entry x:Name = "entry_email" Placeholder="Email address"/>
-                <Entry x:Name = "entry_password" Placeholder="Password" />
-                <ImageButton x:Name="button_signUp" Source="button_createAccount.png"
+                
+                <ImageButton x:Name="button_CompanySignUp" Source="button_createAccount.png"
                          HorizontalOptions="Center" Clicked="SignUpProcedure"/>
-                <ImageButton x:Name="button_newCompany" Source="button_newCompany"
-                         HorizontalOptions="Center" Clicked ="newCompanyProcedure"/>
+                
 
             </StackLayout>
         </StackLayout>

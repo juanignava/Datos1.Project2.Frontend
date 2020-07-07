@@ -21,6 +21,31 @@ namespace Pyecto2Datos1Fontend.ConstantModels
             this.ContactMethod = contactMethod;
             this.Schedule = schedule;
             this.Location = location;
+           
+        }
+
+        public Company (String name, String contactMethod)
+        {
+            if (name == null)
+                name = "";
+            else if (contactMethod == null)
+                contactMethod = "";
+
+
+            this.Name = name;
+            this.ContactMethod = contactMethod;
+        }
+
+        public bool CheckCompanySignUpInformation()
+        {
+            if (!(this.Name == "") && !(this.ContactMethod == ""))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
