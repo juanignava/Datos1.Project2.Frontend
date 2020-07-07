@@ -61,7 +61,12 @@ namespace Pyecto2Datos1Fontend.ViewsModels
 
         async void newAccountProcedure(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new SignUp());
+            await Navigation.PushAsync(new SignUp(), true);
+        }
+
+        async void newCompanyProcedure(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new CompanySignUp(), true);
         }
     }
 }

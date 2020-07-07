@@ -32,8 +32,7 @@
                 <Entry x:Name = "entry_password" Placeholder="Password" />
                 <ImageButton x:Name="button_signUp" Source="button_createAccount.png"
                          HorizontalOptions="Center" Clicked="SignUpProcedure"/>
-                <ImageButton x:Name="button_newCompany" Source="button_newCompany"
-                         HorizontalOptions="Center" Clicked ="newCompanyProcedure"/>
+                
 
             </StackLayout>
         </StackLayout>

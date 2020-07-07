@@ -59,7 +59,7 @@ namespace P2Front.Views
 
         async void backToSignUp(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new SignUp());
+            await Navigation.PopAsync(true);
         }
     }
 }

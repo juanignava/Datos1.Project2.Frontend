@@ -63,14 +63,9 @@ namespace P2Front.Views
         
         async void backToLogin (object source, EventArgs e)
         {
-            await Navigation.PushAsync(new LogIn());
+            await Navigation.PopAsync(true);
 
         }
         
-
-        async void newCompanyProcedure(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new CompanySignUp());
-        }
     }
 }

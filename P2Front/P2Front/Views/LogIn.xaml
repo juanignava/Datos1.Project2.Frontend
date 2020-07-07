@@ -7,7 +7,8 @@
              x:Class="Pyecto2Datos1Fontend.ViewsModels.LogIn">
  
     <ContentPage.Content>
-        
+   
+
         <StackLayout x:Name="MasterLayout">
 
             <StackLayout x:Name="LogoStack" VerticalOptions="FillAndExpand">
@@ -28,7 +29,11 @@
                 <ImageButton x:Name="button_signIn" Source="button_logIn.png"
                          HorizontalOptions="Center" Clicked="SignInProcedure"/>
                 <ImageButton x:Name="button_newAccount" Source="button_newAccount"
-                         HorizontalOptions="Center" Clicked ="newAccountProcedure"/>
+                         HorizontalOptions="Center" Clicked ="newAccountProcedure"
+                             Margin="0, 10, 0, 0"/>
+                <ImageButton x:Name="button_newCompany" Source="button_newCompany"
+                         HorizontalOptions="Center" Clicked ="newCompanyProcedure"
+                              Margin="0, 10, 0, 0"/>
          
             </StackLayout>
         </StackLayout>
