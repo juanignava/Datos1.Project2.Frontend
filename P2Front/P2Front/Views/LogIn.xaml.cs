@@ -1,5 +1,6 @@
 ﻿using P2Front;
 using P2Front.Constants;
+using P2Front.TabbedClasses;
 using P2Front.Views;
 using Pyecto2Datos1Fontend.ConstantModels;
 using System;
@@ -46,17 +47,22 @@ namespace Pyecto2Datos1Fontend.ViewsModels
 
         }
 
-        void SignInProcedure(object sender, EventArgs e)
+        async void SignInProcedure(object sender, EventArgs e)
         {
             User user = new User(entry_email.Text, entry_password.Text);
             if (user.CheckLogInInformation())
             {
-                DisplayAlert("Login", "Login Success", "Ok");
+                //bool info = await DisplayAlert("Login", "Login Success", "Ok");
+                //if (info == true)
+                //{
+                    await Navigation.PushAsync(new TabbedHomePage());
+                //}
             }
             else
             {
                 DisplayAlert("Login", "Login not correct; empty username or password", "Ok");
             }
+
         }
 
         async void newAccountProcedure(object sender, EventArgs e)

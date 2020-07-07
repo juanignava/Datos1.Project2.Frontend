@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="P2Front.TabbedClasses.TabbedHomePage"
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core" xmlns:tabbedclasses="clr-namespace:P2Front.TabbedClasses"
+            android:TabbedPage.ToolbarPlacement="Bottom">
+
+    <tabbedclasses:NewsFeed Title="Si" Icon="home1.png"></tabbedclasses:NewsFeed>
+    <tabbedclasses:SearchPage Icon="goBackButton.png"></tabbedclasses:SearchPage>
+</TabbedPage>
