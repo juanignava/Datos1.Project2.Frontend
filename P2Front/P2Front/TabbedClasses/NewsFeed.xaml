@@ -6,10 +6,41 @@
              mc:Ignorable="d"
              x:Class="P2Front.TabbedClasses.NewsFeed">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid Margin="10, 20, 10, 5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.1*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackLayout >
+                <Image x:Name="tabbedPageHeader" Source="headerIcon.png"/>
+            </StackLayout>
+
+            <ListView Grid.Row="1"
+                x:Name= "ProductsListView">
+                <ListView.ItemsSource>
+                    <!--Esto se debe adaptar para cargar las recetas-->
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Receta 1</x:String>
+                        <x:String>Receta 2</x:String>
+                        <x:String>Receta 3</x:String>
+                        <x:String>Receta 4</x:String>
+                        <x:String>Receta 5</x:String>
+                        <x:String>Receta 6</x:String>
+                        <x:String>Receta 7</x:String>
+                        <x:String>Receta 8</x:String>
+                        <x:String>Receta 9</x:String>
+                        <x:String>Receta 10</x:String>
+                        <x:String>Receta 11</x:String>
+                        <x:String>Receta 12</x:String>
+                        <x:String>Receta 13</x:String>
+                        <x:String>Receta 14</x:String>
+                        <x:String>Receta 15</x:String>
+                        <x:String>Receta 16</x:String>
+                        <x:String>Receta 17</x:String>
+                    </x:Array>
+
+                </ListView.ItemsSource>
+            </ListView>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

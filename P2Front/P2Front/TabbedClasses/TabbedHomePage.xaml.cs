@@ -19,7 +19,9 @@ namespace P2Front.TabbedClasses
             SelectedTabColor = P2Front.Constants.ColorsFonts.goldColor;
             BarTextColor = Color.Black;
             UnselectedTabColor = Color.Black;
-           
+
+            NavigationPage.SetHasBackButton(this, false);
+            NavigationPage.SetHasNavigationBar(this, false);
 
         }
     }

@@ -1,4 +1,5 @@
 ﻿using P2Front.Constants;
+using P2Front.TabbedClasses;
 using Pyecto2Datos1Fontend.ConstantModels;
 using System;
 using System.Collections.Generic;
@@ -44,12 +45,12 @@ namespace P2Front.Views
 
         }
 
-        void SignUpProcedure(object sender, EventArgs e)
+        async void SignUpProcedure(object sender, EventArgs e)
         {
             Company company = new Company(entry_companyName.Text, entry_CompanyContactMethod.Text);
             if (company.CheckCompanySignUpInformation())
             {
-                DisplayAlert("Company sign up", "Sign up Successful", "Ok");
+                await Navigation.PushAsync(new TabbedHomePage());
             }
             else
             {

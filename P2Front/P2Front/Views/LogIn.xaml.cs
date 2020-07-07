@@ -52,11 +52,7 @@ namespace Pyecto2Datos1Fontend.ViewsModels
             User user = new User(entry_email.Text, entry_password.Text);
             if (user.CheckLogInInformation())
             {
-                //bool info = await DisplayAlert("Login", "Login Success", "Ok");
-                //if (info == true)
-                //{
-                    await Navigation.PushAsync(new TabbedHomePage());
-                //}
+                await Navigation.PushAsync(new TabbedHomePage());
             }
             else
             {

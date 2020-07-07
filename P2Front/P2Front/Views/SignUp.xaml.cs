@@ -1,4 +1,5 @@
 ﻿using P2Front.Constants;
+using P2Front.TabbedClasses;
 using Pyecto2Datos1Fontend.ViewsModels;
 using System;
 using System.Collections.Generic;
@@ -48,12 +49,12 @@ namespace P2Front.Views
             entry_password.Completed += (s, e) => SignUpProcedure(s, e);
         }
 
-        public void SignUpProcedure(object sender, EventArgs e)
+        async public void SignUpProcedure(object sender, EventArgs e)
         {
             User user = new User(entry_email.Text, entry_password.Text);
             if (user.CheckLogInInformation())
             {
-                DisplayAlert("Login", "Sign up Successful", "Ok");
+                await Navigation.PushAsync(new TabbedHomePage());
             }
             else
             {
