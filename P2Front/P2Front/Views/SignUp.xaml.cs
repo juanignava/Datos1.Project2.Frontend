@@ -58,7 +58,7 @@ namespace P2Front.Views
             }
             else
             {
-                DisplayAlert("Login", "Sign up incorrect, something is missing", "Ok");
+                await DisplayAlert("Login", "Sign up incorrect, something is missing", "Ok");
             }
         }
         

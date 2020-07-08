@@ -56,7 +56,7 @@ namespace Pyecto2Datos1Fontend.ViewsModels
             }
             else
             {
-                DisplayAlert("Login", "Login not correct; empty username or password", "Ok");
+                await DisplayAlert("Login", "Login not correct; empty username or password", "Ok");
             }
 
         }

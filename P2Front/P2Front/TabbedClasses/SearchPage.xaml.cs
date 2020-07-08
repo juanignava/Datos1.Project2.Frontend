@@ -22,6 +22,7 @@ namespace P2Front.TabbedClasses
 
         void Init()
         {
+            BackgroundColor = ColorsFonts.BackgroundColor;
             searchBar.BackgroundColor = ColorsFonts.BackgroundColor;
             searchBar.CancelButtonColor = ColorsFonts.wineColor;
             searchBar.PlaceholderColor = ColorsFonts.wineColor;

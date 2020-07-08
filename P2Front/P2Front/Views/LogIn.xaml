@@ -24,7 +24,7 @@
                     </OnIdiom>
                 </StackLayout.Padding>
                 
-                <Entry x:Name = "entry_email" Placeholder="Email address" FontFamily="Arial"/>
+                <Entry x:Name = "entry_email" Placeholder="Email address"/>
                 <Entry x:Name = "entry_password" Placeholder="Password" />
                 <ImageButton x:Name="button_signIn" Source="button_logIn.png"
                          HorizontalOptions="Center" Clicked="SignInProcedure"/>
