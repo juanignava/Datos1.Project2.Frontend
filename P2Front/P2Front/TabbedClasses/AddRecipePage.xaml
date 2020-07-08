@@ -48,9 +48,18 @@
                     <Button x:Name ="button_difficulty" Text="Select difficulty" FontSize="Small" FontFamily="Tahoma" TextColor="White"
                                  Clicked="selectDifficulty" HorizontalOptions="FillAndExpand"/>
 
-                    <Image x:Name="selectedImage"/>
+                    <Frame CornerRadius="10"
+                           HeightRequest="300" WidthRequest="250"
+                           HorizontalOptions="Center" VerticalOptions="Center"
+                           Padding="0" IsClippedToBounds="True">
+                        <Image x:Name="selectedImage" Source="cameraIcon.png" Aspect="Fill"/>
+                    </Frame>
 
-                    <Button x:Name="buton_selectImage" Text="Select Image" TextColor="Black" BackgroundColor="Green" Clicked="selectImageFromGallery"/>
+                    <Button x:Name="button_selectImage" Text="Select Image" TextColor="White" Clicked="selectImageFromGallery"/>
+
+                    <ImageButton x:Name="button_publish" Source="publishIcon.png" Clicked="publishRecipe" HorizontalOptions="Center"/>
+
+
                 </StackLayout>
             </ScrollView>
 

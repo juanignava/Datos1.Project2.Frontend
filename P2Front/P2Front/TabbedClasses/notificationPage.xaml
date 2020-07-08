@@ -6,10 +6,42 @@
              mc:Ignorable="d"
              x:Class="P2Front.TabbedClasses.notificationPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid Margin="10, 20, 10, 5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.1*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackLayout >
+                <Label x:Name="NotificationsHeader" Text="Notifications"
+                       FontSize="Title" FontFamily="Tahoma" TextColor="Black" HorizontalOptions="CenterAndExpand"
+                       FontAttributes="Bold"/>
+            </StackLayout>
+            <ListView Grid.Row="1"
+                x:Name= "ProductsListView">
+                <ListView.ItemsSource>
+                    <!--Esto se debe adaptar para cargar las recetas-->
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Notification 1</x:String>
+                        <x:String>Notification 2</x:String>
+                        <x:String>Notification 3</x:String>
+                        <x:String>Notification 4</x:String>
+                        <x:String>Notification 5</x:String>
+                        <x:String>Notification 6</x:String>
+                        <x:String>Notification 7</x:String>
+                        <x:String>Notification 8</x:String>
+                        <x:String>Notification 9</x:String>
+                        <x:String>Notification 10</x:String>
+                        <x:String>Notification 11</x:String>
+                        <x:String>Notification 12</x:String>
+                        <x:String>Notification 13</x:String>
+                        <x:String>Notification 14</x:String>
+                        <x:String>Notification 15</x:String>
+                        <x:String>Notification 16</x:String>
+                        <x:String>Notification 17</x:String>
+                    </x:Array>
+
+                </ListView.ItemsSource>
+            </ListView>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

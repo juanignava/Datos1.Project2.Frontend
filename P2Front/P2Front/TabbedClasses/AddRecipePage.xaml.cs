@@ -57,6 +57,11 @@ namespace P2Front.TabbedClasses
             button_difficulty.BackgroundColor = ColorsFonts.wineColor;
             button_preparingTime.BackgroundColor = ColorsFonts.wineColor;
 
+            button_selectImage.BackgroundColor = ColorsFonts.wineColor;
+            button_selectImage.BackgroundColor = ColorsFonts.wineColor;
+            button_selectImage.BackgroundColor = ColorsFonts.wineColor;
+
+
         }
 
         async void selectDifficulty (object sender, EventArgs e)
@@ -102,6 +107,11 @@ namespace P2Front.TabbedClasses
             }
 
             selectedImage.Source = ImageSource.FromStream(() => selectedImageFile.GetStream());
+        }
+
+        async void publishRecipe (object source, EventArgs e)
+        {
+            bool publishRecipe = await DisplayAlert("Publish recipe", "Do you want you to publish this recipe ?", "Yes", "No");
         }
     }
 }
