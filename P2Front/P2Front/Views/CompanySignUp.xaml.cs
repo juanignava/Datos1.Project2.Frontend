@@ -20,9 +20,12 @@ namespace P2Front.Views
             InitializeComponent();
             Init();
 
-            NavigationPage.SetHasNavigationBar(this, false);
+            NavigationPage.SetHasNavigationBar(this, false); //Disables the navigation bar
         }
 
+        /*
+        * The Init method defines some of the attributes of the components in the XAML file
+         */
         void Init()
         {
             BackgroundColor = ColorsFonts.BackgroundColor;
@@ -45,12 +48,16 @@ namespace P2Front.Views
 
         }
 
+        /*
+         * Actions done when the user tabs the create account button
+         */
         async void SignUpProcedure(object sender, EventArgs e)
         {
-            Company company = new Company(entry_companyName.Text, entry_CompanyContactMethod.Text);
-            if (company.CheckCompanySignUpInformation())
+            Company company = new Company(entry_companyName.Text, entry_CompanyContactMethod.Text); //Defines a Company object with the attributes given
+            if (company.CheckCompanySignUpInformation()) //Checks if the user completes the information
             {
                 await Navigation.PushAsync(new TabbedHomePage());
+                //ToDo: Register a new compapny account
             }
             else
             {
@@ -58,9 +65,12 @@ namespace P2Front.Views
             }
         }
 
+        /*
+         * Actions done when the user tabs the go back button
+         */
         async void backToSignUp(object sender, EventArgs e)
         {
-            await Navigation.PopAsync(true);
+            await Navigation.PopAsync(true); //Pops this page (the heriarchical navigation works like a stack)
         }
     }
 }

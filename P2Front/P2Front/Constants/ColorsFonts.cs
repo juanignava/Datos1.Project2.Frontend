@@ -7,6 +7,9 @@ using Color = Xamarin.Forms.Color;
 
 namespace P2Front.Constants
 {
+    /**
+     * Constants used in almost all the code
+     */
     class ColorsFonts
     {
         public static Color wineColor = Color.FromHex("6C1228");

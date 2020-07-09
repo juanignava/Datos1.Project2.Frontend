@@ -20,9 +20,12 @@ namespace P2Front.Views
             InitializeComponent();
             Init();
 
-            NavigationPage.SetHasNavigationBar(this, false);
+            NavigationPage.SetHasNavigationBar(this, false); //Disables the navigation bar
         }
 
+        /*
+         * The Init method defines some of the attributes of the components in the XAML file
+         */
         void Init()
         {
             BackgroundColor = ColorsFonts.BackgroundColor;
@@ -49,23 +52,29 @@ namespace P2Front.Views
             entry_password.Completed += (s, e) => SignUpProcedure(s, e);
         }
 
+        /*
+         * Actions done when the user tabs the create account button
+         */
         async public void SignUpProcedure(object sender, EventArgs e)
         {
-            User user = new User(entry_email.Text, entry_password.Text);
-            if (user.CheckLogInInformation())
+            User user = new User(entry_email.Text, entry_password.Text); //Defines an user object with the attributes given
+            if (user.CheckLogInInformation()) //Checks if the user completes the information 
             {
                 await Navigation.PushAsync(new TabbedHomePage());
+                //ToDo: Register the new user in the server
             }
             else
             {
                 await DisplayAlert("Login", "Sign up incorrect, something is missing", "Ok");
             }
         }
-        
+
+        /*
+         * Actions done when the user tabs the go back button
+         */
         async void backToLogin (object source, EventArgs e)
         {
-            await Navigation.PopAsync(true);
-
+            await Navigation.PopAsync(true); //Pops this page (the heriarchical navigation works like a stack)
         }
         
     }

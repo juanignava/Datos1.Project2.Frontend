@@ -5,6 +5,11 @@ using Xamarin.Forms;
 
 namespace Pyecto2Datos1Fontend.ConstantModels
 {
+    /**
+     * Defines objects with all the attributes needed in a company (specified in the intructions)
+     * Not every attribute is needed to create a company, we will change the constructor
+     * when implementing the server classes made in java
+     */
     class Company
     {
         public String Name { get; set; }

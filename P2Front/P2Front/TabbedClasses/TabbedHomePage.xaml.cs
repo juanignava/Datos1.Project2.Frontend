@@ -15,14 +15,15 @@ namespace P2Front.TabbedClasses
         public TabbedHomePage()
         {
             InitializeComponent();
+            
+            //Defining the button main characteristics
             BarBackgroundColor = P2Front.Constants.ColorsFonts.BackgroundColor;
             SelectedTabColor = P2Front.Constants.ColorsFonts.goldColor;
             BarTextColor = Color.Black;
             UnselectedTabColor = Color.Black;
 
-            NavigationPage.SetHasBackButton(this, false);
-            NavigationPage.SetHasNavigationBar(this, false);
-
+            NavigationPage.SetHasBackButton(this, false); //Disables the navigation back button to avoid going back to the login page
+            NavigationPage.SetHasNavigationBar(this, false); //Disabled the navigation bar
         }
     }
 }

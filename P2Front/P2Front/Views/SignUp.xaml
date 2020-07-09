@@ -6,24 +6,25 @@
              mc:Ignorable="d"
              x:Class="P2Front.Views.SignUp">
     <ContentPage.Content>
+        
         <StackLayout x:Name="MasterLayoutSignUp">
 
             <StackLayout x:Name="SignUpStack" VerticalOptions="FillAndExpand">
+                
+                <!--This buton pops the SignUp view to go back to the login view-->
                 <ImageButton x:Name="button_goBack" Source="goBackButton.png"
                              Clicked="backToLogin" Margin="10, 10, 10, 0"
                              HorizontalOptions="Start"/>
                 <Image x:Name="SignUpIcon" Source="icon_SignIn" Margin="0, 30, 0, 0"/>
             </StackLayout>
 
-
-
             <StackLayout x:Name="SignUpEntriesStack" VerticalOptions="StartAndExpand">
+                
                 <StackLayout.Padding>
                     <OnIdiom x:TypeArguments="Thickness">
                         <OnIdiom.Phone>40, 0, 40, 0</OnIdiom.Phone>
                     </OnIdiom>
                 </StackLayout.Padding>
-
 
                 <Entry x:Name = "entry_name" Placeholder="Name"/>
                 <Entry x:Name = "entry_age" Placeholder="Age"
@@ -32,8 +33,7 @@
                 <Entry x:Name = "entry_password" Placeholder="Password" />
                 <ImageButton x:Name="button_signUp" Source="button_createAccount.png"
                          HorizontalOptions="Center" Clicked="SignUpProcedure"/>
-                
-
+ 
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

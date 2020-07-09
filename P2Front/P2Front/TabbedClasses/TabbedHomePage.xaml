@@ -8,9 +8,12 @@
              xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core" xmlns:tabbedclasses="clr-namespace:P2Front.TabbedClasses"
             android:TabbedPage.ToolbarPlacement="Bottom">
 
+    <!--TabbedHomePage defines the icons displyed in the tabs on the buttom of each of the pages-->
+    
     <tabbedclasses:NewsFeed Icon="homeIcon.png"></tabbedclasses:NewsFeed>
     <tabbedclasses:SearchPage Icon="searchIcon.png"></tabbedclasses:SearchPage>
     <tabbedclasses:AddRecipePage Icon="addRecipeIcon.png"></tabbedclasses:AddRecipePage>
     <tabbedclasses:notificationPage Icon="notificationIcon.png"></tabbedclasses:notificationPage>
     <tabbedclasses:myMenuPage Icon="myMenuIcon.png"></tabbedclasses:myMenuPage>
+    
 </TabbedPage>

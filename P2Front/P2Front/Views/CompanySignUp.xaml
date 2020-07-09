@@ -6,33 +6,34 @@
              mc:Ignorable="d"
              x:Class="P2Front.Views.CompanySignUp">
     <ContentPage.Content>
+        
         <StackLayout x:Name="MasterLayoutCompanySignUp">
 
+            <!--This buton pops the SignUp view to go back to the login view-->
             <StackLayout x:Name="CompanySignUpStack" VerticalOptions="FillAndExpand">
+                
                 <ImageButton x:Name="button_goBack" Source="goBackButton.png"
                              Clicked="backToSignUp" Margin="10, 10, 10, 0"
                              HorizontalOptions="Start"/>
                 <Image x:Name="CompanySignUpIcon" Source="CompanySignUpIcon.png" Margin="0, 30, 0, 0"/>
+                
             </StackLayout>
 
-
-
             <StackLayout x:Name="CompnySignUpEntriesStack" VerticalOptions="StartAndExpand">
+                
                 <StackLayout.Padding>
                     <OnIdiom x:TypeArguments="Thickness">
                         <OnIdiom.Phone>40, 0, 40, 0</OnIdiom.Phone>
                     </OnIdiom>
                 </StackLayout.Padding>
 
-
                 <Entry x:Name = "entry_companyName" Placeholder="Company Name"/>
                 <Entry x:Name = "entry_CompanyContactMethod" Placeholder="Contact Methods"/>
                 <Entry x:Name = "entry_serviceHours" Placeholder="Service hours"
                        Keyboard="Numeric"/>
-                
                 <ImageButton x:Name="button_CompanySignUp" Source="button_createAccount.png"
                          HorizontalOptions="Center" Clicked="SignUpProcedure"/>
-                
+
 
             </StackLayout>
         </StackLayout>

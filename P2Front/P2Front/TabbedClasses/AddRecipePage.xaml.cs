@@ -22,6 +22,9 @@ namespace P2Front.TabbedClasses
             Init();
         }
 
+        /*
+         * This method defines some of the main characteristics of the objects from the XAML
+         */
         void Init()
         {
             BackgroundColor = ColorsFonts.BackgroundColor;
@@ -60,10 +63,11 @@ namespace P2Front.TabbedClasses
             button_selectImage.BackgroundColor = ColorsFonts.wineColor;
             button_selectImage.BackgroundColor = ColorsFonts.wineColor;
             button_selectImage.BackgroundColor = ColorsFonts.wineColor;
-
-
         }
 
+        /*
+         * To avoid different answers than the wanted ones the difficulty is chosen from a Display
+         */
         async void selectDifficulty (object sender, EventArgs e)
         {
             String difficulty = await DisplayActionSheet ("Selec difficulty level", "Cancel", null, "Easy", "Meduim", "Hard");
@@ -71,6 +75,9 @@ namespace P2Front.TabbedClasses
                 (sender as Button).Text = "Difficulty: " + difficulty;
         }
 
+        /*
+         * To avoid different answers than the wanted ones the Preparing Time is chosen from a Display
+         */
         async void selectPreparingTime(object sender, EventArgs e)
         {
             String preparingTime = await DisplayActionSheet("Select Preparing Time", "Cancel", null, "Less than 1 hour", "1 to 3 hours", "3 hours to 1 day", "More than 1 day");
@@ -78,6 +85,9 @@ namespace P2Front.TabbedClasses
                 (sender as Button).Text = "Preparing Time: " + preparingTime;
         }
 
+        /*
+         * To avoid different answers than the wanted ones the select dish type option is chosen from a Display
+         */
         async void selectDishType(object sender, EventArgs e)
         {
             String dishType = await DisplayActionSheet("Select dish type", "Cancel", null, "Breakfast", "Lunch", "Dinner", "Brunch", "Snack");
@@ -85,30 +95,39 @@ namespace P2Front.TabbedClasses
                 (sender as Button).Text = "Dish Type: " + dishType;
         }
 
+        /*
+         * In this method the image is uploaded from the gallery and changed with the befault image of the recipe (the camera shown)
+         */
         async void selectImageFromGallery(object sender, EventArgs e)
         {
-            //!Added using Plugin.Media
-            await CrossMedia.Current.Initialize();
-            if (!CrossMedia.Current.IsPickPhotoSupported)
+            //!Added using Plugin.Media (install the nugget)
+
+            await CrossMedia.Current.Initialize(); //Asks if the gallery access is allowed for this app
+
+            if (!CrossMedia.Current.IsPickPhotoSupported)  //If it is not allowed gives an alert
             {
                 await DisplayAlert("Not supported", "Your device doesn´t currently support this functionality", "Ok");
                 return;
             }
+
             var mediaOptions = new PickMediaOptions()
             {
-                PhotoSize = PhotoSize.Medium
+                PhotoSize = PhotoSize.Medium //The picture size is changed 
             };
 
             var selectedImageFile = await CrossMedia.Current.PickPhotoAsync(mediaOptions);
-            if (selectedImage == null)
+            if (selectedImage == null) //If there´s not selected image then theres a display message
             {
                 await DisplayAlert("Error", "Could not get the image, please try again", "Ok");
                 return;
             }
 
-            selectedImage.Source = ImageSource.FromStream(() => selectedImageFile.GetStream());
+            selectedImage.Source = ImageSource.FromStream(() => selectedImageFile.GetStream()); //Loads the selected image into the frame difined in the XAML
         }
 
+        /*
+         * Actions done after presing the publish button
+         */
         async void publishRecipe (object source, EventArgs e)
         {
             bool publishRecipe = await DisplayAlert("Publish recipe", "Do you want you to publish this recipe ?", "Yes", "No");

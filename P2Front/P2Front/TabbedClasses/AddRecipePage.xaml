@@ -6,48 +6,48 @@
              mc:Ignorable="d"
              x:Class="P2Front.TabbedClasses.AddRecipePage">
     <ContentPage.Content>
+        
+        <!--The Grid defines two rows, with the objective of having a header and a scrolling part-->
         <Grid Margin="10, 20, 10, 5">
+            
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.1*"/>
+                <RowDefinition Height="0.1*"/> 
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <StackLayout >
+            
+           <!--Header--> 
+           <StackLayout > 
                 <Label x:Name="AddRecipePageHeader" Text="Add Recipe"
                        FontSize="Title" FontFamily="Tahoma" TextColor="Black" HorizontalOptions="CenterAndExpand"
                        FontAttributes="Bold"/>
             </StackLayout>
-
+            
+            <!--The scroll view is a from used to complete all the recipe details-->
             <ScrollView Grid.Row="1" Margin="10, 20, 10, 20">
+                
                 <StackLayout>
                     <Entry x:Name ="entry_recipeName" Placeholder="Recipe Name"/>
-
                     <Entry x:Name ="entry_author" Placeholder="Author"/>
-
                     <Button x:Name ="button_dishType" Text="Select dish type" FontSize="Small" FontFamily="Tahoma" TextColor="White"
                                  Clicked="selectDishType" HorizontalOptions="FillAndExpand"/>
-
                     <Entry x:Name="entry_amountOfPortions" Placeholder="Amount of portions"
                            Keyboard="Numeric"/>
-
                     <Button x:Name="button_preparingTime" Text="Select preparing time" FontSize="Small" FontFamily="Tahoma" TextColor="White"
                                  Clicked="selectPreparingTime" HorizontalOptions="FillAndExpand"/>
-
                     <Editor x:Name="editor_ingridients" Placeholder="Ingredients"
                             AutoSize="TextChanges" MaxLength="200" IsSpellCheckEnabled="False"
                             IsTextPredictionEnabled="False" FontSize="Medium"/>
-
                     <Editor x:Name="editor_instructions" Placeholder="Instructions"
                             AutoSize="TextChanges" MaxLength="200" IsSpellCheckEnabled="False"
                             IsTextPredictionEnabled="False" FontSize="Medium"/>
-
                     <Editor x:Name="editor_diet" Placeholder="Diet" AutoSize="TextChanges"
                             MaxLength="200" IsTextPredictionEnabled="False" IsSpellCheckEnabled="False"
                             FontSize="Medium"/>
                     <Entry x:Name="entry_price" Placeholder="Price" Keyboard="Numeric"/>
-
                     <Button x:Name ="button_difficulty" Text="Select difficulty" FontSize="Small" FontFamily="Tahoma" TextColor="White"
                                  Clicked="selectDifficulty" HorizontalOptions="FillAndExpand"/>
-
+                    
+                    <!--The image is in a Frame beacause it will be changed with one in the gallery-->
                     <Frame CornerRadius="10"
                            HeightRequest="300" WidthRequest="250"
                            HorizontalOptions="Center" VerticalOptions="Center"
@@ -56,13 +56,13 @@
                     </Frame>
 
                     <Button x:Name="button_selectImage" Text="Select Image" TextColor="White" Clicked="selectImageFromGallery"/>
-
                     <ImageButton x:Name="button_publish" Source="publishIcon.png" Clicked="publishRecipe" HorizontalOptions="Center"/>
 
-
                 </StackLayout>
+                
             </ScrollView>
 
         </Grid>
+        
     </ContentPage.Content>
 </ContentPage>
