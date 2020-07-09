@@ -16,5 +16,7 @@ namespace P2Front.TabbedClasses
         {
             InitializeComponent();
         }
+
+        //ToDo: Load a list of notification of the active user from the server
     }
 }

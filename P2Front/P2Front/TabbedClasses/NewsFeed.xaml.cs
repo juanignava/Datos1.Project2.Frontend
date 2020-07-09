@@ -17,5 +17,7 @@ namespace P2Front.TabbedClasses
             InitializeComponent();
             BackgroundColor = P2Front.Constants.ColorsFonts.BackgroundColor;
         }
+
+        //ToDo: A method that loads the list of recipes in date order from the server (most recent first)
     }
 }

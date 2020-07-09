@@ -7,7 +7,7 @@
              x:Class="P2Front.TabbedClasses.myMenuPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
+            <Label Text="Here goes the myMenu view"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
         </StackLayout>

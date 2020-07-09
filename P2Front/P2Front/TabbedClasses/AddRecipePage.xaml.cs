@@ -131,6 +131,7 @@ namespace P2Front.TabbedClasses
         async void publishRecipe (object source, EventArgs e)
         {
             bool publishRecipe = await DisplayAlert("Publish recipe", "Do you want you to publish this recipe ?", "Yes", "No");
+            //ToDo: Validate the information given and publish the recipe to the server
         }
     }
 }

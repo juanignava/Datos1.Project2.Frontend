@@ -6,21 +6,18 @@
              mc:Ignorable="d"
              x:Class="P2Front.TabbedClasses.SearchPage">
     <ContentPage.Content>
+        
         <StackLayout Margin="10, 10, 10, 10">
-            <SearchBar x:Name ="searchBar" 
-                       Placeholder="search"     
-                       PlaceholderColor="Black"
-                       TextColor="Black"
-                       HorizontalTextAlignment="Start"
-                       FontSize="Medium"
+
+            <SearchBar x:Name ="searchBar" Placeholder="search"  PlaceholderColor="Black"
+                       TextColor="Black" HorizontalTextAlignment="Start" FontSize="Medium"
                        Margin="0, 10, 0, 0"/>
-            <Label x:Name="SearchByLabel"
-                   Margin="10, 15, 10, 0"
-                    Text="Search by:"
-                   HorizontalOptions="Start"
-                   FontSize="Medium"></Label>
-            <Grid Margin="0, 10, 0, 10" VerticalOptions="FillAndExpand"
-                  HorizontalOptions="FillAndExpand">
+            <Label x:Name="SearchByLabel"  Margin="10, 15, 10, 0" Text="Search by:"
+                   HorizontalOptions="Start" FontSize="Medium"/>
+
+            <!--Search options definition (users, recipes and companies)-->
+            <Grid Margin="0, 10, 0, 10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
@@ -32,10 +29,10 @@
                 <ImageButton x:Name="companiesFilter" Grid.Column="2" Source="companiesFilterIcon.png" HorizontalOptions="CenterAndExpand"/>
 
             </Grid>
-            <ListView x:Name= "recipes"
-                      Margin="0, 10, 0, 0">
+            
+            <ListView x:Name= "recipes" Margin="0, 10, 0, 0">
                 <ListView.ItemsSource>
-                    <!--Esto se debe adaptar para cargar las recetas-->
+                    <!--This list must be changed with the information loaded from the server-->
                     <x:Array Type="{x:Type x:String}">
                         <x:String>Receta 1</x:String>
                         <x:String>Receta 2</x:String>
@@ -56,8 +53,11 @@
                         <x:String>Receta 17</x:String>
                     </x:Array>
                 </ListView.ItemsSource>
+                
             </ListView>
 
         </StackLayout>
+        
     </ContentPage.Content>
+    
 </ContentPage>
