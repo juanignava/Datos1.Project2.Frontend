@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="CookTime.Views.SearchPage"
+    IconImageSource="SearchIcon"
+    BindingContext="{Binding Main, Source={StaticResource Locator}}">
+
+    <ContentPage.Content>
+        <StackLayout
+            BackgroundColor="White"
+            BindingContext="{Binding Search}">
+            <Grid
+                Margin="0,10"
+                Padding="10,0">
+                <Grid.ColumnDefinitions>
+
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="*"/>
+
+                </Grid.ColumnDefinitions>
+
+                <SearchBar
+                    Placeholder="Search"
+                    FontSize="20"
+                    PlaceholderColor="#631B29"
+                    VerticalOptions="Center"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Text="{Binding SearchText, Mode=TwoWay}"
+                    SearchCommand="{Binding SearchCommand, Mode=TwoWay}">
+
+                </SearchBar>
+
+                <ImageButton
+                    Source="FilterIcon"
+                    BackgroundColor="White"
+                    VerticalOptions="Center"
+                    WidthRequest="52"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Command="{Binding FilterCommand, Mode=TwoWay}">
+
+                </ImageButton>
+            </Grid>
+        </StackLayout>
+
+
+
+    </ContentPage.Content>
+</ContentPage>

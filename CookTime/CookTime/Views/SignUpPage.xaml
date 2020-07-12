@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="CookTime.Views.SignUpPage"
+    BindingContext="{Binding Main, Source={StaticResource Locator}}"
+    Title="Sign Up">
+    <ContentPage.Content>
+        <ScrollView
+            BindingContext="{Binding SignUp}">
+            <StackLayout
+                BackgroundColor="white"
+                Padding="50,0">
+                <StackLayout
+                    Padding="0,50"
+                    VerticalOptions="Start">
+                    <Image
+                        Source="SignUpIcon">
+
+                    </Image>
+
+                </StackLayout>
+
+                <StackLayout
+                    VerticalOptions="EndAndExpand">
+
+                    <Entry
+                        Placeholder="Name"
+                        FontSize="20"
+                        PlaceholderColor="#B09B35"
+                        Text="{Binding TextName, Mode=TwoWay}"
+                        BackgroundColor="{Binding BCName, Mode=TwoWay}">
+
+                    </Entry>
+
+                    <StackLayout
+                        Orientation="Horizontal"
+                        HorizontalOptions="Start">
+
+                        <Label
+                            Text="Birth date:"
+                            FontSize="20"
+                            TextColor="#B09B35"
+                            VerticalOptions="Center">
+
+                        </Label>
+
+                        <DatePicker
+                            VerticalOptions="Center"
+                            FontSize="20"
+                            Date="{Binding TextBirthday, Mode=TwoWay}"
+                            BackgroundColor="{Binding BCBirthday, Mode=TwoWay}">
+
+                        </DatePicker>
+
+                    </StackLayout>
+
+                    <Entry
+                        Placeholder="E-mail address"
+                        FontSize="20"
+                        PlaceholderColor="#B09B35"
+                        Keyboard="Email"
+                        Text="{Binding TextEmail, Mode=TwoWay}"
+                        BackgroundColor="{Binding BCEmail, Mode=TwoWay}">
+
+                    </Entry>
+
+                    <Entry
+                        Placeholder="Password"
+                        FontSize="20"
+                        PlaceholderColor="#B09B35"
+                        IsPassword="True"
+                        Text="{Binding TextPassword, Mode=TwoWay}"
+                        BackgroundColor="{Binding BCPassword, Mode=TwoWay}">
+
+                    </Entry>
+
+                    <Entry
+                        Placeholder="Confirm password"
+                        FontSize="20"
+                        PlaceholderColor="#B09B35"
+                        IsPassword="True"
+                        Text="{Binding TextConfirmPassword, Mode=TwoWay}"
+                        BackgroundColor="{Binding BCConfirmPassword, Mode=TwoWay}">
+
+                    </Entry>
+
+                    <Button
+                        Text="Create account"
+                        FontSize="20"
+                        TextColor="White"
+                        BackgroundColor="#631B29"
+                        CornerRadius="10"
+                        Command="{Binding CreateAccountCommand}">
+                    </Button>
+
+                    <Button
+                        Text="Do you have a company?"
+                        FontSize="12"
+                        TextColor="#B09B35"
+                        BackgroundColor="White"
+                        CornerRadius="10"
+                        Command="{Binding CompanyCommand}">
+
+                    </Button>
+                </StackLayout>
+
+            </StackLayout>
+        </ScrollView>
+
+    </ContentPage.Content>
+</ContentPage>

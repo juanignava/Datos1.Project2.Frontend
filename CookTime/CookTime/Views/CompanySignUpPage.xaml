@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="CookTime.Views.CompanySignUpPage"
+    BindingContext="{Binding Main, Source={StaticResource Locator}}"
+    Title="Company Sign Up">
+    <ContentPage.Content>
+        <ScrollView
+            BindingContext="{Binding CompanySignUp}">
+            <StackLayout
+                BackgroundColor="white"
+                Padding="50,0">
+                <StackLayout
+                    Padding="0,50"
+                    VerticalOptions="Start">
+                    <Image
+                        Source="CompanySignUpIcon">
+
+                    </Image>
+
+                </StackLayout>
+
+                <StackLayout
+                    VerticalOptions="EndAndExpand"
+                    Padding="0,10">
+
+                    <Entry
+                        Placeholder="Company name"
+                        FontSize="20"
+                        PlaceholderColor="#B09B35"
+                        Text="{Binding TextCompanyName, Mode=TwoWay}"
+                        BackgroundColor="{Binding BCCompanyName, Mode=TwoWay}">
+
+                    </Entry>
+
+                    <Entry
+                        Placeholder="Contact methods"
+                        FontSize="20"
+                        PlaceholderColor="#B09B35"
+                        Text="{Binding TextContactMethods, Mode=TwoWay}"
+                        BackgroundColor="{Binding BCContactMethods, Mode=TwoWay}">
+
+                    </Entry>
+
+                    <Entry
+                        Placeholder="Address"
+                        FontSize="20"
+                        PlaceholderColor="#B09B35"
+                        Text="{Binding TextAddress, Mode=TwoWay}"
+                        BackgroundColor="{Binding BCAddress, Mode=TwoWay}">
+
+                    </Entry>
+
+                    <Entry
+                        Placeholder="Service hours"
+                        FontSize="20"
+                        PlaceholderColor="#B09B35"
+                        Keyboard="Numeric"
+                        Text="{Binding TextServiceHours, Mode=TwoWay}"
+                        BackgroundColor="{Binding BCServiceHours, Mode=TwoWay}">
+
+                    </Entry>
+
+                    <Button
+                        Text="Create company"
+                        FontSize="20"
+                        TextColor="White"
+                        BackgroundColor="#631B29"
+                        CornerRadius="10"
+                        Command="{Binding CreateCompanyCommand}">
+                    </Button>
+
+                </StackLayout>
+
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

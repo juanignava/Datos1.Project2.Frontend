@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="CookTime.Views.LoginPage"
+    BindingContext="{Binding Main, Source={StaticResource Locator}}"
+    Title="Login">
+    <ContentPage.Content>
+        <ScrollView
+            BindingContext="{Binding Login}">
+            <StackLayout
+                BackgroundColor="white"
+                Padding="50,0">
+                <StackLayout
+                    Padding="0,50"
+                    VerticalOptions="Start">
+                    <Image
+                        Source="CookTimeIcon">
+
+                    </Image>
+
+                </StackLayout>
+
+                <StackLayout
+                    VerticalOptions="EndAndExpand"
+                    Padding="0,10">
+
+                    <Entry
+                        Placeholder="E-mail address"
+                        FontSize="20"
+                        PlaceholderColor="#B09B35"
+                        Keyboard="Email"
+                        Text="{Binding TextEmail, Mode=TwoWay}"
+                        BackgroundColor="{Binding BCEmail, Mode=TwoWay}">
+
+                    </Entry>
+
+                    <Entry
+                        Placeholder="Password"
+                        FontSize="20"
+                        PlaceholderColor="#B09B35"
+                        IsPassword="True"
+                        Text="{Binding TextPassword, Mode=TwoWay}"
+                        BackgroundColor="{Binding BCPassword, Mode=TwoWay}">
+
+                    </Entry>
+
+                    <Button
+                        Text="Login"
+                        FontSize="20"
+                        TextColor="White"
+                        BackgroundColor="#631B29"
+                        CornerRadius="10"
+                        Command="{Binding LoginCommand}">
+                    </Button>
+
+                    <Button
+                        Text="Don't have an account?"
+                        FontSize="12"
+                        TextColor="#B09B35"
+                        BackgroundColor="White"
+                        CornerRadius="10"
+                        Command="{Binding AccountCommand}">
+
+                    </Button>
+                </StackLayout>
+
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="CookTime.Views.NewsFeedPage"
+    IconImageSource="NewsFeedIcon"
+    BindingContext="{Binding Main, Source={StaticResource Locator}}">
+
+    <ContentPage.Content>
+        <StackLayout
+            BackgroundColor="White"
+            BindingContext="{Binding NewsFeed}">
+            <StackLayout
+                HorizontalOptions="Center"
+                VerticalOptions="Start"
+                Margin="150,10">
+
+                <Image
+                    Source="CookTimeTextIcon">
+
+                </Image>
+
+            </StackLayout>
+
+            <ScrollView>
+
+                <StackLayout
+                    Padding="10,0">
+                    <Label
+                        Text="_________"
+                        VerticalOptions="Center"
+                        FontSize="89">
+
+                    </Label>
+
+                    <Label
+                        Text="_________"
+                        VerticalOptions="Center"
+                        FontSize="89">
+
+                    </Label>
+
+                    <Label
+                        Text="_________"
+                        VerticalOptions="Center"
+                        FontSize="89">
+
+                    </Label>
+
+                    <Label
+                        Text="_________"
+                        VerticalOptions="Center"
+                        FontSize="89">
+
+                    </Label>
+
+                    <Label
+                        Text="_________"
+                        VerticalOptions="Center"
+                        FontSize="89">
+
+                    </Label>
+
+                    <Label
+                        Text="_________"
+                        VerticalOptions="Center"
+                        FontSize="89">
+
+                    </Label>
+
+                    <Label
+                        Text="_________"
+                        VerticalOptions="Center"
+                        FontSize="89">
+
+                    </Label>
+
+                    <Label
+                        Text="_________"
+                        VerticalOptions="Center"
+                        FontSize="89">
+
+                    </Label>
+
+                    <Label
+                        Text="_________"
+                        VerticalOptions="Center"
+                        FontSize="89">
+
+                    </Label>
+
+                    <Label
+                        Text="_________"
+                        VerticalOptions="Center"
+                        FontSize="89">
+
+                    </Label>
+
+                </StackLayout>
+
+            </ScrollView>
+
+        </StackLayout>
+
+    </ContentPage.Content>
+
+</ContentPage>

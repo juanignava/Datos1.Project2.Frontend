@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="CookTime.Views.AddRecipePage"
+    IconImageSource="AddRecipeIcon"
+    BindingContext="{Binding Main, Source={StaticResource Locator}}">
+
+    <ContentPage.Content>
+        <StackLayout
+            BackgroundColor="White"
+            BindingContext="{Binding AddRecipe}">
+
+            <StackLayout
+                Padding="0,10">
+
+                <Label
+                    Text="New Recipe"
+                    TextColor="Black"
+                    FontSize="24"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center">
+
+                </Label>
+
+            </StackLayout>
+
+            <ScrollView>
+
+                <StackLayout
+                    Padding="10,0">
+
+                    <Entry
+                        Placeholder="Recipe name"
+                        FontSize="20"
+                        PlaceholderColor="#B09B35"
+                        Text="{Binding TextRecipeName, Mode=TwoWay}">
+
+                    </Entry>
+
+                    <Entry
+                        Placeholder="Author"
+                        FontSize="20"
+                        PlaceholderColor="#B09B35"
+                        Text="{Binding TextAuthor, Mode=TwoWay}">
+
+                    </Entry>
+
+                    <StackLayout
+                        Orientation="Horizontal"
+                        Margin="5,5">
+
+                        <Label
+                            Text="Duration:"
+                            FontSize="20"
+                            TextColor="#B09B35"
+                            VerticalOptions="Center"
+                            HorizontalOptions="StartAndExpand">
+
+                        </Label>
+
+                        <Button
+                            TextColor="Black"
+                            BackgroundColor="LightGray"
+                            CornerRadius="30"
+                            VerticalOptions="Center"
+                            Text="{Binding DurationHourValue, Mode=TwoWay}"
+                            Command="{Binding DurationHourCommand, Mode=TwoWay}">
+
+                        </Button>
+
+                        <Label
+                            Text=":"
+                            FontSize="20"
+                            TextColor="Black"
+                            VerticalOptions="Center">
+
+                        </Label>
+
+                        <Button
+                            TextColor="Black"
+                            BackgroundColor="LightGray"
+                            CornerRadius="30"
+                            Text="{Binding DurationMinutesValue, Mode=TwoWay}"
+                            Command="{Binding DurationMinutesCommand, Mode=TwoWay}">
+
+                        </Button>
+
+                    </StackLayout>
+
+                    <Button
+                        TextColor="White"
+                        BackgroundColor="#631B29"
+                        CornerRadius="30"
+                        Text="{Binding TextDishType, Mode=TwoWay}"
+                        Command="{Binding DishTypeCommand, Mode=TwoWay}">
+
+                    </Button>
+
+                    <StackLayout
+                        Orientation="Horizontal"
+                        Margin="5,0">
+
+                        <Label
+                            Text="Portions:"
+                            FontSize="20"
+                            TextColor="#B09B35"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Start">
+
+                        </Label>
+
+                        <Label
+                            FontSize="20"
+                            TextColor="Black"
+                            VerticalOptions="Center"
+                            HorizontalOptions="StartAndExpand"
+                            Text="{Binding PortionsValue, Mode=TwoWay}">
+
+                        </Label>
+
+                        <Stepper
+                            Maximum="30"
+                            Minimum="1"
+                            VerticalOptions="Center"
+                            Value="{Binding PortionsValue, Mode=TwoWay}">
+
+                        </Stepper>
+                    </StackLayout>
+
+                    <Button
+                        TextColor="White"
+                        BackgroundColor="#631B29"
+                        CornerRadius="30"
+                        Text="{Binding TextDishTime, Mode=TwoWay}"
+                        Command="{Binding DishTimeCommand, Mode=TwoWay}">
+
+                    </Button>
+
+                    <Editor
+                        Placeholder="Ingredients"
+                        FontSize="20"
+                        AutoSize="TextChanges"
+                        IsTextPredictionEnabled="True"
+                        PlaceholderColor="#B09B35"
+                        Text="{Binding TextIngredients, Mode=TwoWay}">
+
+                    </Editor>
+
+                    <Editor
+                        Placeholder="Instructions"
+                        FontSize="20"
+                        AutoSize="TextChanges"
+                        IsTextPredictionEnabled="True"
+                        PlaceholderColor="#B09B35"
+                        Text="{Binding TextInstructions, Mode=TwoWay}">
+
+                    </Editor>
+
+                    <Entry
+                        Placeholder="Tags"
+                        FontSize="20"
+                        PlaceholderColor="#B09B35"
+                        Text="{Binding TextTags, Mode=TwoWay}">
+
+                    </Entry>
+
+                    <Entry
+                        Placeholder="Price"
+                        FontSize="20"
+                        PlaceholderColor="#B09B35"
+                        Keyboard="Numeric"
+                        Text="{Binding PriceValue, Mode=TwoWay}">
+
+                    </Entry>
+
+                    <Grid
+                        Margin="5,0">
+                        <Grid.ColumnDefinitions>
+
+                            <ColumnDefinition Width="2.5*"/>
+                            <ColumnDefinition Width="0.5*"/>
+                            <ColumnDefinition Width="7*"/>
+
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Text="Difficulty:"
+                            FontSize="20"
+                            TextColor="#B09B35"
+                            VerticalOptions="Center">
+
+                        </Label>
+
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            FontSize="20"
+                            TextColor="Black"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Start"
+                            Text="{Binding DifficultyValue, Mode=TwoWay}">
+
+                        </Label>
+
+                        <Slider
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            Maximum="5"
+                            Minimum="1"
+                            MinimumTrackColor="#631B29"
+                            MaximumTrackColor="LightGray"
+                            ThumbColor="#631B29"
+                            VerticalOptions="Center"
+                            AnchorX="100"
+                            Value="{Binding DifficultyValue, Mode=TwoWay}">
+
+                        </Slider>
+
+                    </Grid>
+
+                </StackLayout>
+
+            </ScrollView>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
