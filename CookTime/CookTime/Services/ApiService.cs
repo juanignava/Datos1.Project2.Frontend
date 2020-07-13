@@ -91,5 +91,60 @@
                 };
             }
         }
+
+        /*
+         * This method alows to post recipes and user to the server
+         */
+        public static async Task<Response> Post<T>(
+            string urlBase,
+            string servicePrefix,
+            string controller,
+            T model)
+        {
+            try
+            {
+                //Creates a Json file based ob the object given 
+                var request = JsonConvert.SerializeObject(model);
+
+                //With this Json it creates a content needed for posting the user or recipe
+                var content = new StringContent(
+                    request,
+                    Encoding.UTF8,
+                    "application/json");
+
+                //Creates a client and posts its information to the server in the specific url
+                var client = new HttpClient();
+                var url = string.Format("{0}{1}{2}", urlBase, servicePrefix, controller);
+                var response = await client.PostAsync(url, content);
+
+                //If something goes wrong then it gives the message
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = response.StatusCode.ToString(),
+                    };
+                }
+
+                //Creates the json for the user and returns it in the response
+                var result = await response.Content.ReadAsStringAsync();
+                var newRecord = JsonConvert.DeserializeObject<T>(result);
+                return new Response
+                {
+                    IsSuccess = true,
+                    Message = "Record added OK",
+                    Result = newRecord,
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message,
+                };
+            }
+        }
     }
 }
