@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Windows.Input;
+using CookTime.Constants;
 using GalaSoft.MvvmLight.Command;
+using Plugin.Media;
+using Plugin.Media.Abstractions;
 using Xamarin.Forms;
 
 namespace CookTime.ViewModels
@@ -25,6 +28,21 @@ namespace CookTime.ViewModels
 
         private string textTags;
 
+        private string textPrice;
+
+        //BACKGROUND COLOR
+        private string bCRecipeName;
+
+        private string bCAuthor;
+
+        private string bCIngredients;
+
+        private string bCInstructions;
+
+        private string bCTags;
+
+        private string bCPrice;
+
         //VALUE
         private int durationHourValue;
 
@@ -32,10 +50,14 @@ namespace CookTime.ViewModels
 
         private int portionsValue;
 
-        private int priceValue;
-
         private int difficultyValue;
 
+        //IMAGESOURCE
+
+        private ImageSource addImageSource;
+
+        //MEDIAFILE
+        private MediaFile file;
 
         #endregion
 
@@ -85,6 +107,49 @@ namespace CookTime.ViewModels
             set { SetValue(ref this.textTags, value); }
         }
 
+        public string TextPrice
+        {
+            get { return this.textPrice; }
+            set { SetValue(ref this.textPrice, value); }
+        }
+
+        //BACKGROUND COLOR
+        public string BCRecipeName
+        {
+            get { return this.bCRecipeName; }
+            set { SetValue(ref this.bCRecipeName, value); }
+        }
+
+        public string BCAuthor
+        {
+            get { return this.bCAuthor; }
+            set { SetValue(ref this.bCAuthor, value); }
+        }
+
+        public string BCIngredients
+        {
+            get { return this.bCIngredients; }
+            set { SetValue(ref this.bCIngredients, value); }
+        }
+
+        public string BCInstructions
+        {
+            get { return this.bCInstructions; }
+            set { SetValue(ref this.bCInstructions, value); }
+        }
+
+        public string BCTags
+        {
+            get { return this.bCTags; }
+            set { SetValue(ref this.bCTags, value); }
+        }
+
+        public string BCPrice
+        {
+            get { return this.bCPrice; }
+            set { SetValue(ref this.bCPrice, value); }
+        }
+
         //VALUE
         public int DurationHourValue
         {
@@ -102,12 +167,6 @@ namespace CookTime.ViewModels
         {
             get { return this.portionsValue; }
             set { SetValue(ref this.portionsValue, value); }
-        }
-
-        public int PriceValue
-        {
-            get { return this.priceValue; }
-            set { SetValue(ref this.priceValue, value); }
         }
 
         public int DifficultyValue
@@ -137,6 +196,24 @@ namespace CookTime.ViewModels
             get { return new RelayCommand(DishTime); }
         }
 
+        public ICommand AddImageCommand
+        {
+            get { return new RelayCommand(AddImage); }
+        }
+
+        public ICommand ShareCommand
+        {
+            get { return new RelayCommand(Share); }
+        }
+
+        //IMAGESOURCE
+
+        public ImageSource AddImageSource
+        {
+            get { return this.addImageSource; }
+            set { SetValue(ref this.addImageSource, value); }
+        }
+
         #endregion
 
 
@@ -144,16 +221,20 @@ namespace CookTime.ViewModels
 
         public AddRecipeViewModel()
         {
-            DurationHourValue = 0;
-            DurationMinutesValue = 10;
-            PortionsValue = 1;
-            TextDishType = "Breakfast";
-            TextDishTime = "Appetizer";
-            DifficultyValue = 3;
+            this.DurationHourValue = 0;
+            this.DurationMinutesValue = 10;
+            this.TextDishType = "Breakfast";
+            this.PortionsValue = 1;
+            this.TextDishTime = "Appetizer";
+            this.DifficultyValue = 3;
+            this.AddImageSource = "AddImageIcon";
 
         }
 
         #endregion
+
+
+        #region COMMAND METHODS
 
         private async void DurationHour()
         {
@@ -200,17 +281,125 @@ namespace CookTime.ViewModels
             TextDishType = await Application.Current.MainPage.DisplayActionSheet("Dish type", "Cancel", null, "Breakfast", "Brunch", "Lunch", "Snack", "Dinner");
 
             if (string.IsNullOrEmpty(TextDishType) || TextDishType.Equals("Cancel")) TextDishType = textDishTypeCopy;
-  
+
         }
 
         private async void DishTime()
         {
             string textDishTimeCopy = TextDishTime;
 
-            TextDishTime = await Application.Current.MainPage.DisplayActionSheet("Dish time", "Cancel", null, "Appetizer", "Entry", "Main Course", "Alcoholic drinks", "Cold drinks", "Hot drinks", "Dessert");
+            TextDishTime = await Application.Current.MainPage.DisplayActionSheet("Dish time", "Cancel", null, "Appetizer", "Entry", "Main Course", "Alcoholic drinks",
+                                                                                "Cold drinks", "Hot drinks", "Dessert");
 
             if (string.IsNullOrEmpty(TextDishTime) || TextDishTime.Equals("Cancel")) TextDishTime = textDishTimeCopy;
 
         }
+
+        private async void AddImage()
+        {
+            await CrossMedia.Current.Initialize();
+
+            string source = await Application.Current.MainPage.DisplayActionSheet("Image source", "Cancel", null, "Take picture", "Open Gallery");
+
+            if (string.IsNullOrEmpty(source) || source.Equals("Cancel"))
+            {
+                this.file = null;
+                return;
+            }
+
+            if (source.Equals("Take picture"))
+            {
+                this.file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
+                {
+                    Directory = "Sample",
+                    Name = "test.jpg",
+                    PhotoSize = PhotoSize.Small,
+                }
+                );
+            }
+
+            else
+            {
+                this.file = await CrossMedia.Current.PickPhotoAsync();
+            }
+
+            if (this.file != null)
+            {
+                this.AddImageSource = ImageSource.FromStream(() =>
+                {
+                    var stream = this.file.GetStream();
+                    return stream;
+                });
+            }
+
+        }
+
+        private async void Share()
+        {
+            if (string.IsNullOrEmpty(this.TextRecipeName))
+            {
+                BCRecipeName = ColorsFonts.ErrorColor;
+                await Application.Current.MainPage.DisplayAlert("Error", "You must enter the recipe name", "Ok");
+                BCRecipeName = ColorsFonts.BackGround;
+                return;
+            }
+
+            if (string.IsNullOrEmpty(this.TextAuthor))
+            {
+                BCAuthor = ColorsFonts.ErrorColor;
+                await Application.Current.MainPage.DisplayAlert("Error", "You must enter the author(s)", "Ok");
+                BCAuthor = ColorsFonts.BackGround;
+                return;
+            }
+
+            if (string.IsNullOrEmpty(this.TextIngredients))
+            {
+                BCIngredients = ColorsFonts.ErrorColor;
+                await Application.Current.MainPage.DisplayAlert("Error", "You must enter the ingredients", "Ok");
+                BCIngredients = ColorsFonts.BackGround;
+                return;
+            }
+
+            if (string.IsNullOrEmpty(this.TextInstructions))
+            {
+                BCInstructions = ColorsFonts.ErrorColor;
+                await Application.Current.MainPage.DisplayAlert("Error", "You must enter the instructions", "Ok");
+                BCInstructions = ColorsFonts.BackGround;
+                return;
+            }
+
+            if (string.IsNullOrEmpty(this.TextTags))
+            {
+                BCTags = ColorsFonts.ErrorColor;
+                await Application.Current.MainPage.DisplayAlert("Error", "You must enter some tags", "Ok");
+                BCTags = ColorsFonts.BackGround;
+                return;
+            }
+
+            if (string.IsNullOrEmpty(this.TextPrice))
+            {
+                BCPrice = ColorsFonts.ErrorColor;
+                await Application.Current.MainPage.DisplayAlert("Error", "You must enter the price", "Ok");
+                BCPrice = ColorsFonts.BackGround;
+                return;
+            }
+
+            this.TextRecipeName = string.Empty;
+            this.TextAuthor = string.Empty;
+            this.DurationHourValue = 0;
+            this.DurationMinutesValue = 10;
+            this.TextDishType = "Breakfast";
+            this.PortionsValue = 1;
+            this.TextDishTime = "Appetizer";
+            this.TextIngredients = string.Empty;
+            this.TextInstructions = string.Empty;
+            this.TextTags = string.Empty;
+            this.TextPrice = string.Empty;
+            this.DifficultyValue = 3;
+            this.AddImageSource = "AddImageIcon";
+
+        }
+
+        #endregion
     }
 }
