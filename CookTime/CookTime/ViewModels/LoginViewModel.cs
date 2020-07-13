@@ -160,6 +160,7 @@ namespace CookTime.ViewModels
                 return;
             }
 
+            this.IsRunning = false;
             //If the passwords match then the login credentials were correct, the user will get to the tabbed page
             this.TextEmail = string.Empty;
             this.TextPassword = string.Empty;
