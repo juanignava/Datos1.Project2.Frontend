@@ -1,15 +1,25 @@
-﻿using System;
-using System.Windows.Input;
-using GalaSoft.MvvmLight.Command;
-using CookTime.Views;
-using Xamarin.Forms;
-using CookTime.Constants;
-
-
+﻿
 namespace CookTime.ViewModels
 {
+    using System.Windows.Input;
+    using GalaSoft.MvvmLight.Command;
+    using CookTime.Views;
+    using Xamarin.Forms;
+    using CookTime.Constants;
+    using Services;
+    using Models;
+    using Encryptor;
+    using System;
+    using System.Collections.Generic;
+
     public class LoginViewModel : BaseViewModel
     {
+
+        #region SERVICES
+        private ApiService apiService;
+
+        #endregion
+
         #region ATTRIBUTES
 
         //TEXT
@@ -17,10 +27,15 @@ namespace CookTime.ViewModels
 
         private string textPassword;
 
+        private string askedPassword; 
+
         //BACKGROUND COLOR
         private string bCEmail;
 
         private string bCPassword;
+
+        //Activity indicator
+        private bool isRunning;
 
         #endregion
 
@@ -53,6 +68,12 @@ namespace CookTime.ViewModels
             set { SetValue(ref this.bCPassword, value); }
         }
 
+        public bool IsRunning
+        {
+            get { return this.isRunning; }
+            set { SetValue(ref this.isRunning, value); }
+        }
+
         //COMMAND
         public ICommand LoginCommand
         {
@@ -64,26 +85,75 @@ namespace CookTime.ViewModels
             get { return new RelayCommand(Account); }
         }
 
+        
+
         #endregion
 
         #region COMMAND METHODS
 
         private async void Login()
         {
+            this.IsRunning = true;
         
             if (string.IsNullOrEmpty(this.TextEmail))
             {
                 BCEmail = ColorsFonts.ErrorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter an Email", "Ok");
                 BCEmail = ColorsFonts.BackGround;
+                this.IsRunning = false;
                 return;
             }
 
             if (string.IsNullOrEmpty(this.TextPassword))
             {
+                this.IsRunning = false;
                 BCPassword = ColorsFonts.ErrorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter a password", "Ok");
                 BCPassword = ColorsFonts.BackGround;
+                return;
+            }
+
+            var connection = await ApiService.CheckConnection();
+
+            if (!connection.IsSuccess)
+            {
+                this.IsRunning = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    "Error",
+                    connection.Message,
+                    "Accept");
+                return;
+            }
+
+            string controller = "/users/" + this.TextEmail;
+            var response = await ApiService.GetUser<User>(
+                "http://localhost:8080/CookTime.BackEnd",
+                "/api",
+                controller);
+
+            if (!response.IsSuccess)
+            {
+                this.IsRunning = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    "Error",
+                    response.Message,
+                    "Accept");
+                this.TextEmail = string.Empty;
+                return;
+            }
+
+            this.askedPassword = (string)response.Result;
+
+            var encryptedPassword = MD5encryptor.MD5Hash(this.TextPassword);
+
+            if (encryptedPassword != this.askedPassword)
+            {
+                this.IsRunning = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    "Login error",
+                    "Incorrect password",
+                    "Accept");
+                this.TextPassword = string.Empty;
                 return;
             }
 
