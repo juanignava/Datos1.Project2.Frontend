@@ -18,8 +18,14 @@
                         Source="CookTimeIcon">
 
                     </Image>
-
                 </StackLayout>
+
+                <ActivityIndicator
+                    IsRunning="{Binding IsRunning, Mode=TwoWay}"
+                    VerticalOptions="CenterAndExpand"
+                    Color ="#631B29"
+                    HeightRequest="20">
+                </ActivityIndicator>
 
                 <StackLayout
                     VerticalOptions="EndAndExpand"
