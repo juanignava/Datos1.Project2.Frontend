@@ -17,7 +17,6 @@ namespace CookTime.ViewModels
 
         #region SERVICES
         private ApiService apiService;
-
         #endregion
 
         #region ATTRIBUTES
@@ -68,6 +67,7 @@ namespace CookTime.ViewModels
             set { SetValue(ref this.bCPassword, value); }
         }
 
+        //ACTIVITY INDICADOR
         public bool IsRunning
         {
             get { return this.isRunning; }
@@ -93,9 +93,10 @@ namespace CookTime.ViewModels
 
         private async void Login()
         {
+            //The activivty indicator is enabled once the button is pressed
             this.IsRunning = true;
         
-            if (string.IsNullOrEmpty(this.TextEmail))
+            if (string.IsNullOrEmpty(this.TextEmail)) // No email written
             {
                 BCEmail = ColorsFonts.ErrorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter an Email", "Ok");
@@ -104,7 +105,7 @@ namespace CookTime.ViewModels
                 return;
             }
 
-            if (string.IsNullOrEmpty(this.TextPassword))
+            if (string.IsNullOrEmpty(this.TextPassword)) //No Password written
             {
                 this.IsRunning = false;
                 BCPassword = ColorsFonts.ErrorColor;
@@ -113,6 +114,7 @@ namespace CookTime.ViewModels
                 return;
             }
 
+            //Checking internet connection before asking for the server
             var connection = await ApiService.CheckConnection();
 
             if (!connection.IsSuccess)
@@ -125,12 +127,13 @@ namespace CookTime.ViewModels
                 return;
             }
 
-            string controller = "/users/" + this.TextEmail;
+            string controller = "/users/" + this.TextEmail; //Asking for the account information
             var response = await ApiService.GetUser<User>(
                 "http://localhost:8080/CookTime.BackEnd",
                 "/api",
                 controller);
 
+            //If the email isn't found then the account is not registered yet
             if (!response.IsSuccess)
             {
                 this.IsRunning = false;
@@ -142,9 +145,9 @@ namespace CookTime.ViewModels
                 return;
             }
 
-            this.askedPassword = (string)response.Result;
-
-            var encryptedPassword = MD5encryptor.MD5Hash(this.TextPassword);
+            this.askedPassword = (string)response.Result; //The answer given is the real encrypted password 
+            var encryptedPassword = MD5encryptor.MD5Hash(this.TextPassword); //To compare them the written password 
+                                                                               //has to be encrypted
 
             if (encryptedPassword != this.askedPassword)
             {
@@ -157,10 +160,14 @@ namespace CookTime.ViewModels
                 return;
             }
 
+            //If the passwords match then the login credentials were correct, the user will get to the tabbed page
             this.TextEmail = string.Empty;
             this.TextPassword = string.Empty;
             MainViewModel.getInstance().TabbedHome = new TabbedHomeViewModel();
             await Application.Current.MainPage.Navigation.PushAsync(new TabbedHomePage());
+            
+            //ToDo: Pass the account information through the class contructor 
+
         }
 
         private async void Account()

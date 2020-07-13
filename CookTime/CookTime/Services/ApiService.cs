@@ -14,6 +14,7 @@
     {
         public static async Task<Response> CheckConnection()
         {
+            //Asks if the phone has the internet enabled
             if (!CrossConnectivity.Current.IsConnected)
             {
                 return new Response
@@ -23,6 +24,7 @@
                 };
             }
 
+            //Makes a little test
             var isReachable = await CrossConnectivity.Current.IsRemoteReachable(
                 "google.com");
 
@@ -35,13 +37,16 @@
                 };
             }
 
-            return new Response
+            return new Response //if everything is ok, this is the response
             {
                 IsSuccess = true,
                 Message = "Ok",
             };
         }
 
+        /*
+         * This method allows to take one specific account information
+         */
         public static async Task<Response> GetUser<T>(
             string urlBase,
             string servicePrefix,
@@ -49,15 +54,14 @@
         {
             try
             {
-                var client = new HttpClient();
-
-                
+                //Creates the client and asks for the informaiton 
+                var client = new HttpClient();             
                 var url = string.Format("{0}{1}{2}",urlBase ,servicePrefix, controller);
                 Console.WriteLine(url);
                 var response = await client.GetAsync(url);
                 var result = await client.GetStringAsync(url);
                
-
+                //If the information was unsuccesfully taken, then it answers that something was wrong
                 if (!response.IsSuccessStatusCode)
                 {
                     return new Response
@@ -67,7 +71,7 @@
                     };
                 }
 
-                var list = JsonConvert.DeserializeObject<User>(result);
+                var list = JsonConvert.DeserializeObject<User>(result); //The object given is of type User
                 return new Response
                 {
                     IsSuccess = true,
@@ -75,8 +79,11 @@
                     Result = list.Password,
                 };
             }
+            
             catch (Exception ex)
             {
+                //If the email doesn't exixts then the url doesn't exists thats why 
+                //this answer is in the catch section
                 return new Response
                 {
                     IsSuccess = false,

@@ -8,6 +8,9 @@ namespace CookTime.Encryptor
 
     public static class MD5encryptor
     {
+        /*
+         * The only method of this class encrypts a text in Hash MD5
+         */
         public static string MD5Hash (string text)
         {
             MD5 md5 = new MD5CryptoServiceProvider();

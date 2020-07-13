@@ -4,6 +4,10 @@
 namespace CookTime.Models
 {
     using Newtonsoft.Json;
+
+    /*
+     * This class is the model of an user, it has all its characteristics
+     */
     class User
     {
         [JsonProperty(PropertyName = "email")]
