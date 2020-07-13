@@ -28,12 +28,13 @@
             <ScrollView>
 
                 <StackLayout
-                    Padding="10,0">
+                    Padding="10,10">
 
                     <Entry
                         Placeholder="Recipe name"
                         FontSize="20"
                         PlaceholderColor="#B09B35"
+                        BackgroundColor="{Binding BCRecipeName, Mode=TwoWay}"
                         Text="{Binding TextRecipeName, Mode=TwoWay}">
 
                     </Entry>
@@ -42,6 +43,7 @@
                         Placeholder="Author"
                         FontSize="20"
                         PlaceholderColor="#B09B35"
+                        BackgroundColor="{Binding BCAuthor, Mode=TwoWay}"
                         Text="{Binding TextAuthor, Mode=TwoWay}">
 
                     </Entry>
@@ -61,6 +63,7 @@
 
                         <Button
                             TextColor="Black"
+                            FontSize="20"
                             BackgroundColor="LightGray"
                             CornerRadius="30"
                             VerticalOptions="Center"
@@ -79,6 +82,7 @@
 
                         <Button
                             TextColor="Black"
+                            FontSize="20"
                             BackgroundColor="LightGray"
                             CornerRadius="30"
                             Text="{Binding DurationMinutesValue, Mode=TwoWay}"
@@ -90,6 +94,7 @@
 
                     <Button
                         TextColor="White"
+                        FontSize="20"
                         BackgroundColor="#631B29"
                         CornerRadius="30"
                         Text="{Binding TextDishType, Mode=TwoWay}"
@@ -130,6 +135,7 @@
 
                     <Button
                         TextColor="White"
+                        FontSize="20"
                         BackgroundColor="#631B29"
                         CornerRadius="30"
                         Text="{Binding TextDishTime, Mode=TwoWay}"
@@ -143,6 +149,7 @@
                         AutoSize="TextChanges"
                         IsTextPredictionEnabled="True"
                         PlaceholderColor="#B09B35"
+                        BackgroundColor="{Binding BCIngredients, Mode=TwoWay}"
                         Text="{Binding TextIngredients, Mode=TwoWay}">
 
                     </Editor>
@@ -153,14 +160,16 @@
                         AutoSize="TextChanges"
                         IsTextPredictionEnabled="True"
                         PlaceholderColor="#B09B35"
+                        BackgroundColor="{Binding BCInstructions, Mode=TwoWay}"
                         Text="{Binding TextInstructions, Mode=TwoWay}">
 
                     </Editor>
 
                     <Entry
-                        Placeholder="Tags"
+                        Placeholder="#Tags"
                         FontSize="20"
                         PlaceholderColor="#B09B35"
+                        BackgroundColor="{Binding BCTags, Mode=TwoWay}"
                         Text="{Binding TextTags, Mode=TwoWay}">
 
                     </Entry>
@@ -170,7 +179,8 @@
                         FontSize="20"
                         PlaceholderColor="#B09B35"
                         Keyboard="Numeric"
-                        Text="{Binding PriceValue, Mode=TwoWay}">
+                        BackgroundColor="{Binding BCPrice, Mode=TwoWay}"
+                        Text="{Binding TextPrice, Mode=TwoWay}">
 
                     </Entry>
 
@@ -185,10 +195,10 @@
                         </Grid.ColumnDefinitions>
 
                         <Label
-                            Grid.Row="0"
-                            Grid.Column="0"
                             Text="Difficulty:"
                             FontSize="20"
+                            Grid.Row="0"
+                            Grid.Column="0"
                             TextColor="#B09B35"
                             VerticalOptions="Center">
 
@@ -220,6 +230,31 @@
                         </Slider>
 
                     </Grid>
+
+                    <Image
+                        HeightRequest="200"
+                        Aspect="AspectFill"
+                        Source="{Binding AddImageSource, Mode=TwoWay}">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding AddImageCommand, Mode=TwoWay}">
+
+                            </TapGestureRecognizer>
+                        </Image.GestureRecognizers>
+                        
+                    </Image>
+
+                    <Button
+                        Text="Share"
+                        FontSize="20"
+                        FontAttributes="Bold"
+                        TextColor="White"
+                        BackgroundColor="#B09B35"
+                        CornerRadius="10"
+                        Margin="130,0"
+                        Command="{Binding ShareCommand, Mode=TwoWay}">
+
+                    </Button>
 
                 </StackLayout>
 
