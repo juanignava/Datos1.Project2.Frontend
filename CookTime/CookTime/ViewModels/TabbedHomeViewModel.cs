@@ -1,20 +1,23 @@
-﻿using System;
+﻿
+using CookTime.Models;
+
 namespace CookTime.ViewModels
 {
     public class TabbedHomeViewModel
     {
-        public TabbedHomeViewModel()
+
+        public TabbedHomeViewModel(User user)
         {
-            InstanceTabbedPages();
+            InstanceTabbedPages(user);
         }
 
-        private void InstanceTabbedPages()
+        private void InstanceTabbedPages(User user)
         {
             MainViewModel.getInstance().NewsFeed = new NewsFeedViewModel();
             MainViewModel.getInstance().Search = new SearchViewModel();
             MainViewModel.getInstance().AddRecipe = new AddRecipeViewModel();
             MainViewModel.getInstance().Notification = new NotificationViewModel();
-            MainViewModel.getInstance().MyMenu = new MyMenuViewModel();
+            MainViewModel.getInstance().MyMenu = new MyMenuViewModel(user);
 
         }
     }

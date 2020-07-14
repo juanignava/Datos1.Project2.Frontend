@@ -151,15 +151,21 @@
       </Generator>
     </AndroidResource>
     <AndroidResource Include="Resources\drawable\AddImageIcon.png">
-      <SubType></SubType>
-      <Generator></Generator>
+      <SubType>
+      </SubType>
+      <Generator>
+      </Generator>
     </AndroidResource>
     <AndroidResource Include="Resources\xml\file_paths.xml">
-      <SubType></SubType>
-      <Generator></Generator>
+      <SubType>
+      </SubType>
+      <Generator>
+      </Generator>
     </AndroidResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\defaultUserIcon.png" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CookTime\CookTime.csproj">
       <Project>{AF08BDF9-E949-4320-86A2-9D95B90E229C}</Project>

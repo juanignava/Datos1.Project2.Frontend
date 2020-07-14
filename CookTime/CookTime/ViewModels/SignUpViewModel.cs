@@ -7,6 +7,7 @@ using GalaSoft.MvvmLight.Command;
 using Xamarin.Forms;
 using CookTime.Services;
 using CookTime.Models;
+using Plugin.Media.Abstractions;
 
 namespace CookTime.ViewModels
 {
@@ -46,6 +47,8 @@ namespace CookTime.ViewModels
         private DatePicker actualDate;
 
         private bool isRunning;
+
+        private MediaFile file;
 
         #endregion
 
@@ -326,6 +329,9 @@ namespace CookTime.ViewModels
                 return;
             }
 
+            //Generate the default picture
+    
+
             //Generates the query url
             var queryUrl = "/users?email=" + this.TextEmail + "&password=" + this.TextPassword 
                 + "&name=" + this.textName + "&age=" + this.textBirthday;
@@ -353,7 +359,7 @@ namespace CookTime.ViewModels
             this.TextConfirmPassword = string.Empty;
 
             //The new user has been created, it can enter to the tabbed page 
-            MainViewModel.getInstance().TabbedHome = new TabbedHomeViewModel();
+            MainViewModel.getInstance().TabbedHome = new TabbedHomeViewModel(user);
             await Application.Current.MainPage.Navigation.PushAsync(new TabbedHomePage());
 
             //ToDo: The user's information (at least the email) has to be passed to the tabbed page to contruct the myMenu page
@@ -369,6 +375,11 @@ namespace CookTime.ViewModels
             MainViewModel.getInstance().CompanySignUp = new CompanySignUpViewModel();
             await Application.Current.MainPage.Navigation.PushAsync(new CompanySignUpPage());
         }
+
+        //private byte[] PictureArray()
+        //{
+        //
+        //}
 
         #endregion
     }

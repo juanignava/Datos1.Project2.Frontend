@@ -20,11 +20,13 @@ namespace CookTime.ViewModels
         #endregion
 
         #region ATTRIBUTES
+        //USER
+        private User logedUser;
 
         //TEXT
-        private string textEmail;
+        private string textEmail = "juan@example.com";
 
-        private string textPassword;
+        private string textPassword = "1234";
 
         private string askedPassword; 
 
@@ -40,6 +42,7 @@ namespace CookTime.ViewModels
 
 
         #region PROPERTIES
+        
 
         //TEXT
         public string TextEmail
@@ -145,7 +148,8 @@ namespace CookTime.ViewModels
                 return;
             }
 
-            this.askedPassword = (string)response.Result; //The answer given is the real encrypted password 
+            this.logedUser = (User)response.Result;
+            this.askedPassword = (string) logedUser.Password; //The answer given is the real encrypted password 
             var encryptedPassword = MD5encryptor.MD5Hash(this.TextPassword); //To compare them the written password 
                                                                                //has to be encrypted
 
@@ -164,7 +168,7 @@ namespace CookTime.ViewModels
             //If the passwords match then the login credentials were correct, the user will get to the tabbed page
             this.TextEmail = string.Empty;
             this.TextPassword = string.Empty;
-            MainViewModel.getInstance().TabbedHome = new TabbedHomeViewModel();
+            MainViewModel.getInstance().TabbedHome = new TabbedHomeViewModel(this.logedUser);
             await Application.Current.MainPage.Navigation.PushAsync(new TabbedHomePage());
             
             //ToDo: Pass the account information through the class contructor 

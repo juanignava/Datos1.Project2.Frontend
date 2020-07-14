@@ -8,7 +8,7 @@ namespace CookTime.Models
     /*
      * This class is the model of an user, it has all its characteristics
      */
-    class User
+    public class User
     {
         [JsonProperty(PropertyName = "email")]
         public string Email { get; set; }
@@ -23,15 +23,15 @@ namespace CookTime.Models
         public string Password { get; set; }
 
         [JsonProperty(PropertyName = "profilePic")]
-        public object ProfilePic { get; set; }
+        public string ProfilePic { get; set; }
 
         [JsonProperty(PropertyName = "usersFollowing")]
         public object UsersFollowing { get; set; }
 
         [JsonProperty(PropertyName = "followers")]
-        public object Followers { get; set; }
+        public string Followers { get; set; }
 
         [JsonProperty(PropertyName = "profile")]
-        public object Profile { get; set; }
+        public string Profile { get; set; }
     }
 }

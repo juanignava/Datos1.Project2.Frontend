@@ -133,8 +133,8 @@ namespace CookTime.ViewModels
             this.TextAddress = string.Empty;
             this.TextServiceHours = string.Empty;
 
-            MainViewModel.getInstance().TabbedHome = new TabbedHomeViewModel();
-            await Application.Current.MainPage.Navigation.PushAsync(new TabbedHomePage());
+            //MainViewModel.getInstance().TabbedHome = new TabbedHomeViewModel();
+            //await Application.Current.MainPage.Navigation.PushAsync(new TabbedHomePage());
         }
 
         #endregion

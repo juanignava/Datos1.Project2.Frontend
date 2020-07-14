@@ -76,7 +76,7 @@
                 {
                     IsSuccess = true,
                     Message = "Ok",
-                    Result = list.Password,
+                    Result = list,
                 };
             }
             
