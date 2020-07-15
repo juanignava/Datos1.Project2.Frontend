@@ -8,6 +8,7 @@ using Xamarin.Forms;
 using CookTime.Services;
 using CookTime.Models;
 using Plugin.Media.Abstractions;
+using CookTime.FileHelpers;
 
 namespace CookTime.ViewModels
 {
@@ -26,6 +27,7 @@ namespace CookTime.ViewModels
         private string textPassword;
 
         private string textConfirmPassword;
+
 
         //BACKGROUND COLOR
         private string bCName;
@@ -302,13 +304,19 @@ namespace CookTime.ViewModels
                 return; 
             }
 
+            //Changes the spacing in the user name
+
+            this.TextName = ReadStringConverter.ChangePostString(this.textName);
+
             //Creates the user account with the data given 
             var user = new User
             {
                 Email = this.textEmail,
                 Name = this.textName,
                 Age = this.textBirthday,
-                Password = this.TextPassword
+                Password = this.TextPassword,
+                UsersFollowing = "0",
+                Followers = "0"
             };
 
             string controller = "/users/" + this.TextEmail; //Asking for the account information
@@ -329,12 +337,12 @@ namespace CookTime.ViewModels
                 return;
             }
 
-            //Generate the default picture
-    
+            
 
             //Generates the query url
             var queryUrl = "/users?email=" + this.TextEmail + "&password=" + this.TextPassword 
-                + "&name=" + this.textName + "&age=" + this.textBirthday;
+                + "&name=" + this.textName + "&age=" + this.textBirthday + "&followers=" + "0"
+                + "&usersFollowing=" + "0";
 
             //Posts the account
             var response = await ApiService.Post<User>( 
@@ -362,7 +370,6 @@ namespace CookTime.ViewModels
             MainViewModel.getInstance().TabbedHome = new TabbedHomeViewModel(user);
             await Application.Current.MainPage.Navigation.PushAsync(new TabbedHomePage());
 
-            //ToDo: The user's information (at least the email) has to be passed to the tabbed page to contruct the myMenu page
         }
 
         private async void Company()
@@ -376,10 +383,6 @@ namespace CookTime.ViewModels
             await Application.Current.MainPage.Navigation.PushAsync(new CompanySignUpPage());
         }
 
-        //private byte[] PictureArray()
-        //{
-        //
-        //}
 
         #endregion
     }

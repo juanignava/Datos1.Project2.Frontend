@@ -26,7 +26,7 @@ namespace CookTime.Models
         public string ProfilePic { get; set; }
 
         [JsonProperty(PropertyName = "usersFollowing")]
-        public object UsersFollowing { get; set; }
+        public string UsersFollowing { get; set; }
 
         [JsonProperty(PropertyName = "followers")]
         public string Followers { get; set; }

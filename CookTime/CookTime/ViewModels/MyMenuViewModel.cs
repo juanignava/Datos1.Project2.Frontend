@@ -1,4 +1,5 @@
-﻿using CookTime.Models;
+﻿using CookTime.FileHelpers;
+using CookTime.Models;
 using GalaSoft.MvvmLight.Command;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
@@ -9,7 +10,7 @@ using Xamarin.Forms;
 
 namespace CookTime.ViewModels
 {
-    public class MyMenuViewModel: BaseViewModel
+    public class MyMenuViewModel : BaseViewModel
     {
         #region ATTRIBUTES
         private User actualUser;
@@ -33,6 +34,8 @@ namespace CookTime.ViewModels
         //IMAGE SOURCE 
 
         private ImageSource addImageSource;
+
+        private Byte[] ImageByteArray;
 
 
         #endregion
@@ -116,13 +119,16 @@ namespace CookTime.ViewModels
         #region METHODS
         private void init()
         {
-            this.name = actualUser.Name;
+            this.name = ReadStringConverter.ChangeGetString(actualUser.Name);
             this.email = actualUser.Email;
             this.age = "Age: " + actualUser.Age;
             this.followers = "Followers: " + actualUser.Followers;
             this.following = "Following: " + actualUser.UsersFollowing;
 
-
+            if (actualUser.ProfilePic == null)
+            {
+                this.AddImageSource = "defaultUserIcon";
+            }
             //ToDo: Load a predefined profile picture when one user is registered, then load it from here, the image should be saved in AddImageSource
         }
 
@@ -181,6 +187,9 @@ namespace CookTime.ViewModels
                     var stream = this.file.GetStream();
                     return stream;
                 });
+
+                this.ImageByteArray = FileHelper.ReadFully(this.file.GetStream());
+                Console.WriteLine(this.ImageByteArray);
             }
         }
         #endregion
