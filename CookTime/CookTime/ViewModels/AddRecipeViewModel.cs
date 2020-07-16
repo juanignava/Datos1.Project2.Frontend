@@ -427,15 +427,15 @@ namespace CookTime.ViewModels
             this.TextTags = ReadStringConverter.ChangePostString(this.TextTags);
 
             //Creates the recipe with the information given
-            //string arrayConverted = Encoding.ASCII.GetString(this.imageByteArray); //, 0, this.imageByteArray.Length);
+   
 
-            string arrayConverted = Convert.ToBase64String(this.imageByteArray);
+            //string arrayConverted = Convert.ToBase64String(this.imageByteArray);
 
-            string arrayConvertedPost = ReadStringConverter.Base64toString(arrayConverted);
+            //string arrayConvertedPost = ReadStringConverter.Base64toString(arrayConverted);
 
           //  ArrayConverted = Convert.ToBase64String () this.imageByteArray.
 
-            //string imageEncoded = Base64.encodeToString(this.imageByteArray, Base64);
+        
 
             var recipe = new Recipe
             {
@@ -446,7 +446,7 @@ namespace CookTime.ViewModels
                 Portions = this.PortionsValue,
                 EatingTime = this.TextDishTime,
                 Tags = this.TextTags,
-                Image = arrayConvertedPost,
+                //Image = arrayConvertedPost,
                 Ingredients = this.TextIngredients,
                 Steps = this.TextInstructions,
                 //Comments
@@ -461,7 +461,7 @@ namespace CookTime.ViewModels
             var queryUrl = "/recipes?name=" + this.TextRecipeName + "&author=" + this.actualUser.Email + "&type=" + this.TextDishType +
                 "&cookingSpan=" + this.preparationTime + "&portions=" + this.PortionsValue + "&eatingTime=" + this.TextDishTime +
                 "&tags=" + this.TextTags + "&ingredients=" + this.TextIngredients + "&steps=" + this.TextInstructions + "&price=" +
-                this.TextPrice + "&diffiulty=" + this.DifficultyValue + "&punctuation=0" + "&image=" + recipe.Image;
+                this.TextPrice + "&diffiulty=" + this.DifficultyValue + "&punctuation=0";
 
             //Posts the recipe
             var response = await ApiService.Post<Recipe>(

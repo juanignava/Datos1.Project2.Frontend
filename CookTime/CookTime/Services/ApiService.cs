@@ -100,10 +100,10 @@
             try
             {
                 var client = new HttpClient();
-                //client.BaseAddress = new Uri(urlBase);
+                client.BaseAddress = new Uri(urlBase);
                 var url = string.Format("{0}{1}{2}",urlBase , servicePrefix, controller);
                 var response = await client.GetAsync(url);
-                var result = await client.GetStringAsync(url);
+                var result = await response.Content.ReadAsStringAsync();
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -114,7 +114,7 @@
                     };
                 }
 
-                var list = JsonConvert.DeserializeObject<Recipe>(result);
+                var list = JsonConvert.DeserializeObject<List<Recipe>>(result);
                 return new Response
                 {
                     IsSuccess = true,

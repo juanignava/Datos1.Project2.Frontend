@@ -22,6 +22,8 @@ namespace CookTime.ViewModels
 
         public MyMenuViewModel MyMenu { get; set; }
 
+        public RecipeDetailViewModel RecipeDetail { get; set; }
+
         #endregion
 
         #region ATTRIBUTES

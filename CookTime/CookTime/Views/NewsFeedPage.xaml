@@ -4,17 +4,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="CookTime.Views.NewsFeedPage"
     IconImageSource="NewsFeedIcon"
-    BindingContext="{Binding Main, Source={StaticResource Locator}}"
-    Title="NewsFeed">
+    BindingContext="{Binding Main, Source={StaticResource Locator}}">
 
     <ContentPage.Content>
         <StackLayout
-            BackgroundColor="White"
-            BindingContext="{Binding Recipes}">
+            BindingContext="{Binding NewsFeed}"
+            BackgroundColor="White">
             <StackLayout
                 HorizontalOptions="Center"
                 VerticalOptions="Start"
-                Margin="150,10">
+                Margin="150,20">
 
                 <Image
                     Source="CookTimeTextIcon">
@@ -22,31 +21,57 @@
 
             </StackLayout>
 
-            <ListView
-                HasUnevenRows="True"
-                IsPullToRefreshEnabled="True"
-                IsRefreshing="{Binding IsRefreshing}"
-                RefreshCommand="{Binding RefreshCommand}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
+            <StackLayout
 
-                                <Label Grid.Column="0"
-                                    Text="{Binding Name}"/>
+                Padding="5">
+                <ListView
+                    HasUnevenRows="True"
+                    IsPullToRefreshEnabled="True"
+                    IsRefreshing="{Binding IsRefreshing}"
+                    RefreshCommand="{Binding RefreshCommand}"
+                    ItemsSource="{Binding Recipes}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Frame
+                                    BackgroundColor="White"
+                                    Padding="3">
 
-                                <Label Grid.Column="0"
-                                    Text="{Binding Author}"/>
-                            </Grid>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-                
-            </ListView>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding SelectRecipeCommand}"/>
+                                    </Frame.GestureRecognizers>
+
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Image Grid.Column="0"
+                                            Source="{Binding Image}"/>
+
+                                        <Label Grid.Column="1"
+                                    Text="{Binding Name}"
+                                           TextColor="Black"
+                                           HorizontalOptions="Center"/>
+
+                                        <Label Grid.Column="2"
+                                    Text="{Binding Author}"
+                                           TextColor="Black"
+                                           HorizontalOptions="Center"/>
+                                    </Grid>
+
+                                </Frame>
+                                
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+
+                </ListView>
+
+            </StackLayout>
+            
 
         </StackLayout>
 
