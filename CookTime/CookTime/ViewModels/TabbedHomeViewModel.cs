@@ -15,7 +15,7 @@ namespace CookTime.ViewModels
         {
             MainViewModel.getInstance().NewsFeed = new NewsFeedViewModel();
             MainViewModel.getInstance().Search = new SearchViewModel();
-            MainViewModel.getInstance().AddRecipe = new AddRecipeViewModel();
+            MainViewModel.getInstance().AddRecipe = new AddRecipeViewModel(user);
             MainViewModel.getInstance().Notification = new NotificationViewModel();
             MainViewModel.getInstance().MyMenu = new MyMenuViewModel(user);
 

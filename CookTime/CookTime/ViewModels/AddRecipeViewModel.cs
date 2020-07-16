@@ -1,6 +1,12 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Security.Cryptography;
+using System.Text;
 using System.Windows.Input;
 using CookTime.Constants;
+using CookTime.FileHelpers;
+using CookTime.Models;
+using CookTime.Services;
 using GalaSoft.MvvmLight.Command;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
@@ -12,6 +18,10 @@ namespace CookTime.ViewModels
     {
 
         #region ATTRIBUTES
+
+        //ACTUAL USER
+
+        private User actualUser;
 
         //TEXT
         private string textRecipeName;
@@ -48,6 +58,8 @@ namespace CookTime.ViewModels
 
         private int durationMinutesValue;
 
+        private string preparationTime;
+
         private int portionsValue;
 
         private int difficultyValue;
@@ -58,6 +70,9 @@ namespace CookTime.ViewModels
 
         //MEDIAFILE
         private MediaFile file;
+
+        //IMAGE BYTE ARRAY
+        private Byte[] imageByteArray;
 
         #endregion
 
@@ -219,8 +234,10 @@ namespace CookTime.ViewModels
 
         #region CONSTRUCTOR
 
-        public AddRecipeViewModel()
+        public AddRecipeViewModel(User actualUser)
         {
+            this.actualUser = actualUser;
+
             this.DurationHourValue = 0;
             this.DurationMinutesValue = 10;
             this.TextDishType = "Breakfast";
@@ -229,6 +246,7 @@ namespace CookTime.ViewModels
             this.DifficultyValue = 3;
             this.AddImageSource = "AddImageIcon";
 
+            this.TextAuthor = "Author: " + actualUser.Email;
         }
 
         #endregion
@@ -313,7 +331,7 @@ namespace CookTime.ViewModels
                 {
                     Directory = "Sample",
                     Name = "test.jpg",
-                    PhotoSize = PhotoSize.Small,
+                    PhotoSize = PhotoSize.Medium,
                 }
                 );
             }
@@ -330,6 +348,8 @@ namespace CookTime.ViewModels
                     var stream = this.file.GetStream();
                     return stream;
                 });
+
+                this.imageByteArray = FileHelper.ReadFully(this.file.GetStream());
             }
 
         }
@@ -384,6 +404,83 @@ namespace CookTime.ViewModels
                 return;
             }
 
+            var checkConnection = await ApiService.CheckConnection();
+            //Checks the internet connection before interacting with the server
+            if (!checkConnection.IsSuccess)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "Error",
+                    "Check your internet connection",
+                    "Accept");
+                return;
+            }
+
+            //Changes the spacing on every string that is being uploaded
+
+            this.TextRecipeName = ReadStringConverter.ChangePostString(this.TextRecipeName);
+            this.preparationTime = this.DurationHourValue.ToString() +
+                " h and" + this.DurationMinutesValue + " min";
+            this.preparationTime = ReadStringConverter.ChangePostString(this.preparationTime);
+            this.TextDishTime = ReadStringConverter.ChangePostString(this.TextDishTime);
+            this.TextIngredients = ReadStringConverter.ChangePostString(this.TextIngredients);
+            this.TextInstructions = ReadStringConverter.ChangePostString(this.TextInstructions);
+            this.TextTags = ReadStringConverter.ChangePostString(this.TextTags);
+
+            //Creates the recipe with the information given
+            //string arrayConverted = Encoding.ASCII.GetString(this.imageByteArray); //, 0, this.imageByteArray.Length);
+
+            string arrayConverted = Convert.ToBase64String(this.imageByteArray);
+
+            string arrayConvertedPost = ReadStringConverter.Base64toString(arrayConverted);
+
+          //  ArrayConverted = Convert.ToBase64String () this.imageByteArray.
+
+            //string imageEncoded = Base64.encodeToString(this.imageByteArray, Base64);
+
+            var recipe = new Recipe
+            {
+                Name = this.TextRecipeName,
+                Author = this.actualUser.Email,
+                Type = this.TextDishType,
+                CookingSpan = this.preparationTime,
+                Portions = this.PortionsValue,
+                EatingTime = this.TextDishTime,
+                Tags = this.TextTags,
+                Image = arrayConvertedPost,
+                Ingredients = this.TextIngredients,
+                Steps = this.TextInstructions,
+                //Comments
+                Price = this.TextPrice,
+                Difficulty = this.DifficultyValue,
+
+                Punctuation = 0
+            };
+
+            //Generates the query url
+
+            var queryUrl = "/recipes?name=" + this.TextRecipeName + "&author=" + this.actualUser.Email + "&type=" + this.TextDishType +
+                "&cookingSpan=" + this.preparationTime + "&portions=" + this.PortionsValue + "&eatingTime=" + this.TextDishTime +
+                "&tags=" + this.TextTags + "&ingredients=" + this.TextIngredients + "&steps=" + this.TextInstructions + "&price=" +
+                this.TextPrice + "&diffiulty=" + this.DifficultyValue + "&punctuation=0" + "&image=" + recipe.Image;
+
+            //Posts the recipe
+            var response = await ApiService.Post<Recipe>(
+                "http://localhost:8080/CookTime.BackEnd",
+                "/api",
+                queryUrl,
+                recipe);
+            if (!response.IsSuccess)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "Error",
+                    response.Message,
+                    "Accept");
+                return;
+            }
+
+
+
+            // Redifines the addRecipe entries and editors
             this.TextRecipeName = string.Empty;
             this.TextAuthor = string.Empty;
             this.DurationHourValue = 0;
@@ -397,6 +494,8 @@ namespace CookTime.ViewModels
             this.TextPrice = string.Empty;
             this.DifficultyValue = 3;
             this.AddImageSource = "AddImageIcon";
+
+            await Application.Current.MainPage.DisplayAlert("Alert", "Recipe succesfully posted", "Accept");
 
         }
 

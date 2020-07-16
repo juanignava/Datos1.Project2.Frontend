@@ -92,6 +92,46 @@
             }
         }
 
+        public static async Task<Response> GetList<T>(
+            string urlBase,
+            string servicePrefix,
+            string controller)
+        {
+            try
+            {
+                var client = new HttpClient();
+                //client.BaseAddress = new Uri(urlBase);
+                var url = string.Format("{0}{1}{2}",urlBase , servicePrefix, controller);
+                var response = await client.GetAsync(url);
+                var result = await client.GetStringAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = result,
+                    };
+                }
+
+                var list = JsonConvert.DeserializeObject<Recipe>(result);
+                return new Response
+                {
+                    IsSuccess = true,
+                    Message = "Ok",
+                    Result = list,
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message,
+                };
+            }
+        }
+
         /*
          * This method alows to post recipes and user to the server
          */

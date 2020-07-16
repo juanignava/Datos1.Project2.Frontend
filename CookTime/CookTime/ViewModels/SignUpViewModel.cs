@@ -325,7 +325,7 @@ namespace CookTime.ViewModels
                 "/api",
                 controller);
 
-            //Checks if the email already exists (it don't has to)
+            //Checks if the email already exists (it doesn't have to)
             if (checkEmail.IsSuccess)
             {
                 IsRunning = false;

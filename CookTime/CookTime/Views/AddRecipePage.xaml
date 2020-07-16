@@ -30,21 +30,21 @@
                 <StackLayout
                     Padding="10,10">
 
+                    <Label
+                        FontSize="20"
+                        TextColor="#B09B35"
+                        HorizontalOptions="Center"
+                        BackgroundColor="{Binding BCAuthor, Mode=TwoWay}"
+                        Text="{Binding TextAuthor, Mode=TwoWay}">
+
+                    </Label>
+
                     <Entry
                         Placeholder="Recipe name"
                         FontSize="20"
                         PlaceholderColor="#B09B35"
                         BackgroundColor="{Binding BCRecipeName, Mode=TwoWay}"
                         Text="{Binding TextRecipeName, Mode=TwoWay}">
-
-                    </Entry>
-
-                    <Entry
-                        Placeholder="Author"
-                        FontSize="20"
-                        PlaceholderColor="#B09B35"
-                        BackgroundColor="{Binding BCAuthor, Mode=TwoWay}"
-                        Text="{Binding TextAuthor, Mode=TwoWay}">
 
                     </Entry>
 
