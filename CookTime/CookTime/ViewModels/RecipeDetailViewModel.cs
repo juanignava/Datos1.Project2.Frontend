@@ -9,7 +9,9 @@ namespace CookTime.ViewModels
 {
     public class RecipeDetailViewModel
     {
+        
         #region Properties
+        //This property will be passed by parameter, due to the connection with the NewsFeed page
         public Recipe Recipe 
         { 
             get;

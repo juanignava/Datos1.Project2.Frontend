@@ -24,6 +24,9 @@
             <StackLayout
 
                 Padding="5">
+                
+                <!--The list view is loaded from the observable collection named 
+                Recipes, it is binded in the NewsFeedViewModel-->
                 <ListView
                     HasUnevenRows="True"
                     IsPullToRefreshEnabled="True"
@@ -33,34 +36,104 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
+                                
+                                <!--The cell visual representation is defined in this frame, it  contains the picture, name of the recipe
+                                name of the author, picture of the author and amount of likes-->
                                 <Frame
                                     BackgroundColor="White"
-                                    Padding="3">
+                                    CornerRadius="20"
+                                    HasShadow="False"
+                                    Padding="30">
 
                                     <Frame.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding SelectRecipeCommand}"/>
                                     </Frame.GestureRecognizers>
+                                    
 
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
+                                    <StackLayout>
+                                        
 
-                                        <Image Grid.Column="0"
-                                            Source="{Binding Image}"/>
+                                        <StackLayout Orientation="Horizontal"
+                                                     Padding="5">
 
-                                        <Label Grid.Column="1"
-                                    Text="{Binding Name}"
-                                           TextColor="Black"
-                                           HorizontalOptions="Center"/>
+                                            <Frame CornerRadius="25" 
+                                                   HorizontalOptions="Center"
+                                                   HeightRequest="50"
+                                                   WidthRequest="50"
+                                                   IsClippedToBounds="True"
+                                                   Padding="0">
 
-                                        <Label Grid.Column="2"
-                                    Text="{Binding Author}"
-                                           TextColor="Black"
-                                           HorizontalOptions="Center"/>
-                                    </Grid>
+                                                <Image
+                                                    Source="defaultUserIcon.png"
+                                                    HorizontalOptions="Center"
+                                                    VerticalOptions="Center"
+                                                    Aspect="Fill">
+                                                </Image>
+                                                
+                                            </Frame>
+
+                                            <Label Text="{Binding Author}"
+                                                   Margin="10, 0"
+                                                   TextColor="Black"
+                                                   FontAttributes="bold"
+                                                   FontSize="Body"
+                                                   HorizontalOptions="StartAndExpand"
+                                                   VerticalOptions="Center"/>
+
+                                        </StackLayout>
+
+                                        <Frame CornerRadius="10" 
+                                                   HorizontalOptions="Center"
+                                                   HeightRequest="250"
+                                                   IsClippedToBounds="True"
+                                                   Padding="5"
+                                                   BorderColor="Black">
+
+                                            <Image
+                                                    Source="defaultRecipeIcon"
+                                                    HorizontalOptions="Center"
+                                                    VerticalOptions="Center"
+                                                    Aspect="Fill">
+                                            </Image>
+
+                                        </Frame>
+
+                                        <Label Text="{Binding Name}"
+                                                   FontSize="Title"
+                                                   HorizontalOptions="CenterAndExpand"
+                                                   VerticalOptions="Center"
+                                                   TextColor="#631B29"/>
+
+                                        <StackLayout Orientation="Horizontal"
+                                                     Padding="5">
+
+                                            <Frame CornerRadius="5" 
+                                                   HorizontalOptions="Center"
+                                                   HeightRequest="25"
+                                                   WidthRequest="25"
+                                                   IsClippedToBounds="True"
+                                                   Padding="0"
+                                                   HasShadow="False">
+
+                                                <Image
+                                                    Source="unlikedIcon.png"
+                                                    HorizontalOptions="Center"
+                                                    VerticalOptions="Center"
+                                                    Aspect="Fill">
+                                                </Image>
+
+                                            </Frame>
+
+                                            <Label Text="{Binding Punctuation}"
+                                                   TextColor="Black"
+                                                   FontAttributes="Bold"
+                                                   FontSize="Medium"
+                                                   VerticalOptions="Center"/>
+
+
+                                        </StackLayout>
+
+                                    </StackLayout>
 
                                 </Frame>
                                 

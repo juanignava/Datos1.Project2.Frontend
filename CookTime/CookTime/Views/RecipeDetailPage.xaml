@@ -8,14 +8,293 @@
     x:Class="CookTime.Views.RecipeDetailPage"
     BindingContext="{Binding Main, Source={StaticResource Locator}}"
     Title="Recipe Detail">
-    
+
     <ContentPage.Content>
         <StackLayout
             BindingContext="{Binding RecipeDetail}">
-            <Label Text="{Binding RecipeDetail.Name}"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" 
-                FontSize="Large"/>
+            
+            <!--This Scorll view cointains every detailo of the recipe
+            all the data is binded to the RecipeDetailViewModel propertie named Recipe-->
+            <ScrollView
+                Padding="15">
+
+                <StackLayout
+                    Margin="0, 25">
+
+                    <Frame CornerRadius="10" 
+                   HorizontalOptions="Center"
+                   HeightRequest="350"
+                   IsClippedToBounds="True"
+                   Padding="0"
+                   BorderColor="Black"
+                   BackgroundColor="#E1E1E1">
+
+                        <Image
+                    Margin="10, 10"
+                    Source="defaultRecipeIcon"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    Aspect="Fill">
+                        </Image>
+
+                    </Frame>
+
+                    <Label Text="{Binding Recipe.Name}"
+                           FontSize="Title"
+                           TextColor="#631B29"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="AUTO"/>
+                            <RowDefinition Height="AUTO"/>
+                            <RowDefinition Height="AUTO"/>
+                            <RowDefinition Height="AUTO"/>
+                            <RowDefinition Height="AUTO"/>
+                            <RowDefinition Height="AUTO"/>
+                            <RowDefinition Height="AUTO"/>
+                            <RowDefinition Height="AUTO"/>
+                            <RowDefinition Height="AUTO"/>
+                            <RowDefinition Height="AUTO"/>
+                            <RowDefinition Height="AUTO"/>
+                            <RowDefinition Height="AUTO"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Text="Author"
+                           Grid.Column="0"
+                           Grid.Row="0"
+                           FontSize="Medium"
+                           TextColor="#B09B35"
+                           FontAttributes="None"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+
+                        <Label Text="{Binding Recipe.Author}"
+                           Grid.Column="1"
+                           Grid.Row="0"
+                           FontSize="Medium"
+                           TextColor="Black"
+                           FontAttributes="None"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+
+                        <Label Text="Dish Type"
+                           Grid.Column="0"
+                           Grid.Row="1"
+                           FontSize="Medium"
+                           TextColor="#B09B35"
+                           FontAttributes="None"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+
+                        <Label Text="{Binding Recipe.Type}"
+                           Grid.Column="1"
+                           Grid.Row="1"
+                           FontSize="Medium"
+                           TextColor="Black"
+                           FontAttributes="None"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                        
+                        <Label Text="Portions"
+                           Grid.Column="0"
+                           Grid.Row="2"
+                           FontSize="Medium"
+                           TextColor="#B09B35"
+                           FontAttributes="None"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+
+                        <Label Text="{Binding Recipe.Portions}"
+                           Grid.Column="1"
+                           Grid.Row="2"
+                           FontSize="Medium"
+                           TextColor="Black"
+                           FontAttributes="None"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+
+                        <Label Text="Preparation"
+                           Grid.Column="0"
+                           Grid.Row="3"
+                           FontSize="Medium"
+                           TextColor="#B09B35"
+                           FontAttributes="None"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+
+                        <Label Text="{Binding Recipe.CookingSpan}"
+                           Grid.Column="1"
+                           Grid.Row="3"
+                           FontSize="Medium"
+                           TextColor="Black"
+                           FontAttributes="None"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+
+                        <Label Text="Dish Time"
+                           Grid.Column="0"
+                           Grid.Row="4"
+                           FontSize="Medium"
+                           TextColor="#B09B35"
+                           FontAttributes="None"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+
+                        <Label Text="{Binding Recipe.EatingTime}"
+                           Grid.Column="1"
+                           Grid.Row="4"
+                           FontSize="Medium"
+                           TextColor="Black"
+                           FontAttributes="None"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+
+                        <Label Text="Difficulty"
+                           Grid.Column="0"
+                           Grid.Row="5"
+                           FontSize="Medium"
+                           TextColor="#B09B35"
+                           FontAttributes="None"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+
+                        <Label Text="{Binding Recipe.Difficulty}"
+                           Grid.Column="1"
+                           Grid.Row="5"
+                           FontSize="Medium"
+                           TextColor="Black"
+                           FontAttributes="None"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+
+                        <Label Text="Ingridients"
+                           Grid.Column="0"
+                           Grid.Row="6"
+                           FontSize="Medium"
+                           TextColor="#B09B35"
+                           FontAttributes="None"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+
+                        <Label Text="{Binding Recipe.Ingredients}"
+                           Grid.Column="1"
+                           Grid.Row="6"
+                           FontSize="Medium"
+                           TextColor="Black"
+                           FontAttributes="None"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Start"/>
+
+                        <Label Text="Instructions"
+                           Grid.Column="0"
+                           Grid.Row="7"
+                           FontSize="Medium"
+                           TextColor="#B09B35"
+                           FontAttributes="None"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Start"/>
+
+                        <Label Text="{Binding Recipe.Steps}"
+                           Grid.Column="1"
+                           Grid.Row="7"
+                           FontSize="Medium"
+                           TextColor="Black"
+                           FontAttributes="None"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Start"/>
+
+                        <Label Text="Instructions"
+                           Grid.Column="0"
+                           Grid.Row="7"
+                           FontSize="Medium"
+                           TextColor="#B09B35"
+                           FontAttributes="None"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Start"/>
+
+                        <Label Text="{Binding Recipe.Steps}"
+                           Grid.Column="1"
+                           Grid.Row="7"
+                           FontSize="Medium"
+                           TextColor="Black"
+                           FontAttributes="None"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Start"/>
+
+                        <Label Text="Price ($)"
+                           Grid.Column="0"
+                           Grid.Row="8"
+                           FontSize="Medium"
+                           TextColor="#B09B35"
+                           FontAttributes="None"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Start"/>
+
+                        <Label Text="{Binding Recipe.Price}"
+                           Grid.Column="1"
+                           Grid.Row="8"
+                           FontSize="Medium"
+                           TextColor="Black"
+                           FontAttributes="None"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Start"/>
+
+                        <StackLayout Orientation="Horizontal"
+                                     Grid.ColumnSpan="2"
+                                     Grid.Row="9"
+                                     HorizontalOptions="Center"
+                                     Padding="30">
+
+                            <Frame 
+                                 CornerRadius="5" 
+                                 HorizontalOptions="Center"
+                                 HeightRequest="35"
+                                 WidthRequest="35"
+                                 IsClippedToBounds="True"
+                                 Padding="0"
+                                 HasShadow="False">
+
+                                <Image
+                                 Source="unlikedIcon.png"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center"
+                                 Aspect="Fill">
+                                </Image>
+
+                            </Frame>
+
+                            <Label 
+                               Text="{Binding Recipe.Punctuation}"
+                               TextColor="Black"
+                               FontAttributes="Bold"
+                               FontSize="Title"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+
+                        </StackLayout>
+                        
+
+                    </Grid>
+                    
+                    
+
+                    <ListView>
+                        <!--Add recipe comments-->
+                    </ListView>
+
+                </StackLayout>
+
+         
+            </ScrollView>
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
