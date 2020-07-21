@@ -15,34 +15,131 @@
                 Padding="10,0">
                 <Grid.ColumnDefinitions>
 
-                    <ColumnDefinition Width="5*"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
 
                 </Grid.ColumnDefinitions>
 
                 <SearchBar
                     Placeholder="Search"
-                    FontSize="20"
+                    FontSize="Body"
                     PlaceholderColor="#631B29"
                     VerticalOptions="Center"
                     Grid.Row="0"
                     Grid.Column="0"
-                    Text="{Binding SearchText, Mode=TwoWay}"
+                    Text="{Binding TextSearch, Mode=TwoWay}"
                     SearchCommand="{Binding SearchCommand, Mode=TwoWay}">
 
                 </SearchBar>
 
                 <ImageButton
+                    Grid.Row="0"
+                    Grid.Column="1"
                     Source="FilterIcon"
                     BackgroundColor="White"
                     VerticalOptions="Center"
-                    WidthRequest="52"
-                    Grid.Row="0"
-                    Grid.Column="1"
+                    WidthRequest="50"
                     Command="{Binding FilterCommand, Mode=TwoWay}">
 
                 </ImageButton>
+
             </Grid>
+
+            <ListView
+                HasUnevenRows="True"
+                IsPullToRefreshEnabled="True"
+                IsVisible="{Binding IsVisibleUsers, Mode=TwoWay}"
+                RefreshCommand="{Binding RefreshUsersCommand}"
+                IsRefreshing="{Binding IsRefreshingUsers, Mode=TwoWay}"
+                ItemsSource="{Binding Users}">
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame
+                                HasShadow="True">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding SelectUserCommand}">
+
+                                    </TapGestureRecognizer>
+
+                                </Frame.GestureRecognizers>
+                                <StackLayout>
+
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="Body"
+                                        TextColor="Black"
+                                        Text="{Binding Name}">
+
+                                    </Label>
+
+                                    <Label
+                                        FontSize="Body"
+                                        TextColor="Black"
+                                        Text="{Binding Email}">
+
+                                    </Label>
+
+                                </StackLayout>
+                            </Frame>
+
+                            
+                        </ViewCell>
+
+                    </DataTemplate>
+
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <ListView
+                HasUnevenRows="True"
+                IsPullToRefreshEnabled="True"
+                IsVisible="{Binding IsVisibleRecipes, Mode=TwoWay}"
+                RefreshCommand="{Binding RefreshRecipesCommand}"
+                IsRefreshing="{Binding IsRefreshingRecipes, Mode=TwoWay}"
+                ItemsSource="{Binding Recipes}">
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame
+                                HasShadow="True">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding SelectRecipeCommand}">
+
+                                    </TapGestureRecognizer>
+
+                                </Frame.GestureRecognizers>
+                                <StackLayout>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="Body"
+                                        TextColor="Black"
+                                        Text="{Binding Name}">
+
+                                    </Label>
+
+                                    <Label
+                                        FontSize="Body"
+                                        TextColor="Black"
+                                        Text="{Binding Author}">
+
+                                    </Label>
+                                </StackLayout>
+                            </Frame>
+
+                            
+                        </ViewCell>
+
+                    </DataTemplate>
+
+                </ListView.ItemTemplate>
+            </ListView>
+
+
         </StackLayout>
 
 

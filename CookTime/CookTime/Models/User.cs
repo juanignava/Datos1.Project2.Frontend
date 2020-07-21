@@ -26,12 +26,12 @@ namespace CookTime.Models
         public string ProfilePic { get; set; }
 
         [JsonProperty(PropertyName = "usersFollowing")]
-        public string UsersFollowing { get; set; }
+        public string[] UsersFollowing { get; set; }
 
         [JsonProperty(PropertyName = "followers")]
-        public string Followers { get; set; }
+        public int Followers { get; set; }
 
-        [JsonProperty(PropertyName = "profile")]
-        public string Profile { get; set; }
+        [JsonProperty(PropertyName = "chef")]
+        public bool Chef { get; set; }
     }
 }

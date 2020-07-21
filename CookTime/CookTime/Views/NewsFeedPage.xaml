@@ -13,7 +13,7 @@
             <StackLayout
                 HorizontalOptions="Center"
                 VerticalOptions="Start"
-                Margin="150,20">
+                Margin="150,10">
 
                 <Image
                     Source="CookTimeTextIcon">
@@ -21,135 +21,125 @@
 
             </StackLayout>
 
-            <StackLayout
+            <!--The list view is loaded from the observable collection named 
+            Recipes, it is binded in the NewsFeedViewModel-->
+            <ListView
+                HasUnevenRows="True"
+                IsPullToRefreshEnabled="True"
+                IsRefreshing="{Binding IsRefreshing}"
+                RefreshCommand="{Binding RefreshCommand}"
+                ItemsSource="{Binding Recipes}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
 
-                Padding="5">
-                
-                <!--The list view is loaded from the observable collection named 
-                Recipes, it is binded in the NewsFeedViewModel-->
-                <ListView
-                    HasUnevenRows="True"
-                    IsPullToRefreshEnabled="True"
-                    IsRefreshing="{Binding IsRefreshing}"
-                    RefreshCommand="{Binding RefreshCommand}"
-                    ItemsSource="{Binding Recipes}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                
-                                <!--The cell visual representation is defined in this frame, it  contains the picture, name of the recipe
-                                name of the author, picture of the author and amount of likes-->
-                                <Frame
-                                    BackgroundColor="White"
-                                    CornerRadius="20"
-                                    HasShadow="False"
-                                    Padding="30">
+                            <!--The cell visual representation is defined in this frame, it  contains the picture, name of the recipe
+                            name of the author, picture of the author and amount of likes-->
+                            <Frame
+                                HasShadow="True"
+                                Padding="10,10,0,6">
 
-                                    <Frame.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding SelectRecipeCommand}"/>
-                                    </Frame.GestureRecognizers>
-                                    
+                                <Frame.GestureRecognizers>
 
-                                    <StackLayout>
-                                        
+                                    <TapGestureRecognizer Command="{Binding SelectRecipeCommand}"/>
 
-                                        <StackLayout Orientation="Horizontal"
-                                                     Padding="5">
+                                </Frame.GestureRecognizers>
 
-                                            <Frame CornerRadius="25" 
-                                                   HorizontalOptions="Center"
-                                                   HeightRequest="50"
-                                                   WidthRequest="50"
-                                                   IsClippedToBounds="True"
-                                                   Padding="0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
 
-                                                <Image
-                                                    Source="defaultUserIcon.png"
-                                                    HorizontalOptions="Center"
-                                                    VerticalOptions="Center"
-                                                    Aspect="Fill">
-                                                </Image>
-                                                
-                                            </Frame>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
 
-                                            <Label Text="{Binding Author}"
-                                                   Margin="10, 0"
-                                                   TextColor="Black"
-                                                   FontAttributes="bold"
-                                                   FontSize="Body"
-                                                   HorizontalOptions="StartAndExpand"
-                                                   VerticalOptions="Center"/>
+                                    </Grid.ColumnDefinitions>
 
-                                        </StackLayout>
+                                    <Frame
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        CornerRadius="50" 
+                                        HeightRequest="50"
+                                        WidthRequest="50"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Start"
+                                        Padding="0">
 
-                                        <Frame CornerRadius="10" 
-                                                   HorizontalOptions="Center"
-                                                   HeightRequest="250"
-                                                   IsClippedToBounds="True"
-                                                   Padding="5"
-                                                   BorderColor="Black">
+                                        <Image
+                                            Source="SignUpIcon"
+                                            Aspect="AspectFill">
+                                        </Image>
+
+                                    </Frame>
+
+                                    <StackLayout
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Padding="10,0">
+
+                                        <Label
+                                            Text="{Binding Author}"
+                                            TextColor="Black"
+                                            FontAttributes="bold"
+                                            FontSize="Body"
+                                            HorizontalOptions="StartAndExpand"
+                                            VerticalOptions="Center">
+
+                                        </Label>
+
+                                        <Label
+                                            Text="{Binding Name}"
+                                            TextColor="Black"
+                                            FontSize="Body"
+                                            HorizontalOptions="StartAndExpand"
+                                            VerticalOptions="Center">
+
+                                        </Label>
+
+                                        <Image
+                                            Source="DefaultRecipeIcon"
+                                            Aspect="AspectFill"
+                                            HeightRequest="150"
+                                            WidthRequest="500"
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="Center">
+
+                                        </Image>
+
+                                        <StackLayout
+                                            Orientation="Horizontal">
 
                                             <Image
-                                                    Source="defaultRecipeIcon"
-                                                    HorizontalOptions="Center"
-                                                    VerticalOptions="Center"
-                                                    Aspect="Fill">
+                                                Source="UnLikedIcon"
+                                                Aspect="AspectFill"
+                                                WidthRequest="25"
+                                                HorizontalOptions="EndAndExpand"
+                                                VerticalOptions="Center">
+
                                             </Image>
 
-                                        </Frame>
+                                            <Label
+                                                Text="{Binding Punctuation}"
+                                                TextColor="Black"
+                                                FontAttributes="Bold"
+                                                FontSize="Body"
+                                                VerticalOptions="Center">
 
-                                        <Label Text="{Binding Name}"
-                                                   FontSize="Title"
-                                                   HorizontalOptions="CenterAndExpand"
-                                                   VerticalOptions="Center"
-                                                   TextColor="#631B29"/>
-
-                                        <StackLayout Orientation="Horizontal"
-                                                     Padding="5">
-
-                                            <Frame CornerRadius="5" 
-                                                   HorizontalOptions="Center"
-                                                   HeightRequest="25"
-                                                   WidthRequest="25"
-                                                   IsClippedToBounds="True"
-                                                   Padding="0"
-                                                   HasShadow="False">
-
-                                                <Image
-                                                    Source="unlikedIcon.png"
-                                                    HorizontalOptions="Center"
-                                                    VerticalOptions="Center"
-                                                    Aspect="Fill">
-                                                </Image>
-
-                                            </Frame>
-
-                                            <Label Text="{Binding Punctuation}"
-                                                   TextColor="Black"
-                                                   FontAttributes="Bold"
-                                                   FontSize="Medium"
-                                                   VerticalOptions="Center"/>
+                                            </Label>
 
 
                                         </StackLayout>
 
                                     </StackLayout>
 
-                                </Frame>
-                                
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
+                                </Grid>
 
-                </ListView>
+                            </Frame>
 
-            </StackLayout>
-            
-
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
-
     </ContentPage.Content>
-
 </ContentPage>
 
     

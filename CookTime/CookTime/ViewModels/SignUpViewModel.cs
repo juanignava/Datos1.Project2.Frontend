@@ -12,7 +12,7 @@ using CookTime.FileHelpers;
 
 namespace CookTime.ViewModels
 {
-    public class SignUpViewModel: BaseViewModel
+    public class SignUpViewModel : BaseViewModel
     {
 
         #region ATTRIBUTES
@@ -69,6 +69,8 @@ namespace CookTime.ViewModels
             get { return this.textBirthday; }
             set { SetValue(ref this.textBirthday, value); }
         }
+
+        public string TextAge { get; set; }
 
         public string TextEmail
         {
@@ -169,41 +171,48 @@ namespace CookTime.ViewModels
 
             int years = actualDate.Date.Year - int.Parse(textBirthdayYear);
 
-            if (years < 16) return false;
-
-            if (years > 16) 
+            if (years >= 16)
             {
-                this.textBirthday = years.ToString();
+                int months = actualDate.Date.Month - int.Parse(textBirthdayMonth);
+
+                if (months < 0)// The birthday month isn't yet
+                {
+                    years -= 1;
+                    months += 12;
+                }
+
+                else
+                {
+                    int days = actualDate.Date.Day - int.Parse(textBirthdayDay);
+
+                    if (days < 0) // The birthday day isn't yet
+                    {
+                        if (months == 0)
+                        {
+                            years -= 1;
+                            months = 11;
+                        }
+                        else
+                        {
+                            months -= 1;
+                        }
+                    }
+                }
+            }
+
+            if (years >= 16)
+            {
+                this.TextAge = years.ToString();
                 return true;
             }
-            
 
+            return false;
 
-            int months = actualDate.Date.Month - int.Parse(textBirthdayMonth);
-
-            if (months < 0) return false;
-
-            if (months > 0)
-            {
-                  this.textBirthday = years.ToString();
-                  return true;
-
-            }
-
-            int days = actualDate.Date.Day - int.Parse(textBirthdayDay);
-
-            if (days < 0) return false;
-
-            else
-            {
-                this.textBirthday = years.ToString();
-                return true;
-            }
 
         }
 
         //COMMAND METHODS
-        
+
         /*
          *Validates every single information given in the form defined in the SignUpPage.XAML
          *and if everything is correct creates an account
@@ -269,8 +278,8 @@ namespace CookTime.ViewModels
                 return;
             }
 
+            //Makes sure that the email written has the format of an email
             this.match = emailRegex.Match(TextEmail);
-            //Makes sure thatthe email written has the format of an email
             if (!(match.Success))
             {
                 IsRunning = false;
@@ -280,20 +289,20 @@ namespace CookTime.ViewModels
                 return;
             }
 
-            //Validates thatthe password and confirmation password match
+            //Validates that the password and confirmation password match
             if (this.TextPassword != this.TextConfirmPassword)
             {
                 IsRunning = false;
                 BCPassword = ColorsFonts.ErrorColor;
                 BCConfirmPassword = ColorsFonts.ErrorColor;
-                await Application.Current.MainPage.DisplayAlert("Error", "The password confirmation doesn't match", "Ok");
+                await Application.Current.MainPage.DisplayAlert("Error", "The confirmation password doesn't match", "Ok");
                 BCPassword = ColorsFonts.BackGround;
                 BCConfirmPassword = ColorsFonts.BackGround;
                 return;
             }
 
-            var checkConnection = await ApiService.CheckConnection();
             //Checks the internet connection before interacting with the server
+            Response checkConnection = await ApiService.CheckConnection();
             if (!checkConnection.IsSuccess)
             {
                 IsRunning = false;
@@ -301,26 +310,23 @@ namespace CookTime.ViewModels
                     "Error",
                     "Check your internet connection",
                     "Accept");
-                return; 
+                return;
             }
 
             //Changes the spacing in the user name
-
-            this.TextName = ReadStringConverter.ChangePostString(this.textName);
+            this.TextName = ReadStringConverter.ChangePostString(this.TextName);
 
             //Creates the user account with the data given 
-            var user = new User
+            User user = new User
             {
-                Email = this.textEmail,
-                Name = this.textName,
-                Age = this.textBirthday,
+                Email = this.TextEmail,
+                Name = this.TextName,
+                Age = this.TextAge,
                 Password = this.TextPassword,
-                UsersFollowing = "0",
-                Followers = "0"
             };
 
             string controller = "/users/" + this.TextEmail; //Asking for the account information
-            var checkEmail = await ApiService.GetUser<User>( //Tries to get the account information
+            Response checkEmail = await ApiService.Get<User>( //Tries to get the account information
                 "http://localhost:8080/CookTime.BackEnd",
                 "/api",
                 controller);
@@ -329,27 +335,26 @@ namespace CookTime.ViewModels
             if (checkEmail.IsSuccess)
             {
                 IsRunning = false;
+                this.BCEmail = ColorsFonts.ErrorColor;
                 await Application.Current.MainPage.DisplayAlert(
                     "Error",
                     "This email is already registered",
                     "Accept");
-                this.TextEmail = string.Empty;
+                this.BCEmail = ColorsFonts.BackGround;
                 return;
             }
 
-            
-
             //Generates the query url
-            var queryUrl = "/users?email=" + this.TextEmail + "&password=" + this.TextPassword 
-                + "&name=" + this.textName + "&age=" + this.textBirthday + "&followers=" + "0"
-                + "&usersFollowing=" + "0";
+            string queryUrl = "/users?email=" + this.TextEmail + "&password=" + this.TextPassword
+                + "&name=" + this.TextName + "&age=" + this.TextAge;
 
             //Posts the account
-            var response = await ApiService.Post<User>( 
+            Response response = await ApiService.Post<User>(
                 "http://localhost:8080/CookTime.BackEnd",
                 "/api",
                 queryUrl,
-                user);
+                user,
+                true);
 
             if (!response.IsSuccess)
             {
@@ -361,13 +366,15 @@ namespace CookTime.ViewModels
                 return;
             }
 
+            User loggedUser = (User)response.Result;
+
             this.TextName = string.Empty;
             this.TextEmail = string.Empty;
             this.TextPassword = string.Empty;
             this.TextConfirmPassword = string.Empty;
 
             //The new user has been created, it can enter to the tabbed page 
-            MainViewModel.getInstance().TabbedHome = new TabbedHomeViewModel(user);
+            MainViewModel.getInstance().TabbedHome = new TabbedHomeViewModel(loggedUser);
             await Application.Current.MainPage.Navigation.PushAsync(new TabbedHomePage());
 
         }
@@ -382,7 +389,6 @@ namespace CookTime.ViewModels
             MainViewModel.getInstance().CompanySignUp = new CompanySignUpViewModel();
             await Application.Current.MainPage.Navigation.PushAsync(new CompanySignUpPage());
         }
-
 
         #endregion
     }

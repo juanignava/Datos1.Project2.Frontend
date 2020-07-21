@@ -27,7 +27,7 @@
 
                     <Entry
                         Placeholder="Company name"
-                        FontSize="20"
+                        FontSize="Body"
                         PlaceholderColor="#B09B35"
                         Text="{Binding TextCompanyName, Mode=TwoWay}"
                         BackgroundColor="{Binding BCCompanyName, Mode=TwoWay}">
@@ -36,7 +36,7 @@
 
                     <Entry
                         Placeholder="Contact methods"
-                        FontSize="20"
+                        FontSize="Body"
                         PlaceholderColor="#B09B35"
                         Text="{Binding TextContactMethods, Mode=TwoWay}"
                         BackgroundColor="{Binding BCContactMethods, Mode=TwoWay}">
@@ -45,7 +45,7 @@
 
                     <Entry
                         Placeholder="Address"
-                        FontSize="20"
+                        FontSize="Body"
                         PlaceholderColor="#B09B35"
                         Text="{Binding TextAddress, Mode=TwoWay}"
                         BackgroundColor="{Binding BCAddress, Mode=TwoWay}">
@@ -54,7 +54,7 @@
 
                     <Entry
                         Placeholder="Service hours"
-                        FontSize="20"
+                        FontSize="Body"
                         PlaceholderColor="#B09B35"
                         Keyboard="Numeric"
                         Text="{Binding TextServiceHours, Mode=TwoWay}"
@@ -64,7 +64,7 @@
 
                     <Button
                         Text="Create company"
-                        FontSize="20"
+                        FontSize="Body"
                         TextColor="White"
                         BackgroundColor="#631B29"
                         CornerRadius="10"

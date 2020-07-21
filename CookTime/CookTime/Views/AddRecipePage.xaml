@@ -30,18 +30,30 @@
                 <StackLayout
                     Padding="10,10">
 
-                    <Label
-                        FontSize="20"
-                        TextColor="#B09B35"
-                        HorizontalOptions="Center"
-                        BackgroundColor="{Binding BCAuthor, Mode=TwoWay}"
-                        Text="{Binding TextAuthor, Mode=TwoWay}">
+                    <StackLayout
+                        Orientation="Horizontal">
 
-                    </Label>
+                        <Label
+                            Text="Author:"
+                            TextColor="#B09B35"
+                            FontSize="Body"
+                            VerticalOptions="Center">
+
+                        </Label>
+
+                        <Label
+                            FontSize="Body"
+                            TextColor="Black"
+                            VerticalOptions="Center"
+                            Text="{Binding TextAuthor, Mode=TwoWay}">
+
+                        </Label>
+
+                    </StackLayout>
 
                     <Entry
                         Placeholder="Recipe name"
-                        FontSize="20"
+                        FontSize="Body"
                         PlaceholderColor="#B09B35"
                         BackgroundColor="{Binding BCRecipeName, Mode=TwoWay}"
                         Text="{Binding TextRecipeName, Mode=TwoWay}">
@@ -54,7 +66,7 @@
 
                         <Label
                             Text="Duration:"
-                            FontSize="20"
+                            FontSize="Body"
                             TextColor="#B09B35"
                             VerticalOptions="Center"
                             HorizontalOptions="StartAndExpand">
@@ -63,7 +75,7 @@
 
                         <Button
                             TextColor="Black"
-                            FontSize="20"
+                            FontSize="Body"
                             BackgroundColor="LightGray"
                             CornerRadius="30"
                             VerticalOptions="Center"
@@ -74,7 +86,7 @@
 
                         <Label
                             Text=":"
-                            FontSize="20"
+                            FontSize="Body"
                             TextColor="Black"
                             VerticalOptions="Center">
 
@@ -82,7 +94,7 @@
 
                         <Button
                             TextColor="Black"
-                            FontSize="20"
+                            FontSize="Body"
                             BackgroundColor="LightGray"
                             CornerRadius="30"
                             Text="{Binding DurationMinutesValue, Mode=TwoWay}"
@@ -94,7 +106,7 @@
 
                     <Button
                         TextColor="White"
-                        FontSize="20"
+                        FontSize="Body"
                         BackgroundColor="#631B29"
                         CornerRadius="30"
                         Text="{Binding TextDishType, Mode=TwoWay}"
@@ -108,7 +120,7 @@
 
                         <Label
                             Text="Portions:"
-                            FontSize="20"
+                            FontSize="Body"
                             TextColor="#B09B35"
                             VerticalOptions="Center"
                             HorizontalOptions="Start">
@@ -116,7 +128,7 @@
                         </Label>
 
                         <Label
-                            FontSize="20"
+                            FontSize="Body"
                             TextColor="Black"
                             VerticalOptions="Center"
                             HorizontalOptions="StartAndExpand"
@@ -135,7 +147,7 @@
 
                     <Button
                         TextColor="White"
-                        FontSize="20"
+                        FontSize="Body"
                         BackgroundColor="#631B29"
                         CornerRadius="30"
                         Text="{Binding TextDishTime, Mode=TwoWay}"
@@ -145,7 +157,7 @@
 
                     <Editor
                         Placeholder="Ingredients"
-                        FontSize="20"
+                        FontSize="Body"
                         AutoSize="TextChanges"
                         IsTextPredictionEnabled="True"
                         PlaceholderColor="#B09B35"
@@ -156,7 +168,7 @@
 
                     <Editor
                         Placeholder="Instructions"
-                        FontSize="20"
+                        FontSize="Body"
                         AutoSize="TextChanges"
                         IsTextPredictionEnabled="True"
                         PlaceholderColor="#B09B35"
@@ -167,7 +179,7 @@
 
                     <Entry
                         Placeholder="#Tags"
-                        FontSize="20"
+                        FontSize="Body"
                         PlaceholderColor="#B09B35"
                         BackgroundColor="{Binding BCTags, Mode=TwoWay}"
                         Text="{Binding TextTags, Mode=TwoWay}">
@@ -176,7 +188,7 @@
 
                     <Entry
                         Placeholder="Price"
-                        FontSize="20"
+                        FontSize="Body"
                         PlaceholderColor="#B09B35"
                         Keyboard="Numeric"
                         BackgroundColor="{Binding BCPrice, Mode=TwoWay}"
@@ -196,7 +208,7 @@
 
                         <Label
                             Text="Difficulty:"
-                            FontSize="20"
+                            FontSize="Body"
                             Grid.Row="0"
                             Grid.Column="0"
                             TextColor="#B09B35"
@@ -207,7 +219,7 @@
                         <Label
                             Grid.Row="0"
                             Grid.Column="1"
-                            FontSize="20"
+                            FontSize="Body"
                             TextColor="Black"
                             VerticalOptions="Center"
                             HorizontalOptions="Start"
@@ -246,7 +258,7 @@
 
                     <Button
                         Text="Share"
-                        FontSize="20"
+                        FontSize="Body"
                         FontAttributes="Bold"
                         TextColor="White"
                         BackgroundColor="#B09B35"

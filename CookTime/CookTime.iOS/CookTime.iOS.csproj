@@ -148,5 +148,7 @@
     <BundleResource Include="Resources\MyMenuIcon.png" />
     <BundleResource Include="Resources\FilterIcon.png" />
     <BundleResource Include="Resources\AddImageIcon.png" />
+    <BundleResource Include="Resources\DefaultRecipeIcon.png" />
+    <BundleResource Include="Resources\UnLikedIcon.png" />
   </ItemGroup>
 </Project>

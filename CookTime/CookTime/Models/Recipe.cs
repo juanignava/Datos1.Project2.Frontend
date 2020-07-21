@@ -11,52 +11,49 @@ namespace CookTime.Models
      */
     public class Recipe
     {
-        [JsonProperty(PropertyName = "name")] //
+        [JsonProperty(PropertyName = "name")] 
         public string Name { get; set; } 
 
-        [JsonProperty(PropertyName = "author")] //
+        [JsonProperty(PropertyName = "author")] 
         public string Author { get; set; }
 
-        [JsonProperty(PropertyName = "type")] //
+        [JsonProperty(PropertyName = "type")]
         public string Type { get; set; }
 
-        [JsonProperty(PropertyName = "portions")] //
+        [JsonProperty(PropertyName = "portions")]
         public int Portions { get; set; }
 
-        [JsonProperty(PropertyName = "cookingSpan")] //
+        [JsonProperty(PropertyName = "cookingSpan")]
         public string CookingSpan { get; set; }
 
-        [JsonProperty(PropertyName = "eatingTime")] //
+        [JsonProperty(PropertyName = "eatingTime")]
         public string EatingTime { get; set; }
 
         [JsonProperty(PropertyName = "tags")]
         public string Tags { get; set; }
 
-        [JsonProperty(PropertyName = "image")] //
+        [JsonProperty(PropertyName = "image")]
         public string Image { get; set; }
 
-        [JsonProperty(PropertyName = "ingredients")]  //
+        [JsonProperty(PropertyName = "ingredients")]
         public string Ingredients { get; set; }
 
-        [JsonProperty(PropertyName = "steps")] //
+        [JsonProperty(PropertyName = "steps")]
         public string Steps { get; set; }
 
         [JsonProperty(PropertyName = "comments")]
         public object Comments { get; set; }
 
-        [JsonProperty(PropertyName = "price")] //
+        [JsonProperty(PropertyName = "price")]
         public object Price { get; set; }
 
-        [JsonProperty(PropertyName = "pointerToNodeInList")]
-        public object PointerToNodeInList { get; set; }
-
-        [JsonProperty(PropertyName = "difficulty")] //
+        [JsonProperty(PropertyName = "difficulty")]
         public int Difficulty { get; set; }
-
-        [JsonProperty(PropertyName = "id")]
-        public int Id { get; set; }
 
         [JsonProperty(PropertyName = "punctuation")]
         public int Punctuation { get; set; }
+
+        [JsonProperty(PropertyName = "shares")]
+        public int Shares { get; set; }
     }
 }

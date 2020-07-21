@@ -13,34 +13,49 @@ namespace CookTime.ViewModels
     public class MyMenuViewModel : BaseViewModel
     {
         #region ATTRIBUTES
-        private User actualUser;
 
+        //VALUE
+        private int followers;
+
+        private int following;
+
+        //TEXT
         private string name;
 
         private string email;
 
         private string age;
 
+        //OTHER
+        private User loggedUser;
+
         private Image profilePic;
 
-        private string followers;
-
-        private string following;
-
-        //MEDIAFILE
-
         private MediaFile file;
-
-        //IMAGE SOURCE 
 
         private ImageSource addImageSource;
 
         private Byte[] ImageByteArray;
 
-
         #endregion
 
+
         #region PROPERTIES
+
+        //VALUE
+        public int Followers
+        {
+            get { return this.followers; }
+            set { SetValue(ref this.followers, value); }
+        }
+
+        public int Following
+        {
+            get { return this.following; }
+            set { SetValue(ref this.following, value); }
+        }
+
+        //TEXT
         public string Name 
         {
             get { return name; }
@@ -57,18 +72,6 @@ namespace CookTime.ViewModels
         {
             get { return this.age; }
             set { SetValue(ref this.age, value); }
-        }
-
-        public string Followers 
-        {
-            get { return this.followers; }
-            set { SetValue(ref this.followers, value); }
-        }
-
-        public string Following 
-        {
-            get { return this.following; }
-            set { SetValue(ref this.following, value); }
         }
 
         //COMMANDS
@@ -106,28 +109,30 @@ namespace CookTime.ViewModels
         #endregion
 
 
-
         #region CONSTRUCTOR
-        public MyMenuViewModel(User actualUser)
+
+        public MyMenuViewModel()
         {
-            this.actualUser = actualUser;
+            this.loggedUser = TabbedHomeViewModel.getUserInstance();
 
             init();
         }
         #endregion
 
+
         #region METHODS
+
         private void init()
         {
-            this.name = ReadStringConverter.ChangeGetString(actualUser.Name);
-            this.email = actualUser.Email;
-            this.age = "Age: " + actualUser.Age;
-            this.followers = "Followers: " + actualUser.Followers;
-            this.following = "Following: " + actualUser.UsersFollowing;
+            this.Name = ReadStringConverter.ChangeGetString(loggedUser.Name);
+            this.Email = loggedUser.Email;
+            this.Age = loggedUser.Age;
+            this.Followers = loggedUser.Followers;
+            this.Following = loggedUser.UsersFollowing.Length;
 
-            if (actualUser.ProfilePic == null)
+            if (loggedUser.ProfilePic == null)
             {
-                this.AddImageSource = "defaultUserIcon";
+                this.AddImageSource = "SignUpIcon";
             }
             //ToDo: Load a predefined profile picture when one user is registered, then load it from here, the image should be saved in AddImageSource
         }

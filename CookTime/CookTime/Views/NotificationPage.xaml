@@ -25,84 +25,34 @@
 
             </StackLayout>
 
-            <ScrollView>
-
+            <Frame
+                HasShadow="True"
+                CornerRadius="20"
+                BorderColor="#631B29"
+                Padding="30"
+                Margin="10">
                 <StackLayout
-                    Padding="10,0">
-
+                    Orientation="Horizontal"
+                    HorizontalOptions="Center">
                     <Label
-                        Text="_________"
+                        FontAttributes="Bold"
+                        FontSize="Body"
+                        TextColor="Black"
                         VerticalOptions="Center"
-                        FontSize="89">
+                        Text="{Binding TextEmisorUser, Mode=TwoWay}">
 
                     </Label>
 
                     <Label
-                        Text="_________"
+                        FontSize="Body"
+                        TextColor="Black"
                         VerticalOptions="Center"
-                        FontSize="89">
+                        Text="{Binding TextNotification, Mode=TwoWay}">
 
                     </Label>
-
-                    <Label
-                        Text="_________"
-                        VerticalOptions="Center"
-                        FontSize="89">
-
-                    </Label>
-
-                    <Label
-                        Text="_________"
-                        VerticalOptions="Center"
-                        FontSize="89">
-
-                    </Label>
-
-                    <Label
-                        Text="_________"
-                        VerticalOptions="Center"
-                        FontSize="89">
-
-                    </Label>
-
-                    <Label
-                        Text="_________"
-                        VerticalOptions="Center"
-                        FontSize="89">
-
-                    </Label>
-
-                    <Label
-                        Text="_________"
-                        VerticalOptions="Center"
-                        FontSize="89">
-
-                    </Label>
-
-                    <Label
-                        Text="_________"
-                        VerticalOptions="Center"
-                        FontSize="89">
-
-                    </Label>
-
-                    <Label
-                        Text="_________"
-                        VerticalOptions="Center"
-                        FontSize="89">
-
-                    </Label>
-
-                    <Label
-                        Text="_________"
-                        VerticalOptions="Center"
-                        FontSize="89">
-
-                    </Label>
-
                 </StackLayout>
+            </Frame>
 
-            </ScrollView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

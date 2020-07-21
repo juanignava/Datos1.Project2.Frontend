@@ -21,7 +21,7 @@ namespace CookTime.ViewModels
 
         //ACTUAL USER
 
-        private User actualUser;
+        private User loggedUser;
 
         //TEXT
         private string textRecipeName;
@@ -42,8 +42,6 @@ namespace CookTime.ViewModels
 
         //BACKGROUND COLOR
         private string bCRecipeName;
-
-        private string bCAuthor;
 
         private string bCIngredients;
 
@@ -133,12 +131,6 @@ namespace CookTime.ViewModels
         {
             get { return this.bCRecipeName; }
             set { SetValue(ref this.bCRecipeName, value); }
-        }
-
-        public string BCAuthor
-        {
-            get { return this.bCAuthor; }
-            set { SetValue(ref this.bCAuthor, value); }
         }
 
         public string BCIngredients
@@ -234,9 +226,11 @@ namespace CookTime.ViewModels
 
         #region CONSTRUCTOR
 
-        public AddRecipeViewModel(User actualUser)
+        public AddRecipeViewModel()
         {
-            this.actualUser = actualUser;
+            this.loggedUser = TabbedHomeViewModel.getUserInstance();
+
+            this.TextAuthor = loggedUser.Email;
 
             this.DurationHourValue = 0;
             this.DurationMinutesValue = 10;
@@ -246,7 +240,6 @@ namespace CookTime.ViewModels
             this.DifficultyValue = 3;
             this.AddImageSource = "AddImageIcon";
 
-            this.TextAuthor = "Author: " + actualUser.Email;
         }
 
         #endregion
@@ -364,14 +357,6 @@ namespace CookTime.ViewModels
                 return;
             }
 
-            if (string.IsNullOrEmpty(this.TextAuthor))
-            {
-                BCAuthor = ColorsFonts.ErrorColor;
-                await Application.Current.MainPage.DisplayAlert("Error", "You must enter the author(s)", "Ok");
-                BCAuthor = ColorsFonts.BackGround;
-                return;
-            }
-
             if (string.IsNullOrEmpty(this.TextIngredients))
             {
                 BCIngredients = ColorsFonts.ErrorColor;
@@ -418,8 +403,7 @@ namespace CookTime.ViewModels
             //Changes the spacing on every string that is being uploaded
 
             this.TextRecipeName = ReadStringConverter.ChangePostString(this.TextRecipeName);
-            this.preparationTime = this.DurationHourValue.ToString() +
-                " h and" + this.DurationMinutesValue + " min";
+            this.preparationTime = $"{this.DurationHourValue} h and {this.DurationMinutesValue} min";
             this.preparationTime = ReadStringConverter.ChangePostString(this.preparationTime);
             this.TextDishTime = ReadStringConverter.ChangePostString(this.TextDishTime);
             this.TextIngredients = ReadStringConverter.ChangePostString(this.TextIngredients);
@@ -440,7 +424,7 @@ namespace CookTime.ViewModels
             var recipe = new Recipe
             {
                 Name = this.TextRecipeName,
-                Author = this.actualUser.Email,
+                Author = this.loggedUser.Email,
                 Type = this.TextDishType,
                 CookingSpan = this.preparationTime,
                 Portions = this.PortionsValue,
@@ -458,17 +442,19 @@ namespace CookTime.ViewModels
 
             //Generates the query url
 
-            var queryUrl = "/recipes?name=" + this.TextRecipeName + "&author=" + this.actualUser.Email + "&type=" + this.TextDishType +
+            var queryUrl = "/recipes?name=" + this.TextRecipeName + "&author=" + this.loggedUser.Email + "&type=" + this.TextDishType +
                 "&cookingSpan=" + this.preparationTime + "&portions=" + this.PortionsValue + "&eatingTime=" + this.TextDishTime +
                 "&tags=" + this.TextTags + "&ingredients=" + this.TextIngredients + "&steps=" + this.TextInstructions + "&price=" +
-                this.TextPrice + "&diffiulty=" + this.DifficultyValue + "&punctuation=0";
+                this.TextPrice + "&difficulty=" + this.DifficultyValue + "&punctuation=0";
 
             //Posts the recipe
             var response = await ApiService.Post<Recipe>(
                 "http://localhost:8080/CookTime.BackEnd",
                 "/api",
                 queryUrl,
-                recipe);
+                recipe,
+                false);
+
             if (!response.IsSuccess)
             {
                 await Application.Current.MainPage.DisplayAlert(
@@ -478,11 +464,8 @@ namespace CookTime.ViewModels
                 return;
             }
 
-
-
             // Redifines the addRecipe entries and editors
             this.TextRecipeName = string.Empty;
-            this.TextAuthor = string.Empty;
             this.DurationHourValue = 0;
             this.DurationMinutesValue = 10;
             this.TextDishType = "Breakfast";

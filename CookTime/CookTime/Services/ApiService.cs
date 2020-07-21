@@ -47,7 +47,7 @@
         /*
          * This method allows to take one specific account information
          */
-        public static async Task<Response> GetUser<T>(
+        public static async Task<Response> Get<T>(
             string urlBase,
             string servicePrefix,
             string controller)
@@ -57,10 +57,9 @@
                 //Creates the client and asks for the informaiton 
                 var client = new HttpClient();             
                 var url = string.Format("{0}{1}{2}",urlBase ,servicePrefix, controller);
-                Console.WriteLine(url);
                 var response = await client.GetAsync(url);
-                var result = await client.GetStringAsync(url);
-               
+                var result = await response.Content.ReadAsStringAsync();
+
                 //If the information was unsuccesfully taken, then it answers that something was wrong
                 if (!response.IsSuccessStatusCode)
                 {
@@ -71,23 +70,24 @@
                     };
                 }
 
-                var list = JsonConvert.DeserializeObject<User>(result); //The object given is of type User
+                var objectX = JsonConvert.DeserializeObject<T>(result); //The object given is of type User
                 return new Response
                 {
                     IsSuccess = true,
                     Message = "Ok",
-                    Result = list,
+                    Result = objectX,
                 };
             }
             
             catch (Exception ex)
             {
+               
                 //If the email doesn't exixts then the url doesn't exists thats why 
                 //this answer is in the catch section
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = "This email is not registered",
+                    Message = ex.Message,
                 };
             }
         }
@@ -101,7 +101,7 @@
             {
                 var client = new HttpClient();
                 client.BaseAddress = new Uri(urlBase);
-                var url = string.Format("{0}{1}{2}",urlBase , servicePrefix, controller);
+                var url = string.Format("{0}{1}{2}", urlBase, servicePrefix, controller);
                 var response = await client.GetAsync(url);
                 var result = await response.Content.ReadAsStringAsync();
 
@@ -114,7 +114,7 @@
                     };
                 }
 
-                var list = JsonConvert.DeserializeObject<List<Recipe>>(result);
+                var list = JsonConvert.DeserializeObject<List<T>>(result);
                 return new Response
                 {
                     IsSuccess = true,
@@ -139,15 +139,14 @@
             string urlBase,
             string servicePrefix,
             string controller,
-            T model)
+            T model,
+            bool hasAnswer)
         {
             try
             {
                 //Creates a Json file based ob the object given 
                 var request = JsonConvert.SerializeObject(model);
-
-                
-
+      
                 //With this Json it creates a content needed for posting the user or recipe
                 var content = new StringContent(
                     request,
@@ -171,13 +170,28 @@
 
                 //Creates the json for the user and returns it in the response
                 var result = await response.Content.ReadAsStringAsync();
-                var newRecord = JsonConvert.DeserializeObject<T>(result);
-                return new Response
+
+                if (hasAnswer)
                 {
-                    IsSuccess = true,
-                    Message = "Record added OK",
-                    Result = newRecord,
-                };
+                    var newRecord = JsonConvert.DeserializeObject<T>(result);
+
+                    return new Response
+                    {
+                        IsSuccess = true,
+                        Message = "Record added OK",
+                        Result = newRecord,
+                    };
+                }
+
+                else
+                {
+                    return new Response
+                    {
+                        IsSuccess = true,
+                        Message = "Record added OK",
+                    };
+                }
+
             }
             catch (Exception ex)
             {

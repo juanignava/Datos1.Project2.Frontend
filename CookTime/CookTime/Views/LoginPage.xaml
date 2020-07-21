@@ -33,7 +33,7 @@
 
                     <Entry
                         Placeholder="E-mail address"
-                        FontSize="20"
+                        FontSize="Body"
                         PlaceholderColor="#B09B35"
                         Keyboard="Email"
                         Text="{Binding TextEmail, Mode=TwoWay}"
@@ -43,7 +43,7 @@
 
                     <Entry
                         Placeholder="Password"
-                        FontSize="20"
+                        FontSize="Body"
                         PlaceholderColor="#B09B35"
                         IsPassword="True"
                         Text="{Binding TextPassword, Mode=TwoWay}"
@@ -53,7 +53,7 @@
 
                     <Button
                         Text="Login"
-                        FontSize="20"
+                        FontSize="Body"
                         TextColor="White"
                         BackgroundColor="#631B29"
                         CornerRadius="10"
@@ -62,7 +62,7 @@
 
                     <Button
                         Text="Don't have an account?"
-                        FontSize="12"
+                        FontSize="Micro"
                         TextColor="#B09B35"
                         BackgroundColor="White"
                         CornerRadius="10"

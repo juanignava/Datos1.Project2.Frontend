@@ -33,7 +33,7 @@
 
                     <Entry
                         Placeholder="Name"
-                        FontSize="20"
+                        FontSize="Body"
                         PlaceholderColor="#B09B35"
                         Text="{Binding TextName, Mode=TwoWay}"
                         BackgroundColor="{Binding BCName, Mode=TwoWay}">
@@ -46,7 +46,7 @@
 
                         <Label
                             Text="Birth date:"
-                            FontSize="20"
+                            FontSize="Body"
                             TextColor="#B09B35"
                             VerticalOptions="Center">
 
@@ -54,7 +54,7 @@
 
                         <DatePicker
                             VerticalOptions="Center"
-                            FontSize="20"
+                            FontSize="Body"
                             Date="{Binding TextBirthday, Mode=TwoWay}"
                             BackgroundColor="{Binding BCBirthday, Mode=TwoWay}">
 
@@ -64,7 +64,7 @@
 
                     <Entry
                         Placeholder="E-mail address"
-                        FontSize="20"
+                        FontSize="Body"
                         PlaceholderColor="#B09B35"
                         Keyboard="Email"
                         Text="{Binding TextEmail, Mode=TwoWay}"
@@ -74,7 +74,7 @@
 
                     <Entry
                         Placeholder="Password"
-                        FontSize="20"
+                        FontSize="Body"
                         PlaceholderColor="#B09B35"
                         IsPassword="True"
                         Text="{Binding TextPassword, Mode=TwoWay}"
@@ -84,7 +84,7 @@
 
                     <Entry
                         Placeholder="Confirm password"
-                        FontSize="20"
+                        FontSize="Body"
                         PlaceholderColor="#B09B35"
                         IsPassword="True"
                         Text="{Binding TextConfirmPassword, Mode=TwoWay}"
@@ -94,7 +94,7 @@
 
                     <Button
                         Text="Create account"
-                        FontSize="20"
+                        FontSize="Body"
                         TextColor="White"
                         BackgroundColor="#631B29"
                         CornerRadius="10"
@@ -103,7 +103,7 @@
 
                     <Button
                         Text="Do you have a company?"
-                        FontSize="12"
+                        FontSize="Micro"
                         TextColor="#B09B35"
                         BackgroundColor="White"
                         CornerRadius="10"

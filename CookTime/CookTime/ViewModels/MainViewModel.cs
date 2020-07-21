@@ -3,6 +3,13 @@ namespace CookTime.ViewModels
 {
     public class MainViewModel
     {
+        #region ATTRIBUTES
+
+        private static MainViewModel instance;
+
+        #endregion
+
+
         #region VIEWMODELS
         public LoginViewModel Login { get; set; }
 
@@ -22,15 +29,12 @@ namespace CookTime.ViewModels
 
         public MyMenuViewModel MyMenu { get; set; }
 
+        public UserDetailViewModel UserDetail { get; set; }
+
         public RecipeDetailViewModel RecipeDetail { get; set; }
 
         #endregion
 
-        #region ATTRIBUTES
-
-        private static MainViewModel instance;
-
-        #endregion
 
         public MainViewModel()
         {

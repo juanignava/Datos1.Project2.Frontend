@@ -2,7 +2,6 @@
 using System;
 using System.Collections.ObjectModel;
 using CookTime.Services;
-using CookTime.Models;
 using Xamarin.Forms;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +14,7 @@ namespace CookTime.ViewModels
     public class NewsFeedViewModel : BaseViewModel
     {
         #region ATTRIBUTES
+
         //Recipe collection (is not a list beacuse lists don´t match the binding objects)
         //Every recipe is saved in this attribute and this observable collection is Binded un the NeesFeedPage.XAML
         private ObservableCollection<RecipeItemViewModel> recipes;
@@ -25,9 +25,12 @@ namespace CookTime.ViewModels
 
         //Activity indicator when the list is refreshing
         private bool isRefreshing;
+
         #endregion
 
+
         #region PROPERTIES
+
         public ObservableCollection<RecipeItemViewModel> Recipes
         {
             get { return this.recipes; }
@@ -39,13 +42,17 @@ namespace CookTime.ViewModels
             get { return this.isRefreshing;  }
             set { SetValue(ref this.isRefreshing, value); }
         }
+
         #endregion
 
+
         #region CONSTRUCTOR
+
         public NewsFeedViewModel()
         {
             this.LoadRecipes();
         }
+
         #endregion
 
         #region METHODS
@@ -86,21 +93,18 @@ namespace CookTime.ViewModels
                     "Accept");
             }
             
-           //Copies the list loaded from the server to the list in the attributes
+            //Copies the list loaded from the server to the list in the attributes
             this.recipesList = (List<Recipe>)response.Result;
 
             //If there are recipes with a null at the image propertie, then it loads a generic image for that object
             this.recipesList = ChangeNullImages(this.recipesList);
 
-            //Change teh strings in the recipes with spaces
-            ChangeStringSpaces(this.recipesList);
-
-            
+            //Change the strings in the recipes with spaces
+            ChangeStringSpaces();
 
             //Creats the observable collection with the method 
             this.Recipes = new ObservableCollection<RecipeItemViewModel>(
                 this.ToRecipeItemViewModel());
-
             
         }
 
@@ -124,10 +128,9 @@ namespace CookTime.ViewModels
                 Steps = r.Steps,
                 Comments = r.Comments,
                 Price = r.Price,
-                PointerToNodeInList = r.PointerToNodeInList,
                 Difficulty = r.Difficulty,
-                Id = r.Id,
-                Punctuation = r.Punctuation
+                Punctuation = r.Punctuation,
+                Shares = r.Shares
             });
         }
 
@@ -136,11 +139,11 @@ namespace CookTime.ViewModels
          */
         public List<Recipe> ChangeNullImages (List<Recipe> list)
         {
-            foreach (var recipe in list)
+            foreach (Recipe recipe in list)
             {
                 if (recipe.Image == null)
                 {
-                    recipe.Image = "defaultRecipeIcon";
+                    recipe.Image = "DefaultRecipeIcon";
                 }
             }
 
@@ -151,19 +154,21 @@ namespace CookTime.ViewModels
          * This method gets alll teh string properties of the recipe and changes the '_ 'characters into 
          * spaces due to that it was impossible to save them with spaces
          */
-        public void ChangeStringSpaces(List<Recipe> list)
+        public void ChangeStringSpaces()
         {
-            foreach (var recipe in list)
+            foreach (Recipe recipe in this.recipesList)
             {
                 recipe.Name = ReadStringConverter.ChangeGetString(recipe.Name);
+                recipe.CookingSpan = ReadStringConverter.ChangeGetString(recipe.CookingSpan);
+                recipe.EatingTime = ReadStringConverter.ChangeGetString(recipe.EatingTime);
                 recipe.Ingredients = ReadStringConverter.ChangeGetString(recipe.Ingredients);
                 recipe.Steps = ReadStringConverter.ChangeGetString(recipe.Steps);
                 recipe.Tags = ReadStringConverter.ChangeGetString(recipe.Tags);
-                recipe.EatingTime = ReadStringConverter.ChangeGetString(recipe.EatingTime);
-                recipe.CookingSpan = ReadStringConverter.ChangeGetString(recipe.CookingSpan);
             }
         }
+
         #endregion
+
 
         #region COMMANDS
 
@@ -178,6 +183,7 @@ namespace CookTime.ViewModels
                 return new RelayCommand(LoadRecipes);
             }
         }
+
         #endregion
     }
 }

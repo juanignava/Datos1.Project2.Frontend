@@ -2,49 +2,26 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="CookTime.Views.MyMenuPage"
+    x:Class="CookTime.Views.UserDetailPage"
     BindingContext="{Binding Main, Source={StaticResource Locator}}"
-    IconImageSource="MyMenuIcon"
-    BackgroundColor="#FFFFFF">
+    Title="User Details">
 
     <ContentPage.Content>
         <StackLayout
-            BindingContext="{Binding MyMenu}"
-            BackgroundColor="White">
-
-            <Button
-                Margin="5"
-                Text="Chef Query"
-                CornerRadius="20"
-                HeightRequest="40"
-                BackgroundColor="White"
-                BorderColor="#631B29" 
-                FontSize="Micro"
-                HorizontalOptions="End"
-                TextColor="Black"
-                BorderWidth="3"
-                Command="{Binding CheffQueryCommand}"/>
+            BindingContext="{Binding UserDetail}"
+            BackgroundColor="White"
+            Padding="0,10,0,0">
             
             <Frame
                 CornerRadius="150" 
                 HorizontalOptions="Center"
                 WidthRequest="150"
-                HeightRequest="360"
+                HeightRequest="330"
                 IsClippedToBounds="True"
                 Padding="0">
 
-                <Frame.GestureRecognizers>
-
-                    <TapGestureRecognizer
-
-                        Command="{Binding ChangePictureCommand, Mode=TwoWay}">
-
-                    </TapGestureRecognizer>
-
-                </Frame.GestureRecognizers>
-
                 <Image
-                    Source="{Binding AddImageSource}"
+                    Source="SignUpIcon"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
                     Aspect="AspectFill">
@@ -53,14 +30,14 @@
             </Frame>
 
             <Label
-                Text="{Binding Name}"
+                Text="{Binding User.Name}"
                 FontAttributes="Bold"
                 FontSize="Title"
                 TextColor="Black"
                 HorizontalOptions="Center"/>
 
             <Label
-                Text="{Binding Email}"
+                Text="{Binding User.Email}"
                 FontSize="Small"
                 TextColor="#B09B35"
                 HorizontalOptions="Center"/>
@@ -74,7 +51,7 @@
                     TextColor="Black"
                     VerticalOptions="Center"
                     BackgroundColor="White"
-                    Text="{Binding Followers}"/>
+                    Text="{Binding User.Followers}"/>
 
                 <Label
                     Text="Followers"
