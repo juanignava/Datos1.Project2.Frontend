@@ -1,12 +1,21 @@
 ﻿using System;
+using CookTime.FileHelpers;
 using Newtonsoft.Json;
 
 namespace CookTime.Models
 {
     public class Notification
     {
+        #region ATTRIBUTES
+
+        private string newComment;
+
+        private string recipeName;
+
+        #endregion
+
         [JsonProperty(PropertyName = "emisorUser")]
-        public string EmisorUser { get; set; }
+        public string EmisorUser { get; set ; }
 
         [JsonProperty(PropertyName = "recieverUser")]
         public string RecieverUser { get; set; }
@@ -14,10 +23,21 @@ namespace CookTime.Models
         [JsonProperty(PropertyName = "notifType")]
         public int NotifType { get; set; }
 
-        [JsonProperty(PropertyName = "newComment")] 
-        public string NewComment { get; set; }
+        [JsonProperty(PropertyName = "newComment")]
+        public string NewComment { get { return this.newComment; } set { this.newComment = ChangeStringSpaces(value); } }
 
-        [JsonProperty(PropertyName = "recipe")] 
-        public string RecipeName { get; set; }
+        [JsonProperty(PropertyName = "recipe")]
+        public string RecipeName { get { return this.recipeName; } set { this.recipeName = ChangeStringSpaces(value); } }
+
+
+        #region METHODS
+
+        public string ChangeStringSpaces(string property)
+        {
+            return ReadStringConverter.ChangeGetString(property);
+        }
+
+        #endregion
+
     }
 }

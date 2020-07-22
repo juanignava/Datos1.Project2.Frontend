@@ -3,6 +3,7 @@
 
 namespace CookTime.Models
 {
+    using CookTime.FileHelpers;
     using Newtonsoft.Json;
 
     /*
@@ -10,11 +11,17 @@ namespace CookTime.Models
      */
     public class User
     {
+        #region ATTRIBUTES
+
+        private string name;
+
+        #endregion
+
         [JsonProperty(PropertyName = "email")]
         public string Email { get; set; }
 
         [JsonProperty(PropertyName = "name")]
-        public string Name { get; set; }
+        public string Name { get { return this.name; } set { this.name = ChangeStringSpaces(value); } }
 
         [JsonProperty(PropertyName = "age")]
         public string Age { get; set; }
@@ -33,5 +40,15 @@ namespace CookTime.Models
 
         [JsonProperty(PropertyName = "chef")]
         public bool Chef { get; set; }
+
+
+        #region METHODS
+
+        public string ChangeStringSpaces(string property)
+        {
+            return ReadStringConverter.ChangeGetString(property);
+        }
+
+        #endregion
     }
 }
