@@ -51,7 +51,7 @@
                     TextColor="Black"
                     VerticalOptions="Center"
                     BackgroundColor="White"
-                    Text="{Binding User.Followers}"/>
+                    Text="{Binding Followers}"/>
 
                 <Label
                     Text="Followers"

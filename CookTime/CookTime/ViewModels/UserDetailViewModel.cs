@@ -10,6 +10,8 @@ namespace CookTime.ViewModels
         //VALUE
         private int following;
 
+        private int followers;
+
         #endregion
 
 
@@ -29,6 +31,12 @@ namespace CookTime.ViewModels
             set { SetValue(ref this.following, value); }
         }
 
+        public int Followers
+        {
+            get { return this.followers; }
+            set { SetValue(ref this.followers, value); }
+        }
+
         #endregion
 
 
@@ -38,6 +46,7 @@ namespace CookTime.ViewModels
         {
             this.User = user;
             this.Following = User.UsersFollowing.Length;
+            this.Followers = User.Followers.Length;
         }
 
         #endregion

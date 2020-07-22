@@ -127,7 +127,7 @@ namespace CookTime.ViewModels
             this.Name = ReadStringConverter.ChangeGetString(loggedUser.Name);
             this.Email = loggedUser.Email;
             this.Age = loggedUser.Age;
-            this.Followers = loggedUser.Followers;
+            this.Followers = loggedUser.Followers.Length;
             this.Following = loggedUser.UsersFollowing.Length;
 
             if (loggedUser.ProfilePic == null)

@@ -1,4 +1,5 @@
 ﻿
+using CookTime.FileHelpers;
 using CookTime.Models;
 using CookTime.Services;
 using CookTime.Views;
@@ -99,7 +100,9 @@ namespace CookTime.ViewModels
                     return;
                 }
 
-                string queryUrl = $"/users/new_notif?emisorUser={loggedUser.Email}&recieverUser={Recipe.Author}&notifType=2&recipe={Recipe.Name}";
+                string recipeName = ReadStringConverter.ChangePostString(this.Recipe.Name);
+
+                string queryUrl = $"/users/new_notif?emisorUser={loggedUser.Email}&recieverUser={Recipe.Author}&notifType=2&recipe={recipeName}";
 
                 Response response = await ApiService.Post<Recipe>(
                 "http://localhost:8080/CookTime.BackEnd",

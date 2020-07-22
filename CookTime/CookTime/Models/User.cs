@@ -29,7 +29,7 @@ namespace CookTime.Models
         public string[] UsersFollowing { get; set; }
 
         [JsonProperty(PropertyName = "followers")]
-        public int Followers { get; set; }
+        public string[] Followers { get; set; }
 
         [JsonProperty(PropertyName = "chef")]
         public bool Chef { get; set; }

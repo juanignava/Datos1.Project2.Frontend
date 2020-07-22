@@ -75,8 +75,8 @@ namespace CookTime.ViewModels
         {
             this.loggedUser = TabbedHomeViewModel.getUserInstance();
 
-            Thread t = new Thread(RefreshNotifications);
-            t.Start();
+            //Thread t = new Thread(RefreshNotifications);
+            //t.Start();
 
         }
 

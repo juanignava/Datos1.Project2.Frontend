@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using CookTime.FileHelpers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,10 +12,10 @@ namespace CookTime.Models
      */
     public class Recipe
     {
-        [JsonProperty(PropertyName = "name")] 
-        public string Name { get; set; } 
+        [JsonProperty(PropertyName = "name")]
+        public string Name { get; set; }
 
-        [JsonProperty(PropertyName = "author")] 
+        [JsonProperty(PropertyName = "author")]
         public string Author { get; set; }
 
         [JsonProperty(PropertyName = "type")]
@@ -55,5 +56,31 @@ namespace CookTime.Models
 
         [JsonProperty(PropertyName = "shares")]
         public int Shares { get; set; }
+
+
+        #region METHODS
+
+        public string ChangeStringSpaces(string Porperty)
+        {
+
+            return ReadStringConverter.ChangeGetString(Porperty);
+
+            //this.CookingSpan = ReadStringConverter.ChangeGetString(this.CookingSpan);
+            //this.EatingTime = ReadStringConverter.ChangeGetString(this.EatingTime);
+            //this.Ingredients = ReadStringConverter.ChangeGetString(this.Ingredients);
+            //this.Steps = ReadStringConverter.ChangeGetString(this.Steps);
+            //this.Tags = ReadStringConverter.ChangeGetString(this.Tags);
+
+        }
+
+        private void ChangeNullImages()
+        {
+            if (string.IsNullOrEmpty(Image))
+            {
+                Image = "DefaultRecipeIcon";
+            }
+
+        }
+        #endregion
     }
 }
