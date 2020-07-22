@@ -147,9 +147,7 @@
                     Command="{Binding SortDifficultyCommand}"/>
             </Grid>
 
-            <ListView>
-                
-            </ListView>
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
