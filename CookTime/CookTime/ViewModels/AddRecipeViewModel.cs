@@ -1,7 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Security.Cryptography;
-using System.Text;
+using System.Drawing;
+using System.IO;
 using System.Windows.Input;
 using CookTime.Constants;
 using CookTime.FileHelpers;
@@ -11,6 +10,7 @@ using GalaSoft.MvvmLight.Command;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration.TizenSpecific;
 
 namespace CookTime.ViewModels
 {
@@ -342,7 +342,6 @@ namespace CookTime.ViewModels
                     return stream;
                 });
 
-                this.imageByteArray = FileHelper.ReadFully(this.file.GetStream());
             }
 
         }
@@ -412,8 +411,10 @@ namespace CookTime.ViewModels
 
             //Creates the recipe with the information given
    
+            ///TEST
+            
+            ///TEST
 
-            //string arrayConverted = Convert.ToBase64String(this.imageByteArray);
 
             //string arrayConvertedPost = ReadStringConverter.Base64toString(arrayConverted);
 
