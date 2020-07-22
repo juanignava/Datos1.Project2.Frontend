@@ -124,7 +124,7 @@ namespace CookTime.ViewModels
 
         private void init()
         {
-            this.Name = ReadStringConverter.ChangeGetString(loggedUser.Name);
+            this.Name = loggedUser.Name;
             this.Email = loggedUser.Email;
             this.Age = loggedUser.Age;
             this.Followers = loggedUser.Followers.Length;

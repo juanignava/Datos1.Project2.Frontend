@@ -96,12 +96,6 @@ namespace CookTime.ViewModels
             //Copies the list loaded from the server to the list in the attributes
             this.recipesList = (List<Recipe>)response.Result;
 
-            //If there are recipes with a null at the image propertie, then it loads a generic image for that object
-            this.recipesList = ChangeNullImages(this.recipesList);
-
-            //Change the strings in the recipes with spaces
-            ChangeStringSpaces();
-
             //Creats the observable collection with the method 
             this.Recipes = new ObservableCollection<RecipeItemViewModel>(
                 this.ToRecipeItemViewModel());
@@ -132,39 +126,6 @@ namespace CookTime.ViewModels
                 Punctuation = r.Punctuation,
                 Shares = r.Shares
             });
-        }
-
-        /*
-         * establishes a default Image for the objects loaded that have no image
-         */
-        public List<Recipe> ChangeNullImages (List<Recipe> list)
-        {
-            foreach (Recipe recipe in list)
-            {
-                if (recipe.Image == null)
-                {
-                    recipe.Image = "DefaultRecipeIcon";
-                }
-            }
-
-            return list;
-        }
-
-        /*
-         * This method gets alll teh string properties of the recipe and changes the '_ 'characters into 
-         * spaces due to that it was impossible to save them with spaces
-         */
-        public void ChangeStringSpaces()
-        {
-            foreach (Recipe recipe in this.recipesList)
-            {
-                recipe.Name = ReadStringConverter.ChangeGetString(recipe.Name);
-                recipe.CookingSpan = ReadStringConverter.ChangeGetString(recipe.CookingSpan);
-                recipe.EatingTime = ReadStringConverter.ChangeGetString(recipe.EatingTime);
-                recipe.Ingredients = ReadStringConverter.ChangeGetString(recipe.Ingredients);
-                recipe.Steps = ReadStringConverter.ChangeGetString(recipe.Steps);
-                recipe.Tags = ReadStringConverter.ChangeGetString(recipe.Tags);
-            }
         }
 
         #endregion

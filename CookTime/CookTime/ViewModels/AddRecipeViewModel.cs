@@ -272,7 +272,8 @@ namespace CookTime.ViewModels
 
             try
             {
-                DurationMinutesValue = int.Parse(await Application.Current.MainPage.DisplayActionSheet("Minutes", "Cancel", null, "0", "10", "20", "30", "40", "50", "60"));
+                DurationMinutesValue = int.Parse(await Application.Current.MainPage.DisplayActionSheet("Minutes", "Cancel", null, "0", "5", "10", "15", "20", "25",
+                                                                                                        "30", "35", "40", "45", "50", "55"));
             }
             catch (FormatException)
             {
@@ -418,7 +419,7 @@ namespace CookTime.ViewModels
 
             //string arrayConvertedPost = ReadStringConverter.Base64toString(arrayConverted);
 
-          //  ArrayConverted = Convert.ToBase64String () this.imageByteArray.
+            //ArrayConverted = Convert.ToBase64String () this.imageByteArray.
 
        
             var recipe = new Recipe
@@ -433,10 +434,8 @@ namespace CookTime.ViewModels
                 //Image = arrayConvertedPost,
                 Ingredients = this.TextIngredients,
                 Steps = this.TextInstructions,
-                //Comments
                 Price = this.TextPrice,
                 Difficulty = this.DifficultyValue,
-
                 Punctuation = 0
             };
 
@@ -478,7 +477,7 @@ namespace CookTime.ViewModels
             this.DifficultyValue = 3;
             this.AddImageSource = "AddImageIcon";
 
-            await Application.Current.MainPage.DisplayAlert("Alert", "Recipe succesfully posted", "Accept");
+            await Application.Current.MainPage.DisplayAlert("New Recipe!", "Recipe succesfully posted", "Ok");
 
         }
 

@@ -157,7 +157,7 @@ namespace CookTime.ViewModels
 
             User loggedUser = (User) response.Result;
 
-            this.askedPassword = (string) loggedUser.Password; //The answer given is the real encrypted password
+            this.askedPassword = loggedUser.Password; //The answer given is the real encrypted password
 
             var encryptedPassword = MD5encryptor.MD5Hash(this.TextPassword); //To compare them the written password has to be encrypted
 
