@@ -313,6 +313,8 @@ namespace CookTime.ViewModels
                 return;
             }
 
+            
+
             //Changes the spacing in the user name
             this.TextName = ReadStringConverter.ChangePostString(this.TextName);
 
