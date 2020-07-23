@@ -55,6 +55,7 @@ namespace CookTime.ViewModels
             {
                 return new RelayCommand(LoadRecipes);
             }
+        }
             
         //IMAGES
         public ImageSource UserProfilePic

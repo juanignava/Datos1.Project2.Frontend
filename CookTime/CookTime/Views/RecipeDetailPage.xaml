@@ -36,7 +36,7 @@
                     <Label
                         Grid.Row="0"
                         Grid.Column="0"
-                        Text="{Binding Recipe.Name}"
+                        Text="{Binding UserRecipe.Name}"
                         FontSize="Title"
                         Opacity="0.5"
                         BackgroundColor="Gray"
@@ -60,7 +60,7 @@
                             VerticalOptions="Center"/>
 
                         <Label
-                            Text="{Binding Recipe.Author}"
+                            Text="{Binding UserRecipe.Author}"
                             FontSize="Body"
                             TextColor="Black"
                             VerticalOptions="Center"/>
@@ -78,7 +78,7 @@
                             VerticalOptions="Center"/>
 
                         <Label
-                            Text="{Binding Recipe.CookingSpan}"
+                            Text="{Binding UserRecipe.CookingSpan}"
                             FontSize="Body"
                             TextColor="Black"
                             VerticalOptions="Center"/>
@@ -96,7 +96,7 @@
                             VerticalOptions="Center"/>
 
                         <Label
-                            Text="{Binding Recipe.Type}"
+                            Text="{Binding UserRecipe.Type}"
                             FontSize="Body"
                             TextColor="Black"
                             VerticalOptions="Center"/>
@@ -114,7 +114,7 @@
                             VerticalOptions="Center"/>
 
                         <Label
-                            Text="{Binding Recipe.Portions}"
+                            Text="{Binding UserRecipe.Portions}"
                             FontSize="Body"
                             TextColor="Black"
                             VerticalOptions="Center"/>
@@ -132,7 +132,7 @@
                             VerticalOptions="Center"/>
 
                         <Label
-                            Text="{Binding Recipe.EatingTime}"
+                            Text="{Binding UserRecipe.EatingTime}"
                             FontSize="Body"
                             TextColor="Black"
                             VerticalOptions="Center"/>
@@ -150,7 +150,7 @@
                             VerticalOptions="Center"/>
 
                         <Label
-                            Text="{Binding Recipe.Ingredients}"
+                            Text="{Binding UserRecipe.Ingredients}"
                             FontSize="Body"
                             TextColor="Black"
                             VerticalOptions="Center"/>
@@ -168,7 +168,7 @@
                             VerticalOptions="Center"/>
 
                         <Label
-                            Text="{Binding Recipe.Steps}"
+                            Text="{Binding UserRecipe.Steps}"
                             FontSize="Body"
                             TextColor="Black"
                             VerticalOptions="Center"/>
@@ -186,7 +186,7 @@
                             VerticalOptions="Center"/>
 
                         <Label
-                            Text="{Binding Recipe.Tags}"
+                            Text="{Binding UserRecipe.Tags}"
                             FontSize="Body"
                             TextColor="Black"
                             VerticalOptions="Center"/>
@@ -204,7 +204,7 @@
                             VerticalOptions="Center"/>
 
                         <Label
-                            Text="{Binding Recipe.Price}"
+                            Text="{Binding UserRecipe.Price}"
                             FontSize="Body"
                             TextColor="Black"
                             VerticalOptions="Center"/>
@@ -222,7 +222,7 @@
                             VerticalOptions="Center"/>
 
                         <Label
-                            Text="{Binding Recipe.Difficulty}"
+                            Text="{Binding UserRecipe.Difficulty}"
                             FontSize="Body"
                             TextColor="Black"
                             VerticalOptions="Center"/>
