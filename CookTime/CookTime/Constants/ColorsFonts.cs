@@ -3,16 +3,10 @@ namespace CookTime.Constants
 {
     public class ColorsFonts
     {
-        #region ATTRIBUTES
-        private static string errorColor = "#E15460";
-        private static string backGround = "#FFFFFF";
+        #region CONSTANTS
 
-        #endregion
-
-        #region PROPERTIES
-
-        public static string ErrorColor { get => errorColor; }
-        public static string BackGround { get => backGround; }
+        public const string errorColor = "#E15460";
+        public const string backGround = "#FFFFFF";
 
         #endregion
     }

@@ -258,14 +258,6 @@
                         </Label>
                     </StackLayout>
 
-                    <ActivityIndicator
-                        IsRunning="{Binding IsRunning, Mode=TwoWay}"
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center"
-                        Color ="#631B29"
-                        HeightRequest="20">
-                    </ActivityIndicator>
-
                     <Label
                         Text="Comments"
                         FontSize="Title"

@@ -226,45 +226,45 @@ namespace CookTime.ViewModels
             if (string.IsNullOrEmpty(this.TextName))
             {
                 IsRunning = false;
-                BCName = ColorsFonts.ErrorColor;
+                BCName = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter a name", "Ok");
-                BCName = ColorsFonts.BackGround;
+                BCName = ColorsFonts.backGround;
                 return;
             }
 
             if (string.IsNullOrEmpty(this.TextBirthday))
             {
                 IsRunning = false;
-                BCBirthday = ColorsFonts.ErrorColor;
+                BCBirthday = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter a birth date", "Ok");
-                BCBirthday = ColorsFonts.BackGround;
+                BCBirthday = ColorsFonts.backGround;
                 return;
             }
 
             if (string.IsNullOrEmpty(this.TextEmail))
             {
                 IsRunning = false;
-                BCEmail = ColorsFonts.ErrorColor;
+                BCEmail = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter an Email", "Ok");
-                BCEmail = ColorsFonts.BackGround;
+                BCEmail = ColorsFonts.backGround;
                 return;
             }
 
             if (string.IsNullOrEmpty(this.TextPassword))
             {
                 IsRunning = false;
-                BCPassword = ColorsFonts.ErrorColor;
+                BCPassword = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter a password", "Ok");
-                BCPassword = ColorsFonts.BackGround;
+                BCPassword = ColorsFonts.backGround;
                 return;
             }
 
             if (string.IsNullOrEmpty(this.TextConfirmPassword))
             {
                 IsRunning = false;
-                BCConfirmPassword = ColorsFonts.ErrorColor;
+                BCConfirmPassword = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter a confirmation password", "Ok");
-                BCConfirmPassword = ColorsFonts.BackGround;
+                BCConfirmPassword = ColorsFonts.backGround;
                 return;
             }
 
@@ -272,9 +272,9 @@ namespace CookTime.ViewModels
             if (!(IsOverSixteen()))
             {
                 IsRunning = false;
-                BCBirthday = ColorsFonts.ErrorColor;
+                BCBirthday = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", $"You must be over 16 years old", "Ok");
-                BCBirthday = ColorsFonts.BackGround;
+                BCBirthday = ColorsFonts.backGround;
                 return;
             }
 
@@ -283,9 +283,9 @@ namespace CookTime.ViewModels
             if (!(match.Success))
             {
                 IsRunning = false;
-                BCEmail = ColorsFonts.ErrorColor;
+                BCEmail = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter a valid Email", "Ok");
-                BCEmail = ColorsFonts.BackGround;
+                BCEmail = ColorsFonts.backGround;
                 return;
             }
 
@@ -293,11 +293,11 @@ namespace CookTime.ViewModels
             if (this.TextPassword != this.TextConfirmPassword)
             {
                 IsRunning = false;
-                BCPassword = ColorsFonts.ErrorColor;
-                BCConfirmPassword = ColorsFonts.ErrorColor;
+                BCPassword = ColorsFonts.errorColor;
+                BCConfirmPassword = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "The confirmation password doesn't match", "Ok");
-                BCPassword = ColorsFonts.BackGround;
-                BCConfirmPassword = ColorsFonts.BackGround;
+                BCPassword = ColorsFonts.backGround;
+                BCConfirmPassword = ColorsFonts.backGround;
                 return;
             }
 
@@ -316,15 +316,6 @@ namespace CookTime.ViewModels
             //Changes the spacing in the user name
             this.TextName = ReadStringConverter.ChangePostString(this.TextName);
 
-            //Creates the user account with the data given 
-            User user = new User
-            {
-                Email = this.TextEmail,
-                Name = this.TextName,
-                Age = this.TextAge,
-                Password = this.TextPassword,
-            };
-
             string controller = "/users/" + this.TextEmail; //Asking for the account information
             Response checkEmail = await ApiService.Get<User>( //Tries to get the account information
                 "http://localhost:8080/CookTime.BackEnd",
@@ -335,14 +326,23 @@ namespace CookTime.ViewModels
             if (checkEmail.IsSuccess)
             {
                 IsRunning = false;
-                this.BCEmail = ColorsFonts.ErrorColor;
+                this.BCEmail = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert(
                     "Error",
                     "This email is already registered",
                     "Accept");
-                this.BCEmail = ColorsFonts.BackGround;
+                this.BCEmail = ColorsFonts.backGround;
                 return;
             }
+
+            //Creates the user account with the data given 
+            User user = new User
+            {
+                Email = this.TextEmail,
+                Name = this.TextName,
+                Age = this.TextAge,
+                Password = this.TextPassword,
+            };
 
             //Generates the query url
             string queryUrl = "/users?email=" + this.TextEmail + "&password=" + this.TextPassword
@@ -372,6 +372,8 @@ namespace CookTime.ViewModels
             this.TextEmail = string.Empty;
             this.TextPassword = string.Empty;
             this.TextConfirmPassword = string.Empty;
+
+            IsRunning = false;
 
             //The new user has been created, it can enter to the tabbed page 
             MainViewModel.getInstance().TabbedHome = new TabbedHomeViewModel(loggedUser);

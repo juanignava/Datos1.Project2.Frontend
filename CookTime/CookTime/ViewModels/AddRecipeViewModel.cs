@@ -351,41 +351,41 @@ namespace CookTime.ViewModels
         {
             if (string.IsNullOrEmpty(this.TextRecipeName))
             {
-                BCRecipeName = ColorsFonts.ErrorColor;
+                BCRecipeName = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter the recipe name", "Ok");
-                BCRecipeName = ColorsFonts.BackGround;
+                BCRecipeName = ColorsFonts.backGround;
                 return;
             }
 
             if (string.IsNullOrEmpty(this.TextIngredients))
             {
-                BCIngredients = ColorsFonts.ErrorColor;
+                BCIngredients = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter the ingredients", "Ok");
-                BCIngredients = ColorsFonts.BackGround;
+                BCIngredients = ColorsFonts.backGround;
                 return;
             }
 
             if (string.IsNullOrEmpty(this.TextInstructions))
             {
-                BCInstructions = ColorsFonts.ErrorColor;
+                BCInstructions = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter the instructions", "Ok");
-                BCInstructions = ColorsFonts.BackGround;
+                BCInstructions = ColorsFonts.backGround;
                 return;
             }
 
             if (string.IsNullOrEmpty(this.TextTags))
             {
-                BCTags = ColorsFonts.ErrorColor;
+                BCTags = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter some tags", "Ok");
-                BCTags = ColorsFonts.BackGround;
+                BCTags = ColorsFonts.backGround;
                 return;
             }
 
             if (string.IsNullOrEmpty(this.TextPrice))
             {
-                BCPrice = ColorsFonts.ErrorColor;
+                BCPrice = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter the price", "Ok");
-                BCPrice = ColorsFonts.BackGround;
+                BCPrice = ColorsFonts.backGround;
                 return;
             }
 

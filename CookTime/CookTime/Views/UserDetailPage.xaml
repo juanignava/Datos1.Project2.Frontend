@@ -9,9 +9,23 @@
     <ContentPage.Content>
         <StackLayout
             BindingContext="{Binding UserDetail}"
-            BackgroundColor="White"
-            Padding="0,10,0,0">
-            
+            BackgroundColor="White">
+
+            <Button
+                Text="{Binding TextFollow, Mode=TwoWay}"
+                Margin="5"
+                CornerRadius="20"
+                HeightRequest="40"
+                BackgroundColor="White"
+                BorderColor="#631B29" 
+                FontSize="Micro"
+                HorizontalOptions="End"
+                TextColor="Black"
+                BorderWidth="3"
+                Command="{Binding FollowCommand}">
+
+            </Button>
+
             <Frame
                 CornerRadius="150" 
                 HorizontalOptions="Center"

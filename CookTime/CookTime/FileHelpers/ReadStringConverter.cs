@@ -1,5 +1,6 @@
 ﻿
 
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -7,6 +8,7 @@ namespace CookTime.FileHelpers
 {
     public class ReadStringConverter
     {
+    
         public static string ChangePostString(string str)
         {
             string result = "";

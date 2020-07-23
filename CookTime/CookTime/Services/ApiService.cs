@@ -71,6 +71,7 @@
                 }
 
                 var objectX = JsonConvert.DeserializeObject<T>(result); //The object given is of type User
+
                 return new Response
                 {
                     IsSuccess = true,

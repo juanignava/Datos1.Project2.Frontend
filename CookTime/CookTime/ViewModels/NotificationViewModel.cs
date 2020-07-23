@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading;
 using System.Windows.Input;
+using CookTime.FileHelpers;
 using CookTime.Models;
 using CookTime.Services;
 using GalaSoft.MvvmLight.Command;
@@ -29,43 +30,30 @@ namespace CookTime.ViewModels
         //OTHER
         private User loggedUser;
 
+        //OBSERVABLE COLLECTION
+        private ObservableCollection<Notification> notifications;
+
+        //LIST
+        private List<Notification> notificationsList;
+
         #endregion
 
 
         #region PROPERTIES
 
         //TEXT
-        public string TextEmisorUser
-        {
-            get { return this.textEmisorUser; }
-            set { SetValue(ref this.textEmisorUser, value); }
-        }
-
-        public string TextNewComment
-        {
-            get { return this.textNewComment; }
-            set { SetValue(ref this.textNewComment, value); }
-        }
-
-        public string TextRecipeName
-        {
-            get { return this.textRecipeName; }
-            set { SetValue(ref this.textRecipeName, value); }
-        }
-
         public string TextNotification
         {
             get { return this.textNotification; }
             set { SetValue(ref this.textNotification, value); }
         }
 
-        //VALUE
-        public int NotifType
+        //OBSERVABLE COLLECTION
+        public ObservableCollection<Notification> Notifications
         {
-            get { return this.notifType; }
-            set { SetValue(ref this.notifType, value); }
+            get { return this.notifications; }
+            set { SetValue(ref this.notifications, value); }
         }
-
         #endregion
 
 
@@ -75,8 +63,8 @@ namespace CookTime.ViewModels
         {
             this.loggedUser = TabbedHomeViewModel.getUserInstance();
 
-            //Thread t = new Thread(RefreshNotifications);
-            //t.Start();
+            Thread t = new Thread(RefreshNotifications);
+            t.Start();
 
         }
 
@@ -90,47 +78,43 @@ namespace CookTime.ViewModels
 
             while (true)
             {
-                string controller = $"/users/get_notif?observerUser={loggedUser.Email}";
-
-                Response notificationResponse = await ApiService.Get<Notification>(
-                    "http://localhost:8080/CookTime.BackEnd",
-                    "/api",
-                    controller);
-
-                if (!notificationResponse.IsSuccess)
+                try
                 {
-                    await Application.Current.MainPage.DisplayAlert(
-                        "Error",
-                        notificationResponse.Message,
-                        "Accept");
-                    return;
+                    string controller = $"/users/get_notif?observerUser={loggedUser.Email}";
+
+                    Response notificationResponse = await ApiService.GetList<Notification>(
+                        "http://localhost:8080/CookTime.BackEnd",
+                        "/api",
+                        controller);
+
+                    if (!notificationResponse.IsSuccess)
+                    {
+                        break;
+                    }
+
+                    this.notificationsList = (List<Notification>)notificationResponse.Result;
+
+                    ChangeStringSpaces();
+
+                    this.Notifications = new ObservableCollection<Notification>(this.notificationsList);
                 }
-
-                Notification notification = (Notification)notificationResponse.Result;
-
-                this.TextEmisorUser = notification.EmisorUser;
-                this.NotifType = notification.NotifType;
-
-                switch (this.NotifType)
+                catch (System.Reflection.TargetInvocationException)
                 {
-                    case 0:
-                        this.TextNotification = "commented a publication";
-                        break;
-
-                    case 1:
-                        this.TextNotification = "followed you";
-                        break;
-
-                    case 2:
-                        this.TextNotification = "qualified a recipe";
-                        break;
-                    case 3:
-                        this.TextNotification = "share a recipe";
-                        break;
+                    break;
                 }
+                
 
             }
+            RefreshNotifications();
 
+        }
+
+        public void ChangeStringSpaces()
+        {
+            foreach (Notification notification in this.notificationsList)
+            {
+                notification.MessageType = ReadStringConverter.ChangeGetString(notification.MessageType);
+            }
         }
         #endregion
     }

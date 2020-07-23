@@ -151,6 +151,8 @@ namespace CookTime.ViewModels
 
             this.usersList = (List<User>)userResponse.Result;
 
+            ChangeStringSpaces(1);
+
             this.Users = new ObservableCollection<UserItemViewModel>(this.ToUserItemViewModel());
 
             this.IsRefreshingUsers = false;
@@ -177,6 +179,8 @@ namespace CookTime.ViewModels
             }
 
             this.recipesList = (List<Recipe>)recipeResponse.Result;
+
+            ChangeStringSpaces(2);
 
             this.Recipes = new ObservableCollection<RecipeItemViewModel>(this.ToRecipeItemViewModel());
 
@@ -226,6 +230,33 @@ namespace CookTime.ViewModels
             }
         }
 
+        public void ChangeStringSpaces(byte option)
+        {
+
+            switch (option)
+            {
+                case 1:
+                    foreach (User user in this.usersList)
+                    {
+                        user.Name = ReadStringConverter.ChangeGetString(user.Name);
+                    }
+
+                    break;
+
+                case 2:
+                    foreach (Recipe recipe in this.recipesList)
+                    {
+                        recipe.Name = ReadStringConverter.ChangeGetString(recipe.Name);
+                        recipe.CookingSpan = ReadStringConverter.ChangeGetString(recipe.CookingSpan);
+                        recipe.EatingTime = ReadStringConverter.ChangeGetString(recipe.EatingTime);
+                        recipe.Ingredients = ReadStringConverter.ChangeGetString(recipe.Ingredients);
+                        recipe.Steps = ReadStringConverter.ChangeGetString(recipe.Steps);
+                        recipe.Tags = ReadStringConverter.ChangeGetString(recipe.Tags);
+                    }
+                    break;
+            }
+        }
+
         private IEnumerable<UserItemViewModel> ToUserItemViewModel()
         {
             return this.usersList.Select(u => new UserItemViewModel
@@ -257,11 +288,12 @@ namespace CookTime.ViewModels
                 Ingredients = r.Ingredients,
                 Steps = r.Steps,
                 Comments = r.Comments,
+                Likers = r.Likers,
                 Price = r.Price,
                 Difficulty = r.Difficulty,
                 Punctuation = r.Punctuation,
                 Shares = r.Shares
-                
+
             });
         }
         #endregion

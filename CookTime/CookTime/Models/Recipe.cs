@@ -13,26 +13,8 @@ namespace CookTime.Models
     public class Recipe
     {
 
-        #region ATTRIBUTES
-
-        private string name;
-
-        private string cookingSpan;
-
-        private string eatingTime;
-
-        private string tags;
-
-        private string ingredients;
-
-        private string steps;
-
-        private string image;
-
-        #endregion
-
         [JsonProperty(PropertyName = "name")]
-        public string Name { get { return this.name; } set { this.name = ChangeStringSpaces(value); } }
+        public string Name { get; set; }
 
         [JsonProperty(PropertyName = "author")]
         public string Author { get; set; }
@@ -44,25 +26,28 @@ namespace CookTime.Models
         public int Portions { get; set; }
 
         [JsonProperty(PropertyName = "cookingSpan")]
-        public string CookingSpan { get { return this.cookingSpan; } set { this.cookingSpan = ChangeStringSpaces(value); } }
+        public string CookingSpan { get; set; }
 
         [JsonProperty(PropertyName = "eatingTime")]
-        public string EatingTime { get { return this.eatingTime; } set { this.eatingTime = ChangeStringSpaces(value); } }
+        public string EatingTime { get; set; }
 
         [JsonProperty(PropertyName = "tags")]
-        public string Tags { get { return this.tags; } set { this.tags = ChangeStringSpaces(value); } }
+        public string Tags { get; set; }
 
         [JsonProperty(PropertyName = "image")]
-        public string Image { get { return this.image; } set { this.image = ChangeNullImages(value); } }
+        public string Image { get; set; }
 
         [JsonProperty(PropertyName = "ingredients")]
-        public string Ingredients { get { return this.ingredients; } set { this.ingredients = ChangeStringSpaces(value); } }
+        public string Ingredients { get; set; }
 
         [JsonProperty(PropertyName = "steps")]
-        public string Steps { get { return this.steps; } set { this.steps = ChangeStringSpaces(value); } }
+        public string Steps { get; set; }
 
         [JsonProperty(PropertyName = "comments")]
         public object Comments { get; set; }
+
+        [JsonProperty(PropertyName = "likers")]
+        public string[] Likers { get; set; }
 
         [JsonProperty(PropertyName = "price")]
         public object Price { get; set; }
@@ -75,28 +60,5 @@ namespace CookTime.Models
 
         [JsonProperty(PropertyName = "shares")]
         public int Shares { get; set; }
-
-
-        #region METHODS
-
-        public string ChangeStringSpaces(string property)
-        {
-            return ReadStringConverter.ChangeGetString(property);
-        }
-
-        private string ChangeNullImages(string imageSource)
-        {
-            if (string.IsNullOrEmpty(imageSource))
-            {
-                return "DefaultRecipeIcon";
-            }
-
-            else
-            {
-                return imageSource;
-            }
-
-        }
-        #endregion
     }
 }

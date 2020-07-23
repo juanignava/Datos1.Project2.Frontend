@@ -93,7 +93,6 @@ namespace CookTime.ViewModels
         {
             this.TextEmail = "andres@gmail.com";
             this.TextPassword = "123";
-
         }
 
         #endregion
@@ -108,9 +107,9 @@ namespace CookTime.ViewModels
         
             if (string.IsNullOrEmpty(this.TextEmail)) // No email written
             {
-                BCEmail = ColorsFonts.ErrorColor;
+                BCEmail = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter an Email", "Ok");
-                BCEmail = ColorsFonts.BackGround;
+                BCEmail = ColorsFonts.backGround;
                 this.IsRunning = false;
                 return;
             }
@@ -118,9 +117,9 @@ namespace CookTime.ViewModels
             if (string.IsNullOrEmpty(this.TextPassword)) //No Password written
             {
                 this.IsRunning = false;
-                BCPassword = ColorsFonts.ErrorColor;
+                BCPassword = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter a password", "Ok");
-                BCPassword = ColorsFonts.BackGround;
+                BCPassword = ColorsFonts.backGround;
                 return;
             }
 
@@ -155,7 +154,7 @@ namespace CookTime.ViewModels
                 return;
             }
 
-            User loggedUser = (User) response.Result;
+            User loggedUser = ((User) response.Result);
 
             this.askedPassword = loggedUser.Password; //The answer given is the real encrypted password
 

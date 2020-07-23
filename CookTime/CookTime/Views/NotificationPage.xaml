@@ -25,33 +25,49 @@
 
             </StackLayout>
 
-            <Frame
-                HasShadow="True"
-                CornerRadius="20"
-                BorderColor="#631B29"
-                Padding="30"
-                Margin="10">
-                <StackLayout
-                    Orientation="Horizontal"
-                    HorizontalOptions="Center">
-                    <Label
-                        FontAttributes="Bold"
-                        FontSize="Body"
-                        TextColor="Black"
-                        VerticalOptions="Center"
-                        Text="{Binding TextEmisorUser, Mode=TwoWay}">
+            <ListView
+                HasUnevenRows="True"
+                ItemsSource="{Binding Notifications}">
 
-                    </Label>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame
+                                HasShadow="True"
+                                CornerRadius="20"
+                                BorderColor="#631B29"
+                                Padding="30,40"
+                                Margin="10">
+                                <StackLayout
+                                    Orientation="Horizontal"
+                                    HorizontalOptions="Center">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="Body"
+                                        TextColor="Black"
+                                        VerticalOptions="Center"
+                                        Text="{Binding EmisorUser}">
 
-                    <Label
-                        FontSize="Body"
-                        TextColor="Black"
-                        VerticalOptions="Center"
-                        Text="{Binding TextNotification, Mode=TwoWay}">
+                                    </Label>
 
-                    </Label>
-                </StackLayout>
-            </Frame>
+                                    <Label
+                                        FontSize="Body"
+                                        TextColor="Black"
+                                        VerticalOptions="Center"
+                                        Text="{Binding MessageType, Mode=TwoWay}">
+
+                                    </Label>
+                                </StackLayout>
+                            </Frame>
+
+
+                        </ViewCell>
+
+                    </DataTemplate>
+
+                </ListView.ItemTemplate>
+            </ListView>
+
 
         </StackLayout>
     </ContentPage.Content>

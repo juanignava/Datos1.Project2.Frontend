@@ -6,14 +6,7 @@ namespace CookTime.Models
 {
     public class Notification
     {
-        #region ATTRIBUTES
-
-        private string newComment;
-
-        private string recipeName;
-
-        #endregion
-
+      
         [JsonProperty(PropertyName = "emisorUser")]
         public string EmisorUser { get; set ; }
 
@@ -24,20 +17,13 @@ namespace CookTime.Models
         public int NotifType { get; set; }
 
         [JsonProperty(PropertyName = "newComment")]
-        public string NewComment { get { return this.newComment; } set { this.newComment = ChangeStringSpaces(value); } }
+        public string NewComment { get; set; }
 
         [JsonProperty(PropertyName = "recipe")]
-        public string RecipeName { get { return this.recipeName; } set { this.recipeName = ChangeStringSpaces(value); } }
+        public string RecipeName { get; set; }
 
-
-        #region METHODS
-
-        public string ChangeStringSpaces(string property)
-        {
-            return ReadStringConverter.ChangeGetString(property);
-        }
-
-        #endregion
+        [JsonProperty(PropertyName = "messageType")]
+        public string MessageType { get; set; }
 
     }
 }

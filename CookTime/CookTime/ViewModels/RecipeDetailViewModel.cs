@@ -20,9 +20,6 @@ namespace CookTime.ViewModels
         //VALUE
         private int punctuation;
 
-        //BOOLEAN
-        private bool isRunning;
-
         //USER
         private User loggedUser;
 
@@ -32,7 +29,7 @@ namespace CookTime.ViewModels
         #region Properties
 
         //SPECIFIC RECIPE
-        public Recipe Recipe { get; set; }
+        public Recipe UserRecipe { get; set; }
 
         //TEXT
         public string LikeSourse
@@ -46,13 +43,6 @@ namespace CookTime.ViewModels
         {
             get { return this.punctuation; }
             set { SetValue(ref this.punctuation, value); }
-        }
-
-        //BOOLEAN
-        public bool IsRunning
-        {
-            get { return this.isRunning; }
-            set { SetValue(ref this.isRunning, value); }
         }
 
         //COMMAND
@@ -69,10 +59,10 @@ namespace CookTime.ViewModels
         public RecipeDetailViewModel(Recipe recipe)
         {
             this.loggedUser = TabbedHomeViewModel.getUserInstance();
-            this.Recipe = recipe;
-            this.Punctuation = Recipe.Punctuation;
+            this.UserRecipe = recipe;
+            this.Punctuation = UserRecipe.Punctuation;
 
-            this.LikeSourse = "UnLikedIcon";
+            this.LikeSourse = loadLikeButton();
         }
 
         #endregion
@@ -80,19 +70,31 @@ namespace CookTime.ViewModels
 
         #region COMMAND METHODS
 
+        private string loadLikeButton()
+        {
+            if (UserRecipe.Likers != null)
+            {
+                foreach (string item in UserRecipe.Likers)
+                {
+                    if (item.Equals(this.loggedUser.Email))
+                    {
+                        return "LikedIcon";
+                    }
+
+                }
+            }
+            return "UnLikedIcon";
+
+        }
+
         private async void Like()
         {
             if (this.LikeSourse.Equals("UnLikedIcon"))
             {
-                this.IsRunning = true;
-
-                this.LikeSourse = "LikedIcon";
-                this.Punctuation += 1;
 
                 Response checkConnection = await ApiService.CheckConnection();
                 if (!checkConnection.IsSuccess)
                 {
-                    this.IsRunning = false;
                     await Application.Current.MainPage.DisplayAlert(
                         "Error",
                         "Check your internet connection",
@@ -100,33 +102,79 @@ namespace CookTime.ViewModels
                     return;
                 }
 
-                string recipeName = ReadStringConverter.ChangePostString(this.Recipe.Name);
+                string recipeName = ReadStringConverter.ChangePostString(this.UserRecipe.Name);
 
-                string queryUrl = $"/users/new_notif?emisorUser={loggedUser.Email}&recieverUser={Recipe.Author}&notifType=2&recipe={recipeName}";
+                string queryUrl = $"/users/new_notif?emisorUser={loggedUser.Email}&recieverUser={UserRecipe.Author}&notifType=3&recipe={recipeName}";
 
-                Response response = await ApiService.Post<Recipe>(
+                Notification notification = new Notification
+                {
+                    EmisorUser = loggedUser.Email,
+                    RecieverUser = UserRecipe.Author,
+                    NotifType = 3,
+                    RecipeName = recipeName    
+                };
+
+                Response response = await ApiService.Post<Notification>(
                 "http://localhost:8080/CookTime.BackEnd",
                 "/api",
                 queryUrl,
-                this.Recipe,
+                notification,
                 false);
 
                 if (!response.IsSuccess)
                 {
-                    this.IsRunning = false;
                     await Application.Current.MainPage.DisplayAlert(
                         "Error",
-                        "Something was wrong",
-                        "Accept");
+                        "Action can't be done",
+                        "Ok");
                     return;
                 }
 
-                this.IsRunning = false;
+                this.LikeSourse = "LikedIcon";
+                this.Punctuation += 1;
 
             }
 
             else
             {
+                Response checkConnection = await ApiService.CheckConnection();
+                if (!checkConnection.IsSuccess)
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Error",
+                        "Check your internet connection",
+                        "Accept");
+                    return;
+                }
+
+                string recipeName = ReadStringConverter.ChangePostString(this.UserRecipe.Name);
+
+                string queryUrl = $"/users/new_notif?emisorUser={loggedUser.Email}&recieverUser={UserRecipe.Author}&notifType=4&recipe={recipeName}";
+
+                Notification notification = new Notification
+                {
+                    EmisorUser = loggedUser.Email,
+                    RecieverUser = UserRecipe.Author,
+                    NotifType = 4,
+                    RecipeName = recipeName
+                };
+
+                Response response = await ApiService.Post<Notification>(
+                "http://localhost:8080/CookTime.BackEnd",
+                "/api",
+                queryUrl,
+                notification,
+                false);
+
+                if (!response.IsSuccess)
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Error",
+                        "Action can't be done",
+                        "Ok");
+                    return;
+                }
+
                 this.LikeSourse = "UnLikedIcon";
                 this.Punctuation -= 1;
             }

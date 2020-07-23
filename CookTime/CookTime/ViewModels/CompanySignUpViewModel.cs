@@ -98,33 +98,33 @@ namespace CookTime.ViewModels
         {
             if (string.IsNullOrEmpty(this.TextCompanyName))
             {
-                BCCompanyName = ColorsFonts.ErrorColor;
+                BCCompanyName = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter a company name", "Ok");
-                BCCompanyName = ColorsFonts.BackGround;
+                BCCompanyName = ColorsFonts.backGround;
                 return;
             }
 
             if (string.IsNullOrEmpty(this.TextContactMethods))
             {
-                BCContactMethods = ColorsFonts.ErrorColor;
+                BCContactMethods = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter a contact method", "Ok");
-                BCContactMethods = ColorsFonts.BackGround;
+                BCContactMethods = ColorsFonts.backGround;
                 return;
             }
 
             if (string.IsNullOrEmpty(this.TextAddress))
             {
-                BCAddress = ColorsFonts.ErrorColor;
+                BCAddress = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter an address", "Ok");
-                BCAddress = ColorsFonts.BackGround;
+                BCAddress = ColorsFonts.backGround;
                 return;
             }
 
             if (string.IsNullOrEmpty(this.TextServiceHours))
             {
-                BCServiceHours = ColorsFonts.ErrorColor;
+                BCServiceHours = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter service hours", "Ok");
-                BCServiceHours = ColorsFonts.BackGround;
+                BCServiceHours = ColorsFonts.backGround;
                 return;
             }
 
