@@ -22,5 +22,5 @@
     <local:NotificationPage></local:NotificationPage>
 
     <local:MyMenuPage></local:MyMenuPage>
-   
+
 </TabbedPage>

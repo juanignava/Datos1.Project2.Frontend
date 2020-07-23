@@ -32,9 +32,6 @@ namespace CookTime.ViewModels
         //Activity indicator
         private bool isRunning;
 
-        //SERVICES
-        private ApiService apiService;
-
         #endregion
 
 

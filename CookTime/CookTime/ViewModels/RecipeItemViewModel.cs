@@ -9,6 +9,7 @@ namespace CookTime.ViewModels
 
     public class RecipeItemViewModel : Recipe
     {
+        
         public ICommand SelectRecipeCommand
         {
             get

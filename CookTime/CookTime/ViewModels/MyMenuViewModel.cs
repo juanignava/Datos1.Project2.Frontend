@@ -1,10 +1,14 @@
 ﻿using CookTime.FileHelpers;
 using CookTime.Models;
+using CookTime.Services;
 using GalaSoft.MvvmLight.Command;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -13,6 +17,17 @@ namespace CookTime.ViewModels
     public class MyMenuViewModel : BaseViewModel
     {
         #region ATTRIBUTES
+
+        //RECEIPES SHOWN IN THE VIEW
+
+        
+        private ObservableCollection<RecipeItemViewModel> recipes; //Recipe collection, this collection has to change if the 
+                                                                   //user touches the filter buttons
+
+        private List<Recipe> recipesList; //list of teh recipes loaded from the server
+
+        //ACTIVITY INDICATOR
+        private bool isRefreshing; 
 
         //VALUE
         private int followers;
@@ -28,8 +43,6 @@ namespace CookTime.ViewModels
 
         //OTHER
         private User loggedUser;
-
-        private Image profilePic;
 
         private MediaFile file;
 
@@ -74,27 +87,30 @@ namespace CookTime.ViewModels
             set { SetValue(ref this.age, value); }
         }
 
+        //OBSERVABLE COLLECTION
+        public ObservableCollection<RecipeItemViewModel> Recipes
+        {
+            get { return this.recipes; }
+            set { SetValue(ref this.recipes, value); }
+        }
+
+        //ACTIVITY INDICATOR
+        public bool IsRefreshing 
+        { 
+            get { return this.isRefreshing; }
+            set { SetValue(ref this.isRefreshing, value); }
+        }
+
         //COMMANDS
         public ICommand CheffQueryCommand 
         {
             get { return new RelayCommand(CheffQuery); }
         }
 
-        public ICommand SortDateCommand 
-        {
-            get { return new RelayCommand(SortDate); }
-        }
-
-        public ICommand SortRateCommand
-        {
-            get { return new RelayCommand(SortRate); }
-        }
-
-        public ICommand SortDifficultyCommand
-        {
-            get { return new RelayCommand(SortDifficulty); }
-        }
-
+        public ICommand SortCommand { get { return new Command<string>(SortList); } }
+    
+        public ICommand RefreshCommand { get { return new RelayCommand(RefreshAux); } }
+  
         public ICommand ChangePictureCommand
         {
             get { return new RelayCommand(ChangePicture); }
@@ -114,8 +130,8 @@ namespace CookTime.ViewModels
         public MyMenuViewModel()
         {
             this.loggedUser = TabbedHomeViewModel.getUserInstance();
-
             init();
+            this.SortList("0");
         }
         #endregion
 
@@ -130,11 +146,26 @@ namespace CookTime.ViewModels
             this.Followers = loggedUser.Followers.Length;
             this.Following = loggedUser.UsersFollowing.Length;
 
+
             if (loggedUser.ProfilePic == null)
             {
                 this.AddImageSource = "SignUpIcon";
+                return;
             }
-            //ToDo: Load a predefined profile picture when one user is registered, then load it from here, the image should be saved in AddImageSource
+
+            //Loads the image from server
+            LoadUserPicture();
+        }
+
+        private void LoadUserPicture()
+        {
+            byte[] backToArray = Convert.FromBase64String(loggedUser.ProfilePic);
+            MemoryStream ms = new MemoryStream(backToArray);
+            var imagesource = ImageSource.FromStream(() =>
+            {
+                return ms;
+            });
+            this.AddImageSource = imagesource;
         }
 
         private void CheffQuery()
@@ -142,19 +173,91 @@ namespace CookTime.ViewModels
             //ToDo: Command that creates the cheff query navigation page
         }
 
-        private void SortDate()
+        /*
+         * Helps the refresh command
+         */
+        private void RefreshAux()
         {
-            //ToDo: Command that sorts the menu by date
+            SortList("0");
+            LoadUserPicture();
         }
 
-        private void SortRate()
+        /*
+        * Loads the recipe saved in the server in chronological order
+        */
+        private async void SortList(string sortType)
         {
-            //ToDo: Command that sorts the menu by rate
+            this.IsRefreshing = true;
+            //Check internet connection
+            var connection = await ApiService.CheckConnection();
+
+            if (!connection.IsSuccess)
+            {
+                this.IsRefreshing = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    "Error",
+                    connection.Message,
+                    "Accept");
+                return;
+            }
+
+            //Creates the url needed to getthe information
+            var url = "/recipes/" + this.Email + "?sortingType=" + sortType;
+
+            //Asks the server for the list of recipes
+            var response = await ApiService.GetList<Recipe>(
+                "http://localhost:8080/CookTime.BackEnd",
+                "/api",
+                url);
+
+            if (!response.IsSuccess)
+            {
+                this.IsRefreshing = false;
+                await Application.Current.MainPage.DisplayAlert( //if something goes wrong the page displays a message
+                    "Error",
+                    "Try again",
+                    "Accept");
+                return;
+            }
+
+            //Copies the list loaded from the server
+            
+            this.recipesList = (List<Recipe>)response.Result;
+
+            if (this.recipesList==null)
+            {
+                return;
+            }
+
+            //Creates observable collection
+            this.Recipes = new ObservableCollection<RecipeItemViewModel>(
+            this.ToRecipeItemViewModel());
+            this.IsRefreshing = false;
         }
 
-        private void SortDifficulty()
+        /*
+         * Changes the recipe list into a recipe item view model 
+         */
+        private IEnumerable<RecipeItemViewModel> ToRecipeItemViewModel()
         {
-            //ToDo: Command  that sorts the menu by difficulty
+            return this.recipesList.Select(r => new RecipeItemViewModel
+            {
+                Name = r.Name,
+                Author = r.Author,
+                Type = r.Type,
+                Portions = r.Portions,
+                CookingSpan = r.CookingSpan,
+                EatingTime = r.EatingTime,
+                Tags = r.Tags,
+                Image = r.Tags,
+                Ingredients = r.Ingredients,
+                Steps = r.Steps,
+                Comments = r.Comments,
+                Price = r.Price,
+                Difficulty = r.Difficulty,
+                Punctuation = r.Punctuation,
+                Shares = r.Shares
+            });
         }
 
         private async void ChangePicture()
@@ -194,7 +297,31 @@ namespace CookTime.ViewModels
                 });
 
                 this.ImageByteArray = FileHelper.ReadFully(this.file.GetStream());
-                Console.WriteLine(this.ImageByteArray);
+
+            }
+
+            string arrayConverted = Convert.ToBase64String(this.ImageByteArray);
+
+            var userImage = new UserImage
+            {
+                User = this.Email,
+                Image = arrayConverted
+            };
+
+            var responseImage = await ApiService.Put<UserImage>(
+                "http://localhost:8080/CookTime.BackEnd",
+                "/api",
+                "/users/profilePic",
+                userImage,
+                false);
+
+            if (!responseImage.IsSuccess)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "Error",
+                    responseImage.Message,
+                    "Accept");
+                return;
             }
         }
         #endregion

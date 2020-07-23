@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using Xamarin.Forms;
 
@@ -36,6 +37,12 @@ namespace CookTime.Models
 
         [JsonProperty(PropertyName = "image")]
         public string Image { get; set; }
+
+        public ImageSource RecipeImage { get; set; } 
+
+        public string UserImage { get; set; }
+
+        public Stream RecipeImageStream { get; set; }
 
         [JsonProperty(PropertyName = "ingredients")]
         public string Ingredients { get; set; }

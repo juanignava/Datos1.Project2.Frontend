@@ -8,6 +8,8 @@ using System.Linq;
 using CookTime.FileHelpers;
 using GalaSoft.MvvmLight.Command;
 using System.Windows.Input;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace CookTime.ViewModels
 {
@@ -15,22 +17,26 @@ namespace CookTime.ViewModels
     {
         #region ATTRIBUTES
 
-        //Recipe collection (is not a list beacuse lists don´t match the binding objects)
-        //Every recipe is saved in this attribute and this observable collection is Binded un the NeesFeedPage.XAML
-        private ObservableCollection<RecipeItemViewModel> recipes;
+        // LIST OBJECTS
+        private ObservableCollection<RecipeItemViewModel> recipes; //Recipe collection (is not a list beacuse lists don´t match the binding objects)
+                                                                    //Every recipe is saved in this attribute and this observable collection is Binded un the NeesFeedPage.XAML
 
-        //The list of recipes loaded from teh server is copied in this attribute 
-        //It is just used to transfer the data from the one the server loads to the observable collection 
-        private List<Recipe> recipesList;
+        private List<Recipe> recipesList; //The list of recipes loaded from teh server is copied in this attribute 
+                                             //It is just used to transfer the data from the one the server loads to the observable collection 
 
-        //Activity indicator when the list is refreshing
+        //ACTIVITY INDICADOR
         private bool isRefreshing;
+
+        //IMAGES
+
+        private ImageSource userProfilePic;
 
         #endregion
 
 
         #region PROPERTIES
 
+        //LIST OBJECTS
         public ObservableCollection<RecipeItemViewModel> Recipes
         {
             get { return this.recipes; }
@@ -49,6 +55,12 @@ namespace CookTime.ViewModels
             {
                 return new RelayCommand(LoadRecipes);
             }
+            
+        //IMAGES
+        public ImageSource UserProfilePic
+        {
+            get { return this.userProfilePic; }
+            set { SetValue(ref this.userProfilePic, value); }
         }
 
         #endregion
@@ -60,7 +72,6 @@ namespace CookTime.ViewModels
         {
             this.LoadRecipes();
             this.IsRefreshing = false;
-
         }
 
         #endregion
@@ -72,6 +83,7 @@ namespace CookTime.ViewModels
         {
             this.IsRefreshing = true;
             
+            //Checking internet connection before asking for the server
             var connection = await ApiService.CheckConnection();
 
             if (!connection.IsSuccess)
@@ -100,32 +112,15 @@ namespace CookTime.ViewModels
 
             this.IsRefreshing = false;
 
+            //Copies the list loaded from the server to the list in the attributes
             this.recipesList = (List<Recipe>)response.Result;
 
             ChangeStringSpaces();
 
-            //If there are recipes with a null at the image propertie, then it loads a generic image for that object
-            ChangeNullImages();
-
+            //Creats the observable collection with the method 
             this.Recipes = new ObservableCollection<RecipeItemViewModel>(this.ToRecipeItemViewModel());
 
-            
-
-        }
-
-        /*
-         * establishes a default Image for the objects loaded that have no image
-         */
-        public void ChangeNullImages()
-        {
-            foreach (Recipe recipe in this.recipesList)
-            {
-                if (recipe.Image == null)
-                {
-                    recipe.Image = "DefaultRecipeIcon";
-                }
-            }
-
+           // AddRecipeImages();
         }
 
         /*
@@ -156,7 +151,7 @@ namespace CookTime.ViewModels
                 CookingSpan = r.CookingSpan,
                 EatingTime = r.EatingTime,
                 Tags = r.Tags,
-                Image = r.Tags,
+                Image = r.Image,
                 Ingredients = r.Ingredients,
                 Steps = r.Steps,
                 Comments = r.Comments,
@@ -164,10 +159,22 @@ namespace CookTime.ViewModels
                 Price = r.Price,
                 Difficulty = r.Difficulty,
                 Punctuation = r.Punctuation,
-                Shares = r.Shares
+                Shares = r.Shares,
+                RecipeImage = SelectImage(r.Image)
             });
         }
 
+        private ImageSource SelectImage(string image)
+        {
+            byte[] backToArray = Convert.FromBase64String(image);
+            //recipe.RecipeImageStream = new MemoryStream(backToArray);
+            MemoryStream ms = new MemoryStream(backToArray);
+            var imagesource = ImageSource.FromStream(() =>
+            {
+                return ms;
+            });
+            return imagesource;
+        }
         #endregion
     }
 }

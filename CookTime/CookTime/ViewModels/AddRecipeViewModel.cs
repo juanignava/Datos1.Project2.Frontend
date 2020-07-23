@@ -343,6 +343,8 @@ namespace CookTime.ViewModels
                     return stream;
                 });
 
+                this.imageByteArray = FileHelper.ReadFully(this.file.GetStream());
+
             }
 
         }
@@ -389,6 +391,12 @@ namespace CookTime.ViewModels
                 return;
             }
 
+            if (this.imageByteArray == null)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "You must take a picture or choose one from your gallery", "Ok");
+                return;
+            }
+
             var checkConnection = await ApiService.CheckConnection();
             //Checks the internet connection before interacting with the server
             if (!checkConnection.IsSuccess)
@@ -410,18 +418,8 @@ namespace CookTime.ViewModels
             this.TextInstructions = ReadStringConverter.ChangePostString(this.TextInstructions);
             this.TextTags = ReadStringConverter.ChangePostString(this.TextTags);
 
-            //Creates the recipe with the information given
-   
-            ///TEST
-            
-            ///TEST
-
-
-            //string arrayConvertedPost = ReadStringConverter.Base64toString(arrayConverted);
-
-            //ArrayConverted = Convert.ToBase64String () this.imageByteArray.
-
        
+
             var recipe = new Recipe
             {
                 Name = this.TextRecipeName,
@@ -431,7 +429,6 @@ namespace CookTime.ViewModels
                 Portions = this.PortionsValue,
                 EatingTime = this.TextDishTime,
                 Tags = this.TextTags,
-                //Image = arrayConvertedPost,
                 Ingredients = this.TextIngredients,
                 Steps = this.TextInstructions,
                 Price = this.TextPrice,
@@ -459,6 +456,30 @@ namespace CookTime.ViewModels
                 await Application.Current.MainPage.DisplayAlert(
                     "Error",
                     response.Message,
+                    "Accept");
+                return;
+            }
+
+            string arrayConverted = Convert.ToBase64String(this.imageByteArray);
+
+            var recipeImage = new RecipeImage
+            {
+                RecipeName = this.TextRecipeName,
+                Image = arrayConverted
+            };
+
+            var responseImage = await ApiService.Put<RecipeImage>(
+                "http://localhost:8080/CookTime.BackEnd",
+                "/api",
+                "/recipes/image",
+                recipeImage,
+                false);
+
+            if (!responseImage.IsSuccess)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "Error",
+                    responseImage.Message,
                     "Accept");
                 return;
             }

@@ -4,7 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="CookTime.Views.NewsFeedPage"
     IconImageSource="NewsFeedIcon"
-    BindingContext="{Binding Main, Source={StaticResource Locator}}">
+    BindingContext="{Binding Main, Source={StaticResource Locator}}"
+    BackgroundColor="#FFFFFF">
 
     <ContentPage.Content>
         <StackLayout
@@ -64,8 +65,9 @@
                                         Padding="0">
 
                                         <Image
-                                            Source="SignUpIcon"
+                                            Source="SignUpIcon"  
                                             Aspect="AspectFill">
+                                            <!--The predefined image is SignUpIcon-->
                                         </Image>
 
                                     </Frame>
@@ -95,7 +97,7 @@
                                         </Label>
 
                                         <Image
-                                            Source="DefaultRecipeIcon"
+                                            Source="{Binding RecipeImage}"
                                             Aspect="AspectFill"
                                             HeightRequest="150"
                                             WidthRequest="500"
