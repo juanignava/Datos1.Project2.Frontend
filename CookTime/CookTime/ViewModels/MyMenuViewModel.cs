@@ -140,6 +140,14 @@ namespace CookTime.ViewModels
             this.Age = loggedUser.Age;
             this.Followers = loggedUser.Followers.Length;
             this.Following = loggedUser.UsersFollowing.Length;
+
+            if (loggedUser.ProfilePic == null)
+            {
+                this.AddImageSource = "SignUpIcon";
+                return;
+            }
+
+            this.AddImageSource = loggedUser.UserImage;
         }
 
      
@@ -154,6 +162,7 @@ namespace CookTime.ViewModels
         private void RefreshAux()
         {
             SortList("0");
+            this.AddImageSource = loggedUser.UserImage;
         }
 
         /*
@@ -189,7 +198,7 @@ namespace CookTime.ViewModels
                 this.IsRefreshing = false;
                 await Application.Current.MainPage.DisplayAlert( //if something goes wrong the page displays a message
                     "Error",
-                    "Try again",
+                    "Add new recipes to have a complete MyMenu",
                     "Accept");
                 return;
             }
@@ -277,6 +286,10 @@ namespace CookTime.ViewModels
 
                 this.ImageByteArray = FileHelper.ReadFully(this.file.GetStream());
 
+            }
+            else
+            {
+                return;
             }
 
             string arrayConverted = Convert.ToBase64String(this.ImageByteArray);
