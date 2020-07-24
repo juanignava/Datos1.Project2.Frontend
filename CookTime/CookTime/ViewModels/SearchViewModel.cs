@@ -119,11 +119,11 @@ namespace CookTime.ViewModels
         public SearchViewModel()
         {
             this.loadUsers();
-            this.loadRecipes();
 
             this.IsVisibleUsers = true;
 
             this.IsRefreshingUsers = false;
+
 
         }
 
@@ -151,11 +151,11 @@ namespace CookTime.ViewModels
                 return;
             }
 
+            this.IsRefreshingUsers = false;
+
             this.usersList = (List<User>)userResponse.Result;
 
             ChangeStringSpaces(1);
-
-            this.IsRefreshingUsers = false;
 
             this.Users = new ObservableCollection<UserItemViewModel>(this.ToUserItemViewModel());
 
@@ -181,11 +181,11 @@ namespace CookTime.ViewModels
                 return;
             }
 
+            this.IsRefreshingRecipes = false;
+
             this.recipesList = (List<Recipe>)recipeResponse.Result;
 
             ChangeStringSpaces(2);
-
-            this.IsRefreshingRecipes = false;
 
             this.Recipes = new ObservableCollection<RecipeItemViewModel>(this.ToRecipeItemViewModel());
 
@@ -225,11 +225,13 @@ namespace CookTime.ViewModels
                 case "Recipes":
                     this.IsVisibleUsers = false;
                     this.IsVisibleRecipes = true;
+                    this.loadRecipes();
                     break;
 
                 case "Users":
                     this.IsVisibleUsers = true;
                     this.IsVisibleRecipes = false;
+                    this.loadUsers();
                     break;
 
             }
@@ -289,7 +291,7 @@ namespace CookTime.ViewModels
                 CookingSpan = r.CookingSpan,
                 EatingTime = r.EatingTime,
                 Tags = r.Tags,
-                Image = r.Tags,
+                Image = r.Image,
                 Ingredients = r.Ingredients,
                 Steps = r.Steps,
                 Comments = r.Comments,
@@ -297,7 +299,9 @@ namespace CookTime.ViewModels
                 Price = r.Price,
                 Difficulty = r.Difficulty,
                 Punctuation = r.Punctuation,
-                Shares = r.Shares
+                Shares = r.Shares,
+                RecipeImage = r.RecipeImage,
+                UserImage = r.UserImage
 
             });
         }

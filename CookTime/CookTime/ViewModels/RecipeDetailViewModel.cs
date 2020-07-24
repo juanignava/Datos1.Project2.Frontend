@@ -5,6 +5,9 @@ using CookTime.Services;
 using CookTime.Views;
 using GalaSoft.MvvmLight.Command;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -20,8 +23,17 @@ namespace CookTime.ViewModels
         //VALUE
         private int punctuation;
 
+        //BOOLEAN
+        private bool isRefreshingComments;
+
+
         //USER
         private User loggedUser;
+
+        // LIST OBJECTS
+        private ObservableCollection<Comment> comments;
+
+        private List<Comment> commentsList;
 
 
         #endregion
@@ -46,10 +58,30 @@ namespace CookTime.ViewModels
             set { SetValue(ref this.punctuation, value); }
         }
 
+        //BOOLEAN
+        public bool IsRefreshingComments
+        {
+            get { return this.isRefreshingComments; }
+            set { SetValue(ref this.isRefreshingComments, value); }
+        }
+
+        //LIST OBJECTS
+        public ObservableCollection<Comment> Comments
+        {
+            get { return this.comments; }
+            set { SetValue(ref this.comments, value); }
+        }
+
         //COMMAND
         public ICommand LikeCommand
         {
             get { return new RelayCommand(Like); }
+        }
+
+        //COMMAND
+        public ICommand RefreshCommentsCommand
+        {
+            get { return new RelayCommand(loadComments); }
         }
 
         #endregion
@@ -64,6 +96,8 @@ namespace CookTime.ViewModels
             this.Punctuation = UserRecipe.Punctuation;
 
             this.LikeSourse = loadLikeButton();
+
+            this.loadComments();
         }
 
         #endregion
@@ -180,6 +214,74 @@ namespace CookTime.ViewModels
                 this.Punctuation -= 1;
             }
 
+        }
+
+        private async void loadComments()
+        {
+            this.IsRefreshingComments = true;
+
+            //Checking internet connection before asking for the server
+            var connection = await ApiService.CheckConnection();
+
+            if (!connection.IsSuccess)
+            {
+                this.IsRefreshingComments = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    "Error",
+                    "Check your internet connection",
+                    "Accept");
+                return;
+            }
+
+            var response = await ApiService.GetList<Recipe>(
+                "http://localhost:8080/CookTime.BackEnd",
+                "/api",
+                "/recipes");
+
+            if (!response.IsSuccess)
+            {
+                this.IsRefreshingComments = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    "Error",
+                    "Action can't be done",
+                    "Accept");
+            }
+
+            this.IsRefreshingComments = false;
+
+            this.commentsList = this.UserRecipe.Comments;
+
+            ChangeStringSpaces();
+
+            await LoadUserProfilePic();
+
+            this.Comments = new ObservableCollection<Comment>(this.commentsList);
+        }
+
+        public void ChangeStringSpaces()
+        {
+            foreach (Comment comment in this.commentsList)
+            {
+                comment.UserComment = ReadStringConverter.ChangeGetString(comment.UserComment);
+
+            }
+        }
+
+        private async Task<Response> LoadUserProfilePic()
+        {
+            foreach (Comment comment in this.commentsList)
+            {
+                string controller = $"/users/{comment.User}";
+                Response checkEmail = await ApiService.Get<User>(
+                    "http://localhost:8080/CookTime.BackEnd",
+                    "/api",
+                    controller);
+                User userX = (User)checkEmail.Result;
+
+                comment.UserImage = userX.UserImage;
+
+            }
+            return null;
         }
 
         #endregion
