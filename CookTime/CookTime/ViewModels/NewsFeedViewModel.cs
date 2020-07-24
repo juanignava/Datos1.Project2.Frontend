@@ -129,7 +129,7 @@ namespace CookTime.ViewModels
             //FilterRecipes();
             //this.recipesList = FilterRecipes(this.recipesList);
 
-            var variable = await LoadUserProfilePic();
+            await LoadUserProfilePic();
 
             ChangeStringSpaces();
 
