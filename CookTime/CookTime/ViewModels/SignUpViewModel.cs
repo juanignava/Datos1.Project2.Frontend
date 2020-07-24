@@ -102,13 +102,21 @@ namespace CookTime.ViewModels
         public string TextName
         {
             get { return this.textName; }
-            set { SetValue(ref this.textName, value); }
+            set
+            {
+                SetValue(ref this.textName, value);
+                BCName = ColorsFonts.backGround;
+            }
         }
 
         public string TextBirthday
         {
             get { return this.textBirthday; }
-            set { SetValue(ref this.textBirthday, value); }
+            set
+            {
+                SetValue(ref this.textBirthday, value);
+                BCBirthday = ColorsFonts.backGround;
+            }
         }
 
         public string TextAge { get; set; }
@@ -116,19 +124,31 @@ namespace CookTime.ViewModels
         public string TextEmail
         {
             get { return this.textEmail; }
-            set { SetValue(ref this.textEmail, value); }
+            set
+            {
+                SetValue(ref this.textEmail, value);
+                BCEmail = ColorsFonts.backGround;
+            }
         }
 
         public string TextPassword
         {
             get { return this.textPassword; }
-            set { SetValue(ref this.textPassword, value); }
+            set
+            {
+                SetValue(ref this.textPassword, value);
+                BCPassword = ColorsFonts.backGround;
+            }
         }
 
         public string TextConfirmPassword
         {
             get { return this.textConfirmPassword; }
-            set { SetValue(ref this.textConfirmPassword, value); }
+            set
+            {
+                SetValue(ref this.textConfirmPassword, value);
+                BCConfirmPassword = ColorsFonts.backGround;
+            }
         }
 
         //text company 
@@ -155,31 +175,46 @@ namespace CookTime.ViewModels
         public string BCName
         {
             get { return this.bCName; }
-            set { SetValue(ref this.bCName, value); }
+            set
+            {
+                SetValue(ref this.bCName, value);
+            }
         }
 
         public string BCBirthday
         {
             get { return this.bCBirthday; }
-            set { SetValue(ref this.bCBirthday, value); }
+            set
+            {
+                SetValue(ref this.bCBirthday, value);
+            }
         }
 
         public string BCEmail
         {
             get { return this.bCEmail; }
-            set { SetValue(ref this.bCEmail, value); }
+            set
+            {
+                SetValue(ref this.bCEmail, value);
+            }
         }
 
         public string BCPassword
         {
             get { return this.bCPassword; }
-            set { SetValue(ref this.bCPassword, value); }
+            set
+            {
+                SetValue(ref this.bCPassword, value);
+            }
         }
 
         public string BCConfirmPassword
         {
             get { return this.bCConfirmPassword; }
-            set { SetValue(ref this.bCConfirmPassword, value); }
+            set
+            {
+                SetValue(ref this.bCConfirmPassword, value);
+            }
         }
 
         //background color companies
@@ -310,7 +345,6 @@ namespace CookTime.ViewModels
                 IsRunning = false;
                 BCName = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter a name", "Ok");
-                BCName = ColorsFonts.backGround;
                 return;
             }
 
@@ -319,7 +353,6 @@ namespace CookTime.ViewModels
                 IsRunning = false;
                 BCBirthday = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter a birth date", "Ok");
-                BCBirthday = ColorsFonts.backGround;
                 return;
             }
 
@@ -328,7 +361,6 @@ namespace CookTime.ViewModels
                 IsRunning = false;
                 BCEmail = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter an Email", "Ok");
-                BCEmail = ColorsFonts.backGround;
                 return;
             }
 
@@ -337,7 +369,6 @@ namespace CookTime.ViewModels
                 IsRunning = false;
                 BCPassword = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter a password", "Ok");
-                BCPassword = ColorsFonts.backGround;
                 return;
             }
 
@@ -346,7 +377,6 @@ namespace CookTime.ViewModels
                 IsRunning = false;
                 BCConfirmPassword = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter a confirmation password", "Ok");
-                BCConfirmPassword = ColorsFonts.backGround;
                 return;
             }
 
@@ -356,7 +386,7 @@ namespace CookTime.ViewModels
                 IsRunning = false;
                 BCBirthday = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", $"You must be over 16 years old", "Ok");
-                BCBirthday = ColorsFonts.backGround;
+                //BCBirthday = ColorsFonts.backGround;
                 return;
             }
 
@@ -367,7 +397,6 @@ namespace CookTime.ViewModels
                 IsRunning = false;
                 BCEmail = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter a valid Email", "Ok");
-                BCEmail = ColorsFonts.backGround;
                 return;
             }
 
@@ -378,8 +407,6 @@ namespace CookTime.ViewModels
                 BCPassword = ColorsFonts.errorColor;
                 BCConfirmPassword = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "The confirmation password doesn't match", "Ok");
-                BCPassword = ColorsFonts.backGround;
-                BCConfirmPassword = ColorsFonts.backGround;
                 return;
             }
 

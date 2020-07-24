@@ -1,4 +1,5 @@
 ﻿
+using CookTime.Constants;
 using CookTime.FileHelpers;
 using CookTime.Models;
 using CookTime.Services;
@@ -19,6 +20,10 @@ namespace CookTime.ViewModels
 
         //TEXT
         private string likeSourse;
+
+        private string textComment;
+
+        private string bCComment;
 
         //VALUE
         private int punctuation;
@@ -51,6 +56,24 @@ namespace CookTime.ViewModels
             set { SetValue(ref this.likeSourse, value); }
         }
 
+        public string TextComment
+        {
+            get { return this.textComment; }
+            set
+            {
+                SetValue(ref this.textComment, value);
+                this.BCComment = ColorsFonts.backGround;
+
+            }
+        }
+
+        //BACKGROUND COLOR
+        public string BCComment
+        {
+            get { return this.bCComment; }
+            set { SetValue(ref this.bCComment, value); }
+        }
+
         //VALUE
         public int Punctuation
         {
@@ -78,10 +101,14 @@ namespace CookTime.ViewModels
             get { return new RelayCommand(Like); }
         }
 
-        //COMMAND
         public ICommand RefreshCommentsCommand
         {
             get { return new RelayCommand(loadComments); }
+        }
+
+        public ICommand CommentCommand
+        {
+            get { return new RelayCommand(SendComment); }
         }
 
         #endregion
@@ -98,6 +125,7 @@ namespace CookTime.ViewModels
             this.LikeSourse = loadLikeButton();
 
             this.loadComments();
+
         }
 
         #endregion
@@ -282,6 +310,58 @@ namespace CookTime.ViewModels
 
             }
             return null;
+        }
+
+
+        private async void SendComment()
+        {
+            if (string.IsNullOrEmpty(this.TextComment))
+            {
+                this.BCComment = ColorsFonts.errorColor;
+                return;
+            }
+
+            Response checkConnection = await ApiService.CheckConnection();
+            if (!checkConnection.IsSuccess)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "Error",
+                    "Check your internet connection",
+                    "Accept");
+                return;
+            }
+
+            string recipeName = ReadStringConverter.ChangePostString(this.UserRecipe.Name);
+            string recipeComment = ReadStringConverter.ChangePostString(this.TextComment);
+
+            string queryUrl = $"/users/new_notif?emisorUser={loggedUser.Email}&recieverUser={UserRecipe.Author}&notifType=0&recipe={recipeName}&newComment={recipeComment}";
+
+            Notification notification = new Notification
+            {
+                EmisorUser = loggedUser.Email,
+                RecieverUser = UserRecipe.Author,
+                NotifType = 0,
+                RecipeName = recipeName,
+                NewComment = recipeComment
+            };
+
+            Response response = await ApiService.Post<Notification>(
+            "http://localhost:8080/CookTime.BackEnd",
+            "/api",
+            queryUrl,
+            notification,
+            false);
+
+            if (!response.IsSuccess)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "Error",
+                    "Action can't be done",
+                    "Ok");
+                return;
+            }
+
+            this.loadComments();
         }
 
         #endregion

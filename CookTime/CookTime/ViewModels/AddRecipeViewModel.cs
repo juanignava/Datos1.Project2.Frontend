@@ -81,7 +81,11 @@ namespace CookTime.ViewModels
         public string TextRecipeName
         {
             get { return this.textRecipeName; }
-            set { SetValue(ref this.textRecipeName, value); }
+            set
+            {
+                SetValue(ref this.textRecipeName, value);
+                BCRecipeName = ColorsFonts.backGround;
+            }
         }
 
         public string TextAuthor
@@ -105,25 +109,41 @@ namespace CookTime.ViewModels
         public string TextIngredients
         {
             get { return this.textIngredients; }
-            set { SetValue(ref this.textIngredients, value); }
+            set
+            {
+                SetValue(ref this.textIngredients, value);
+                BCIngredients = ColorsFonts.backGround;
+            }
         }
 
         public string TextInstructions
         {
             get { return this.textInstructions; }
-            set { SetValue(ref this.textInstructions, value); }
+            set
+            {
+                SetValue(ref this.textInstructions, value);
+                BCInstructions = ColorsFonts.backGround;
+            }
         }
 
         public string TextTags
         {
             get { return this.textTags; }
-            set { SetValue(ref this.textTags, value); }
+            set
+            {
+                SetValue(ref this.textTags, value);
+                BCTags = ColorsFonts.backGround;
+            }
         }
 
         public string TextPrice
         {
             get { return this.textPrice; }
-            set { SetValue(ref this.textPrice, value); }
+            set
+            {
+                SetValue(ref this.textPrice, value);
+                BCPrice = ColorsFonts.backGround;
+            }
         }
 
         //BACKGROUND COLOR
@@ -355,7 +375,6 @@ namespace CookTime.ViewModels
             {
                 BCRecipeName = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter the recipe name", "Ok");
-                BCRecipeName = ColorsFonts.backGround;
                 return;
             }
 
@@ -363,7 +382,6 @@ namespace CookTime.ViewModels
             {
                 BCIngredients = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter the ingredients", "Ok");
-                BCIngredients = ColorsFonts.backGround;
                 return;
             }
 
@@ -371,7 +389,6 @@ namespace CookTime.ViewModels
             {
                 BCInstructions = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter the instructions", "Ok");
-                BCInstructions = ColorsFonts.backGround;
                 return;
             }
 
@@ -379,7 +396,6 @@ namespace CookTime.ViewModels
             {
                 BCTags = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter some tags", "Ok");
-                BCTags = ColorsFonts.backGround;
                 return;
             }
 
@@ -387,7 +403,6 @@ namespace CookTime.ViewModels
             {
                 BCPrice = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter the price", "Ok");
-                BCPrice = ColorsFonts.backGround;
                 return;
             }
 
@@ -457,6 +472,8 @@ namespace CookTime.ViewModels
             if (this.imageByteArray != null)
             {
                 string arrayConverted = Convert.ToBase64String(this.imageByteArray);
+
+                this.imageByteArray = null;
 
                 var recipeImage = new RecipeImage
                 {
