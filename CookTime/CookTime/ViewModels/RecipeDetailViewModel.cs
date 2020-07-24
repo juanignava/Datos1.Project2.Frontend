@@ -196,6 +196,32 @@ namespace CookTime.ViewModels
                 this.LikeSourse = "LikedIcon";
                 this.Punctuation += 1;
 
+                string queryUrl2 = $"/users/new_notif?emisorUser={loggedUser.Email}&recieverUser={UserRecipe.Author}&notifType=5&recipe={recipeName}";
+
+                Notification notification2 = new Notification
+                {
+                    EmisorUser = loggedUser.Email,
+                    RecieverUser = UserRecipe.Author,
+                    NotifType = 5,
+                    RecipeName = recipeName
+                };
+
+                Response response2 = await ApiService.Post<Notification>(
+                "http://localhost:8080/CookTime.BackEnd",
+                "/api",
+                queryUrl2,
+                notification2,
+                false);
+
+                if (!response2.IsSuccess)
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Error",
+                        "Action can't be done",
+                        "Ok");
+                    return;
+                }
+
             }
 
             else
@@ -240,6 +266,32 @@ namespace CookTime.ViewModels
 
                 this.LikeSourse = "UnLikedIcon";
                 this.Punctuation -= 1;
+
+                string queryUrl2 = $"/users/new_notif?emisorUser={loggedUser.Email}&recieverUser={UserRecipe.Author}&notifType=6&recipe={recipeName}";
+
+                Notification notification2 = new Notification
+                {
+                    EmisorUser = loggedUser.Email,
+                    RecieverUser = UserRecipe.Author,
+                    NotifType = 6,
+                    RecipeName = recipeName
+                };
+
+                Response response2 = await ApiService.Post<Notification>(
+                "http://localhost:8080/CookTime.BackEnd",
+                "/api",
+                queryUrl2,
+                notification2,
+                false);
+
+                if (!response2.IsSuccess)
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Error",
+                        "Action can't be done",
+                        "Ok");
+                    return;
+                }
             }
 
         }

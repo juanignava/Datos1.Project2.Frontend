@@ -238,6 +238,7 @@ namespace CookTime.ViewModels
                 Ingredients = r.Ingredients,
                 Steps = r.Steps,
                 Comments = r.Comments,
+                Likers = r.Likers,
                 Price = r.Price,
                 Difficulty = r.Difficulty,
                 Punctuation = r.Punctuation,
