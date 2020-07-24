@@ -126,8 +126,6 @@ namespace CookTime.ViewModels
             //Copies the list loaded from the server to the list in the attributes
             this.recipesList = (List<Recipe>)response.Result;
 
-            //FilterRecipes();
-            //this.recipesList = FilterRecipes(this.recipesList);
 
             await LoadUserProfilePic();
 
