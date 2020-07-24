@@ -47,7 +47,7 @@ namespace CookTime.Models
         public string Steps { get; set; }
 
         [JsonProperty(PropertyName = "comments")]
-        public object Comments { get; set; }
+        public List<Comment> Comments { get; set; }
 
         [JsonProperty(PropertyName = "likers")]
         public string[] Likers { get; set; }

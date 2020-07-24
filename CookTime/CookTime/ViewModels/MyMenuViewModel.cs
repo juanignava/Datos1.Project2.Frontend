@@ -212,7 +212,7 @@ namespace CookTime.ViewModels
                 return;
             }
 
-            var variable = await LoadUserProfilePic();
+            await LoadUserProfilePic();
 
             ChangeStringSpaces();
 
@@ -344,10 +344,7 @@ namespace CookTime.ViewModels
                 recipe.UserImage = userX.UserImage;
 
             }
-            return new Response
-            {
-                IsSuccess = true
-            };
+            return null;
         }
         #endregion
     }

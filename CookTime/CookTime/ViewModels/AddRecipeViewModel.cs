@@ -391,12 +391,6 @@ namespace CookTime.ViewModels
                 return;
             }
 
-            if (this.imageByteArray == null)
-            {
-                await Application.Current.MainPage.DisplayAlert("Error", "You must take a picture or choose one from your gallery", "Ok");
-                return;
-            }
-
             var checkConnection = await ApiService.CheckConnection();
             //Checks the internet connection before interacting with the server
             if (!checkConnection.IsSuccess)
@@ -460,29 +454,33 @@ namespace CookTime.ViewModels
                 return;
             }
 
-            string arrayConverted = Convert.ToBase64String(this.imageByteArray);
-
-            var recipeImage = new RecipeImage
+            if (this.imageByteArray != null)
             {
-                RecipeName = this.TextRecipeName,
-                Image = arrayConverted
-            };
+                string arrayConverted = Convert.ToBase64String(this.imageByteArray);
 
-            var responseImage = await ApiService.Put<RecipeImage>(
-                "http://localhost:8080/CookTime.BackEnd",
-                "/api",
-                "/recipes/image",
-                recipeImage,
-                false);
+                var recipeImage = new RecipeImage
+                {
+                    RecipeName = this.TextRecipeName,
+                    Image = arrayConverted
+                };
 
-            if (!responseImage.IsSuccess)
-            {
-                await Application.Current.MainPage.DisplayAlert(
-                    "Error",
-                    responseImage.Message,
-                    "Accept");
-                return;
+                var responseImage = await ApiService.Put<RecipeImage>(
+                    "http://localhost:8080/CookTime.BackEnd",
+                    "/api",
+                    "/recipes/image",
+                    recipeImage,
+                    false);
+
+                if (!responseImage.IsSuccess)
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Error",
+                        responseImage.Message,
+                        "Accept");
+                    return;
+                }
             }
+
 
             // Redifines the addRecipe entries and editors
             this.TextRecipeName = string.Empty;

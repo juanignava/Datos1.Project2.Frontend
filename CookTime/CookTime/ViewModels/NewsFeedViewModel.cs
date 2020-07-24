@@ -126,7 +126,10 @@ namespace CookTime.ViewModels
             //Copies the list loaded from the server to the list in the attributes
             this.recipesList = (List<Recipe>)response.Result;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> dd062aa6093ba82905f65de73f9e90f7351c0890
             await LoadUserProfilePic();
 
             ChangeStringSpaces();
@@ -216,10 +219,7 @@ namespace CookTime.ViewModels
                 recipe.UserImage = userX.UserImage;
 
             }
-            return new Response
-            {
-                IsSuccess = true
-            };
+            return null;
         }
         #endregion
     }
