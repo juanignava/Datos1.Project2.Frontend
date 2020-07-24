@@ -31,7 +31,6 @@ namespace CookTime.ViewModels
 
         //Activity indicator
         private bool isRunning;
-
         #endregion
 
 
@@ -88,6 +87,7 @@ namespace CookTime.ViewModels
         {
             get { return new RelayCommand(Account); }
         }
+
 
         #endregion
 
@@ -192,6 +192,7 @@ namespace CookTime.ViewModels
             await Application.Current.MainPage.Navigation.PushAsync(new SignUpPage());
 
         }
+
 
         #endregion
 
