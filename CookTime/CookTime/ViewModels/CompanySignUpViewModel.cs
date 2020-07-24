@@ -38,25 +38,41 @@ namespace CookTime.ViewModels
         public string TextCompanyName
         {
             get { return this.textCompanyName; }
-            set { SetValue(ref this.textCompanyName, value); }
+            set
+            {
+                SetValue(ref this.textCompanyName, value);
+                BCCompanyName = ColorsFonts.backGround;
+            }
         }
 
         public string TextContactMethods
         {
             get { return this.textContactMethods; }
-            set { SetValue(ref this.textContactMethods, value); }
+            set
+            {
+                SetValue(ref this.textContactMethods, value);
+                BCContactMethods = ColorsFonts.backGround;
+            }
         }
 
         public string TextAddress
         {
             get { return this.textAddress; }
-            set { SetValue(ref this.textAddress, value); }
+            set
+            {
+                SetValue(ref this.textAddress, value);
+                BCAddress = ColorsFonts.backGround;
+            }
         }
 
         public string TextServiceHours
         {
             get { return this.textServiceHours; }
-            set { SetValue(ref this.textServiceHours, value); }
+            set
+            {
+                SetValue(ref this.textServiceHours, value);
+                BCServiceHours = ColorsFonts.backGround;
+            }
         }
 
         //BACKGROUND COLOR
@@ -100,7 +116,6 @@ namespace CookTime.ViewModels
             {
                 BCCompanyName = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter a company name", "Ok");
-                BCCompanyName = ColorsFonts.backGround;
                 return;
             }
 
@@ -108,7 +123,6 @@ namespace CookTime.ViewModels
             {
                 BCContactMethods = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter a contact method", "Ok");
-                BCContactMethods = ColorsFonts.backGround;
                 return;
             }
 
@@ -116,7 +130,6 @@ namespace CookTime.ViewModels
             {
                 BCAddress = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter an address", "Ok");
-                BCAddress = ColorsFonts.backGround;
                 return;
             }
 
@@ -124,7 +137,6 @@ namespace CookTime.ViewModels
             {
                 BCServiceHours = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter service hours", "Ok");
-                BCServiceHours = ColorsFonts.backGround;
                 return;
             }
 

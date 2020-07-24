@@ -313,12 +313,55 @@ namespace CookTime.ViewModels
         }
 
 
-        private void SendComment()
+        private async void SendComment()
         {
             if (string.IsNullOrEmpty(this.TextComment))
             {
                 this.BCComment = ColorsFonts.errorColor;
+                return;
             }
+
+            Response checkConnection = await ApiService.CheckConnection();
+            if (!checkConnection.IsSuccess)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "Error",
+                    "Check your internet connection",
+                    "Accept");
+                return;
+            }
+
+            string recipeName = ReadStringConverter.ChangePostString(this.UserRecipe.Name);
+            string recipeComment = ReadStringConverter.ChangePostString(this.TextComment);
+
+            string queryUrl = $"/users/new_notif?emisorUser={loggedUser.Email}&recieverUser={UserRecipe.Author}&notifType=0&recipe={recipeName}&newComment={recipeComment}";
+
+            Notification notification = new Notification
+            {
+                EmisorUser = loggedUser.Email,
+                RecieverUser = UserRecipe.Author,
+                NotifType = 0,
+                RecipeName = recipeName,
+                NewComment = recipeComment
+            };
+
+            Response response = await ApiService.Post<Notification>(
+            "http://localhost:8080/CookTime.BackEnd",
+            "/api",
+            queryUrl,
+            notification,
+            false);
+
+            if (!response.IsSuccess)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "Error",
+                    "Action can't be done",
+                    "Ok");
+                return;
+            }
+
+            this.loadComments();
         }
 
         #endregion

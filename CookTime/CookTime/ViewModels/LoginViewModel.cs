@@ -41,13 +41,21 @@ namespace CookTime.ViewModels
         public string TextEmail
         {
             get { return this.textEmail; }
-            set { SetValue(ref this.textEmail, value); }
+            set
+            {
+                SetValue(ref this.textEmail, value);
+                this.BCEmail = ColorsFonts.backGround;
+            }
         }
 
         public string TextPassword
         {
             get { return this.textPassword; }
-            set { SetValue(ref this.textPassword, value); }
+            set
+            {
+                SetValue(ref this.textPassword, value);
+                this.BCPassword = ColorsFonts.backGround;
+            }
         }
 
         //BACKGROUND COLOR
@@ -106,7 +114,6 @@ namespace CookTime.ViewModels
             {
                 this.BCEmail = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter an Email", "Ok");
-                this.BCEmail = ColorsFonts.backGround;
                 this.IsRunning = false;
                 return;
             }
@@ -116,7 +123,6 @@ namespace CookTime.ViewModels
                 this.IsRunning = false;
                 this.BCPassword = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter a password", "Ok");
-                this.BCPassword = ColorsFonts.backGround;
                 return;
             }
 
@@ -143,15 +149,15 @@ namespace CookTime.ViewModels
             if (!response.IsSuccess)
             {
                 this.IsRunning = false;
+                this.BCEmail = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert(
                     "Error",
-                    response.Message,
+                    "This account is not registered",
                     "Accept");
-                this.TextEmail = string.Empty;
                 return;
             }
 
-            User loggedUser = ((User) response.Result);
+            User loggedUser = (User) response.Result;
 
             this.askedPassword = loggedUser.Password; //The answer given is the real encrypted password
 
@@ -160,11 +166,11 @@ namespace CookTime.ViewModels
             if (encryptedPassword != this.askedPassword)
             {
                 this.IsRunning = false;
+                this.BCPassword = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert(
                     "Login error",
                     "Incorrect password",
                     "Accept");
-                this.TextPassword = string.Empty;
                 return;
             }
 
