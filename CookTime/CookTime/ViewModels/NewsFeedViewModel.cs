@@ -31,10 +31,19 @@ namespace CookTime.ViewModels
 
         private ImageSource userProfilePic;
 
+        //USERS FOLLOWING
+        private string[] usersFollowing;
+
         #endregion
 
 
         #region PROPERTIES
+
+        public string[] UsersFollowing
+        {
+            get { return this.usersFollowing; }
+            set { SetValue(ref this.usersFollowing, value); }
+        }
 
         //LIST OBJECTS
         public ObservableCollection<RecipeItemViewModel> Recipes
@@ -71,6 +80,7 @@ namespace CookTime.ViewModels
 
         public NewsFeedViewModel()
         {
+            this.UsersFollowing = TabbedHomeViewModel.getUserInstance().UsersFollowing;
             this.LoadRecipes();
             this.IsRefreshing = false;
         }
@@ -116,13 +126,41 @@ namespace CookTime.ViewModels
             //Copies the list loaded from the server to the list in the attributes
             this.recipesList = (List<Recipe>)response.Result;
 
+            //Filter the recipes
+            FilterRecipes();
+
             await LoadUserProfilePic();
 
             ChangeStringSpaces();
 
+            
+
             //Creates the observable collection with the method 
             this.Recipes = new ObservableCollection<RecipeItemViewModel>(this.ToRecipeItemViewModel());
+            //FilterRecipes(this.Recipes);
+        }
 
+        /*
+         * This method filter the recipes and allows to show just the ones published by the people I follow
+         */
+        private void FilterRecipes()
+        {
+            List<Recipe> recipeResult = new List<Recipe>(); //Creates a new recipe for adding the recipes the user actually needs in the newsfeed
+
+            for (int j = 0; j< this.recipesList.Count; j++) //Recover all the recipes
+            {
+                for (int i = 0; i < this.UsersFollowing.Length; i++) //Recover all the list of following people
+                {
+                    if (this.UsersFollowing[i] == this.recipesList[j].Author) //If the user that published the recipe (this.recipesList[j].Author)
+                                                                               //matches with one of the users that you´re following then the recipe 
+                                                                               //is added to the recipeResult list
+                    {
+                        recipeResult.Add(this.recipesList[j]);
+                        break; //Breaks beacause it isn´t necessary to continue seraching
+                    }
+                }
+            }
+            this.recipesList = recipeResult; //Redefines the recipeList that is then used to create the observable colection
         }
 
         /*

@@ -162,7 +162,6 @@ namespace CookTime.ViewModels
         private void RefreshAux()
         {
             SortList("0");
-            this.AddImageSource = loggedUser.UserImage;
         }
 
         /*
@@ -197,7 +196,7 @@ namespace CookTime.ViewModels
             {
                 this.IsRefreshing = false;
                 await Application.Current.MainPage.DisplayAlert( //if something goes wrong the page displays a message
-                    "Error",
+                    "Welcome to CookTime",
                     "Add new recipes to have a complete MyMenu",
                     "Accept");
                 return;
