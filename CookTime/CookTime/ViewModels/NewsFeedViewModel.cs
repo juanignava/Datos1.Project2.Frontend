@@ -126,10 +126,9 @@ namespace CookTime.ViewModels
             //Copies the list loaded from the server to the list in the attributes
             this.recipesList = (List<Recipe>)response.Result;
 
-<<<<<<< HEAD
+            //Filter the recipes
+            FilterRecipes();
 
-=======
->>>>>>> dd062aa6093ba82905f65de73f9e90f7351c0890
             await LoadUserProfilePic();
 
             ChangeStringSpaces();
@@ -141,26 +140,27 @@ namespace CookTime.ViewModels
             //FilterRecipes(this.Recipes);
         }
 
+        /*
+         * This method filter the recipes and allows to show just the ones published by the people I follow
+         */
         private void FilterRecipes()
         {
-            List<Recipe> recipeResult = null;
-           // recipeResult.Clear();
-            foreach (Recipe recipe in this.recipesList)
+            List<Recipe> recipeResult = new List<Recipe>(); //Creates a new recipe for adding the recipes the user actually needs in the newsfeed
+
+            for (int j = 0; j< this.recipesList.Count; j++) //Recover all the recipes
             {
-                for (int i = 0; i < this.UsersFollowing.Length; i++)
+                for (int i = 0; i < this.UsersFollowing.Length; i++) //Recover all the list of following people
                 {
-                    if (this.UsersFollowing[i] == recipe.Author)
+                    if (this.UsersFollowing[i] == this.recipesList[j].Author) //If the user that published the recipe (this.recipesList[j].Author)
+                                                                               //matches with one of the users that you´re following then the recipe 
+                                                                               //is added to the recipeResult list
                     {
-                        recipeResult.Add(recipe);
-                        break;
+                        recipeResult.Add(this.recipesList[j]);
+                        break; //Breaks beacause it isn´t necessary to continue seraching
                     }
                 }
-                //if (isFollowing == false)
-                //{
-                //    recipeResult.RemoveAt(toRemove);
-                //}
             }
-            this.recipesList = recipeResult;
+            this.recipesList = recipeResult; //Redefines the recipeList that is then used to create the observable colection
         }
 
         /*
