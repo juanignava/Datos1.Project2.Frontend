@@ -116,9 +116,11 @@ namespace CookTime.ViewModels
             //Copies the list loaded from the server to the list in the attributes
             this.recipesList = (List<Recipe>)response.Result;
 
+            var variable = await LoadUserProfilePic();
+
             ChangeStringSpaces();
 
-            //Creats the observable collection with the method 
+            //Creates the observable collection with the method 
             this.Recipes = new ObservableCollection<RecipeItemViewModel>(this.ToRecipeItemViewModel());
 
            // AddRecipeImages();
@@ -161,7 +163,8 @@ namespace CookTime.ViewModels
                 Difficulty = r.Difficulty,
                 Punctuation = r.Punctuation,
                 Shares = r.Shares,
-                RecipeImage = SelectImage(r.Image)
+                RecipeImage = SelectImage(r.Image),
+                UserImage = r.UserImage
             });
         }
 
@@ -175,6 +178,36 @@ namespace CookTime.ViewModels
                 return ms;
             });
             return imagesource;
+        }
+
+        private async Task<Response> LoadUserProfilePic()
+        {
+            foreach (Recipe recipe in this.recipesList)
+            {
+                string controller = "/users/" + recipe.Author; //Asking for the account information
+                Response checkEmail = await ApiService.Get<User>( //Tries to get the account information
+                    "http://localhost:8080/CookTime.BackEnd",
+                    "/api",
+                    controller);
+                User loggedUser = (User)checkEmail.Result;
+                string imageString = loggedUser.ProfilePic;
+                if (imageString == null)
+                {
+                    recipe.UserImage = "SignUpIcon";
+                    continue;
+                }
+
+                byte[] backToArray = Convert.FromBase64String(imageString);
+                MemoryStream ms = new MemoryStream(backToArray);
+                recipe.UserImage = ImageSource.FromStream(() =>
+                {
+                    return ms;
+                });
+            }
+            return new Response
+            {
+                IsSuccess = true
+            };
         }
         #endregion
     }

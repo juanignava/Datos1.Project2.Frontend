@@ -40,7 +40,7 @@ namespace CookTime.Models
 
         public ImageSource RecipeImage { get; set; } 
 
-        public string UserImage { get; set; }
+        public ImageSource UserImage { get; set; }
 
         public Stream RecipeImageStream { get; set; }
 

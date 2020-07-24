@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -229,9 +230,13 @@ namespace CookTime.ViewModels
                 return;
             }
 
+            var variable = await LoadUserProfilePic();
+
+            ChangeStringSpaces();
+
             //Creates observable collection
             this.Recipes = new ObservableCollection<RecipeItemViewModel>(
-            this.ToRecipeItemViewModel());
+                this.ToRecipeItemViewModel());
             this.IsRefreshing = false;
         }
 
@@ -256,8 +261,22 @@ namespace CookTime.ViewModels
                 Price = r.Price,
                 Difficulty = r.Difficulty,
                 Punctuation = r.Punctuation,
-                Shares = r.Shares
+                Shares = r.Shares,
+                RecipeImage = SelectImage(r.Image),
+                UserImage = r.UserImage
             });
+        }
+
+        private ImageSource SelectImage(string image)
+        {
+            byte[] backToArray = Convert.FromBase64String(image);
+            //recipe.RecipeImageStream = new MemoryStream(backToArray);
+            MemoryStream ms = new MemoryStream(backToArray);
+            var imagesource = ImageSource.FromStream(() =>
+            {
+                return ms;
+            });
+            return imagesource;
         }
 
         private async void ChangePicture()
@@ -323,6 +342,48 @@ namespace CookTime.ViewModels
                     "Accept");
                 return;
             }
+        }
+
+        public void ChangeStringSpaces()
+        {
+            foreach (Recipe recipe in this.recipesList)
+            {
+                recipe.Name = ReadStringConverter.ChangeGetString(recipe.Name);
+                recipe.CookingSpan = ReadStringConverter.ChangeGetString(recipe.CookingSpan);
+                recipe.EatingTime = ReadStringConverter.ChangeGetString(recipe.EatingTime);
+                recipe.Ingredients = ReadStringConverter.ChangeGetString(recipe.Ingredients);
+                recipe.Steps = ReadStringConverter.ChangeGetString(recipe.Steps);
+                recipe.Tags = ReadStringConverter.ChangeGetString(recipe.Tags);
+            }
+        }
+        private async Task<Response> LoadUserProfilePic()
+        {
+            foreach (Recipe recipe in this.recipesList)
+            {
+                string controller = "/users/" + recipe.Author; //Asking for the account information
+                Response checkEmail = await ApiService.Get<User>( //Tries to get the account information
+                    "http://localhost:8080/CookTime.BackEnd",
+                    "/api",
+                    controller);
+                User loggedUser = (User)checkEmail.Result;
+                string imageString = loggedUser.ProfilePic;
+                if (imageString == null)
+                {
+                    recipe.UserImage = "SignUpIcon";
+                    continue;
+                }
+
+                byte[] backToArray = Convert.FromBase64String(imageString);
+                MemoryStream ms = new MemoryStream(backToArray);
+                recipe.UserImage = ImageSource.FromStream(() =>
+                {
+                    return ms;
+                });
+            }
+            return new Response
+            {
+                IsSuccess = true
+            };
         }
         #endregion
     }

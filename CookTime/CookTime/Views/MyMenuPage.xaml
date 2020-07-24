@@ -189,7 +189,7 @@
                                         Padding="0">
 
                                         <Image
-                                            Source="SignUpIcon"
+                                            Source="{Binding UserImage}"
                                             Aspect="AspectFill">
                                         </Image>
 
@@ -220,7 +220,7 @@
                                         </Label>
 
                                         <Image
-                                            Source="DefaultRecipeIcon"
+                                            Source="{Binding RecipeImage}"
                                             Aspect="AspectFill"
                                             HeightRequest="150"
                                             WidthRequest="500"

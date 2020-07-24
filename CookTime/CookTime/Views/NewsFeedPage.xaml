@@ -65,7 +65,7 @@
                                         Padding="0">
 
                                         <Image
-                                            Source="SignUpIcon"  
+                                            Source="{Binding UserImage}"  
                                             Aspect="AspectFill">
                                             <!--The predefined image is SignUpIcon-->
                                         </Image>
