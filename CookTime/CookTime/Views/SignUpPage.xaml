@@ -15,7 +15,7 @@
                     Padding="0,50"
                     VerticalOptions="Start">
                     <Image
-                        Source="SignUpIcon">
+                        Source="{Binding SignUpIcon}">
 
                     </Image>
 
@@ -92,6 +92,36 @@
 
                     </Entry>
 
+                    <Entry
+                        IsVisible="{Binding IsCompany}"
+                        Placeholder="Contact methods"
+                        FontSize="Body"
+                        PlaceholderColor="#B09B35"
+                        Text="{Binding TextContactMethods, Mode=TwoWay}"
+                        BackgroundColor="{Binding BCContactMethods, Mode=TwoWay}">
+                    </Entry>
+
+                    <Entry
+                        IsVisible="{Binding IsCompany}"
+                        Placeholder="Address"
+                        FontSize="Body"
+                        PlaceholderColor="#B09B35"
+                        Text="{Binding TextAddress, Mode=TwoWay}"
+                        BackgroundColor="{Binding BCAddress, Mode=TwoWay}">
+
+                    </Entry>
+
+                    <Entry
+                        IsVisible="{Binding IsCompany}"
+                        Placeholder="Service hours"
+                        FontSize="Body"
+                        PlaceholderColor="#B09B35"
+                        Keyboard="Numeric"
+                        Text="{Binding TextServiceHours, Mode=TwoWay}"
+                        BackgroundColor="{Binding BCServiceHours, Mode=TwoWay}">
+
+                    </Entry>
+
                     <Button
                         Text="Create account"
                         FontSize="Body"
@@ -102,7 +132,7 @@
                     </Button>
 
                     <Button
-                        Text="Do you have a company?"
+                        Text="{Binding CompanyText}"
                         FontSize="Micro"
                         TextColor="#B09B35"
                         BackgroundColor="White"

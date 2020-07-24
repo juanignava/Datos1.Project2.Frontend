@@ -31,7 +31,6 @@ namespace CookTime.ViewModels
 
         #endregion
 
-
         #region PROPERTIES
 
         //TEXT

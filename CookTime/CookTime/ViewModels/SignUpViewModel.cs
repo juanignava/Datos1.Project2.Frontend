@@ -28,6 +28,14 @@ namespace CookTime.ViewModels
 
         private string textConfirmPassword;
 
+        //companyText
+
+        private string textServiceHours;
+
+        private string textContactMethods;
+
+        private string textAddress;
+
 
         //BACKGROUND COLOR
         private string bCName;
@@ -39,6 +47,14 @@ namespace CookTime.ViewModels
         private string bCPassword;
 
         private string bCConfirmPassword;
+
+        //background color company
+
+        private string bCServiceHours;
+
+        private string bCContactMethods;
+
+        private string bCAddress;
 
         //OTHERS
 
@@ -52,10 +68,35 @@ namespace CookTime.ViewModels
 
         private MediaFile file;
 
+        //COMPANY
+        private bool isCompany;
+
+        private ImageSource signUpIcon;
+
+        private string companyText;
+
         #endregion
 
 
         #region PROPERTIES
+
+        //COMPANY
+        public bool IsCompany
+        {
+            get { return this.isCompany; }
+            set { SetValue(ref this.isCompany, value); }
+        }
+
+        public ImageSource SignUpIcon
+        {
+            get { return this.signUpIcon; }
+            set { SetValue(ref this.signUpIcon, value); }
+        }
+        public string CompanyText 
+        {
+            get { return this.companyText; }
+            set { SetValue(ref this.companyText, value); }
+        }
 
         //TEXT
         public string TextName
@@ -90,6 +131,26 @@ namespace CookTime.ViewModels
             set { SetValue(ref this.textConfirmPassword, value); }
         }
 
+        //text company 
+
+        public string TextContactMethods 
+        {
+            get { return this.textContactMethods; }
+            set { SetValue(ref this.textContactMethods, value); }
+        }
+
+        public string TextAddress
+        {
+            get { return this.textAddress; }
+            set { SetValue(ref this.textAddress, value); }
+        }
+
+        public string TextServiceHours
+        {
+            get { return this.textServiceHours; }
+            set { SetValue(ref this.textServiceHours, value); }
+        }
+
         //BACKGROUND COLOR
         public string BCName
         {
@@ -121,6 +182,26 @@ namespace CookTime.ViewModels
             set { SetValue(ref this.bCConfirmPassword, value); }
         }
 
+        //background color companies
+
+        public string BCContactMethods
+        {
+            get { return this.bCContactMethods; }
+            set { SetValue(ref this.bCContactMethods, value); }
+        }
+
+        public string BCAddress
+        {
+            get { return this.bCAddress; }
+            set { SetValue(ref this.bCAddress, value); }
+        }
+
+        public string BCServiceHours
+        {
+            get { return this.bCServiceHours; }
+            set { SetValue(ref this.bCServiceHours, value); }
+        }
+
         //COMMAND
         public ICommand CreateAccountCommand
         {
@@ -150,7 +231,8 @@ namespace CookTime.ViewModels
             this.emailRegex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
 
             this.actualDate = new DatePicker();
-
+            this.SignUpIcon = "SignUpIcon";
+            this.CompanyText = "Sign Up as company";
         }
 
         #endregion
@@ -313,8 +395,6 @@ namespace CookTime.ViewModels
                 return;
             }
 
-            
-
             //Changes the spacing in the user name
             this.TextName = ReadStringConverter.ChangePostString(this.TextName);
 
@@ -335,6 +415,73 @@ namespace CookTime.ViewModels
                     "Accept");
                 this.BCEmail = ColorsFonts.backGround;
                 return;
+            }
+
+            
+
+            if (this.IsCompany == true)
+            {
+                if (string.IsNullOrEmpty(this.TextContactMethods))
+                {
+                    IsRunning = false;
+                    BCContactMethods = ColorsFonts.errorColor;
+                    await Application.Current.MainPage.DisplayAlert("Error", "You must enter the company contact methods", "Ok");
+                    BCContactMethods = ColorsFonts.backGround;
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(this.TextAddress))
+                {
+                    IsRunning = false;
+                    BCAddress = ColorsFonts.errorColor;
+                    await Application.Current.MainPage.DisplayAlert("Error", "You must enter the company adress", "Ok");
+                    BCAddress = ColorsFonts.backGround;
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(this.TextServiceHours))
+                {
+                    IsRunning = false;
+                    BCServiceHours = ColorsFonts.errorColor;
+                    await Application.Current.MainPage.DisplayAlert("Error", "You must enter the company service hours", "Ok");
+                    BCServiceHours = ColorsFonts.backGround;
+                    return;
+                }
+
+                this.TextContactMethods = ReadStringConverter.ChangePostString(this.TextContactMethods);
+                this.TextAddress = ReadStringConverter.ChangePostString(this.TextAddress);
+                this.TextServiceHours = ReadStringConverter.ChangePostString(this.TextServiceHours);
+
+                Company company = new Company
+                {
+                    Email = this.TextEmail,
+                    Name = this.TextName,
+                    Password = this.TextPassword,
+                    Contact = this.TextContactMethods,
+                    ServiceSchedule = this.TextServiceHours,
+                    Location = this.TextAddress
+                };
+
+                string queryUrlC = "/companies?email=" + this.TextEmail + "&password=" + this.TextPassword
+                    + "&name=" + this.TextName + "&location=" + this.TextAddress + "&contact=" + this.TextContactMethods + "&serviceSchedule=" + this.TextServiceHours;
+
+                //Posts the Company
+                Response responseC = await ApiService.Post<Company>(
+                    "http://localhost:8080/CookTime.BackEnd",
+                    "/api",
+                    queryUrlC,
+                    company,
+                    true);
+
+                if (!responseC.IsSuccess)
+                {
+                    IsRunning = false;
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Error",
+                        "Something was wrong",
+                        "Accept");
+                    return;
+                }
             }
 
             //Creates the user account with the data given 
@@ -381,17 +528,60 @@ namespace CookTime.ViewModels
             MainViewModel.getInstance().TabbedHome = new TabbedHomeViewModel(loggedUser);
             await Application.Current.MainPage.Navigation.PushAsync(new TabbedHomePage());
 
+
+
+        }
+
+        private async System.Threading.Tasks.Task createCompany()
+        {
+            Company company = new Company
+            {
+                Email = this.TextEmail,
+                Name = this.TextName,
+                Password = this.TextPassword,
+                Contact = this.TextContactMethods,
+                ServiceSchedule = this.TextServiceHours,
+                Location = this.TextAddress
+            };
+
+            string queryUrl = "/companies?email=" + this.TextEmail + "&password=" + this.TextPassword
+                + "&name=" + this.TextName + "&location=" + this.TextAddress + "&contact=" + this.TextContactMethods + "&serviceSchedule=" + this.TextServiceHours;
+
+            //Posts the Company
+            Response response = await ApiService.Post<Company>(
+                "http://localhost:8080/CookTime.BackEnd",
+                "/api",
+                queryUrl,
+                company,
+                true);
+
+            if (!response.IsSuccess)
+            {
+                IsRunning = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    "Error",
+                    "Something was wrong",
+                    "Accept");
+                return;
+            }
+
+            return;
         }
 
         private async void Company()
         {
-            this.TextName = string.Empty;
-            this.TextEmail = string.Empty;
-            this.TextPassword = string.Empty;
-            this.TextConfirmPassword = string.Empty;
-
-            MainViewModel.getInstance().CompanySignUp = new CompanySignUpViewModel();
-            await Application.Current.MainPage.Navigation.PushAsync(new CompanySignUpPage());
+            if (this.IsCompany == false)
+            {
+                this.IsCompany = true;
+                this.SignUpIcon = "CompanySignUpIcon";
+                this.CompanyText = "Sign Up as an user";
+            }
+            else
+            {
+                this.IsCompany = false;
+                this.SignUpIcon = "SignUpIcon";
+                this.CompanyText = "Sign Up as a company";
+            }
         }
 
         #endregion
