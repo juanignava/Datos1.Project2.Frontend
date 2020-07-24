@@ -13,6 +13,8 @@ namespace CookTime.Models
      */
     public class Recipe
     {
+        private ImageSource recipeImage;
+
 
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
@@ -38,12 +40,6 @@ namespace CookTime.Models
         [JsonProperty(PropertyName = "image")]
         public string Image { get; set; }
 
-        public ImageSource RecipeImage { get; set; } 
-
-        public ImageSource UserImage { get; set; }
-
-        public MemoryStream RecipeImageStream { get; set; }
-
         [JsonProperty(PropertyName = "ingredients")]
         public string Ingredients { get; set; }
 
@@ -67,5 +63,37 @@ namespace CookTime.Models
 
         [JsonProperty(PropertyName = "shares")]
         public int Shares { get; set; }
+
+
+        //INTERNAL PROPERTIES
+        public ImageSource UserImage { get; set; }
+
+        public ImageSource RecipeImage { get { return ConvertImage(Image); } set { recipeImage = value; } }
+
+        public MemoryStream RecipeImageStream { get; set; }
+
+
+        #region METHODS
+
+        public ImageSource ConvertImage(string imageValue)
+        {
+
+            ImageSource retSource = "DefaultRecipeIcon";
+            if (!string.IsNullOrEmpty(imageValue))
+            {
+                try
+                {
+                    byte[] imageAsBytes = Convert.FromBase64String(imageValue);
+                    retSource = ImageSource.FromStream(() => new MemoryStream(imageAsBytes));
+                }
+                catch (Exception)
+                {
+                    return retSource;
+                }
+
+            }
+            return retSource;
+        }
+        #endregion
     }
 }

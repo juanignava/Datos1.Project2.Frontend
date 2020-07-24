@@ -123,6 +123,8 @@ namespace CookTime.ViewModels
 
             this.IsVisibleUsers = true;
 
+            this.IsRefreshingUsers = false;
+
         }
 
         #endregion
@@ -153,9 +155,10 @@ namespace CookTime.ViewModels
 
             ChangeStringSpaces(1);
 
+            this.IsRefreshingUsers = false;
+
             this.Users = new ObservableCollection<UserItemViewModel>(this.ToUserItemViewModel());
 
-            this.IsRefreshingUsers = false;
 
         }
 
@@ -182,9 +185,11 @@ namespace CookTime.ViewModels
 
             ChangeStringSpaces(2);
 
+            this.IsRefreshingRecipes = false;
+
             this.Recipes = new ObservableCollection<RecipeItemViewModel>(this.ToRecipeItemViewModel());
 
-            this.IsRefreshingRecipes = false;
+            
 
         }
 

@@ -3,15 +3,20 @@
 
 namespace CookTime.Models
 {
+    using System;
     using System.Collections.Generic;
+    using System.IO;
     using CookTime.FileHelpers;
     using Newtonsoft.Json;
+    using Xamarin.Forms;
 
     /*
      * This class is the model of an user, it has all its characteristics
      */
     public class User
     {
+        private ImageSource userImage;
+
         [JsonProperty(PropertyName = "email")]
         public string Email { get; set; }
 
@@ -35,6 +40,34 @@ namespace CookTime.Models
 
         [JsonProperty(PropertyName = "chef")]
         public bool Chef { get; set; }
+
+
+        //INTERNAL PROPERTIES
+        public ImageSource UserImage { get { return ConvertImage(ProfilePic); } set { userImage = value; } }
+
+        #region METHODS
+
+        public ImageSource ConvertImage(string imageValue)
+        {
+
+            ImageSource retSource = "SignUpIcon";
+
+            if (!string.IsNullOrEmpty(imageValue))
+            {
+                try
+                {
+                    byte[] imageAsBytes = Convert.FromBase64String(imageValue);
+                    retSource = ImageSource.FromStream(() => new MemoryStream(imageAsBytes));
+                }
+                catch (Exception)
+                {
+                    return retSource;
+                }
+
+            }
+            return retSource;
+        }
+        #endregion
 
     }
 }

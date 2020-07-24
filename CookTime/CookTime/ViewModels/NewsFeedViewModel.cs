@@ -123,7 +123,6 @@ namespace CookTime.ViewModels
             //Creates the observable collection with the method 
             this.Recipes = new ObservableCollection<RecipeItemViewModel>(this.ToRecipeItemViewModel());
 
-           // AddRecipeImages();
         }
 
         /*
@@ -163,19 +162,9 @@ namespace CookTime.ViewModels
                 Difficulty = r.Difficulty,
                 Punctuation = r.Punctuation,
                 Shares = r.Shares,
-                RecipeImage = SelectImage(r.Image),
+                RecipeImage = r.RecipeImage,
                 UserImage = r.UserImage
             });
-        }
-
-        private ImageSource SelectImage(string image)
-        {
-            byte[] backToArray = Convert.FromBase64String(image);
-            var imagesource = ImageSource.FromStream(() =>
-            {
-                return new MemoryStream(backToArray); 
-            });
-            return imagesource;
         }
 
         private async Task<Response> LoadUserProfilePic()
@@ -187,19 +176,10 @@ namespace CookTime.ViewModels
                     "http://localhost:8080/CookTime.BackEnd",
                     "/api",
                     controller);
-                User loggedUser = (User)checkEmail.Result;
-                string imageString = loggedUser.ProfilePic;
-                if (imageString == null)
-                {
-                    recipe.UserImage = "SignUpIcon";
-                    continue;
-                }
+                User userX = (User)checkEmail.Result;
 
-                byte[] backToArray = Convert.FromBase64String(imageString);
-                recipe.UserImage = ImageSource.FromStream(() =>
-                {
-                    return new MemoryStream(backToArray);
-                });
+                recipe.UserImage = userX.UserImage;
+
             }
             return new Response
             {

@@ -103,19 +103,13 @@ namespace CookTime.ViewModels
         }
 
         //COMMANDS
-        public ICommand CheffQueryCommand 
-        {
-            get { return new RelayCommand(CheffQuery); }
-        }
+        public ICommand CheffQueryCommand { get { return new RelayCommand(CheffQuery); } }
 
         public ICommand SortCommand { get { return new Command<string>(SortList); } }
     
         public ICommand RefreshCommand { get { return new RelayCommand(RefreshAux); } }
   
-        public ICommand ChangePictureCommand
-        {
-            get { return new RelayCommand(ChangePicture); }
-        }
+        public ICommand ChangePictureCommand { get { return new RelayCommand(ChangePicture); } }
 
         //IMAGE SOURCE
         public ImageSource AddImageSource
@@ -146,28 +140,9 @@ namespace CookTime.ViewModels
             this.Age = loggedUser.Age;
             this.Followers = loggedUser.Followers.Length;
             this.Following = loggedUser.UsersFollowing.Length;
-
-
-            if (loggedUser.ProfilePic == null)
-            {
-                this.AddImageSource = "SignUpIcon";
-                return;
-            }
-
-            //Loads the image from server
-            LoadUserPicture();
         }
 
-        private void LoadUserPicture()
-        {
-            byte[] backToArray = Convert.FromBase64String(loggedUser.ProfilePic);
-            var imagesource = ImageSource.FromStream(() =>
-            {
-                return new MemoryStream(backToArray);
-            });
-            this.AddImageSource = imagesource;
-        }
-
+     
         private void CheffQuery()
         {
             //ToDo: Command that creates the cheff query navigation page
@@ -179,7 +154,6 @@ namespace CookTime.ViewModels
         private void RefreshAux()
         {
             SortList("0");
-            LoadUserPicture();
         }
 
         /*
@@ -234,8 +208,7 @@ namespace CookTime.ViewModels
             ChangeStringSpaces();
 
             //Creates observable collection
-            this.Recipes = new ObservableCollection<RecipeItemViewModel>(
-                this.ToRecipeItemViewModel());
+            this.Recipes = new ObservableCollection<RecipeItemViewModel>(this.ToRecipeItemViewModel());
             this.IsRefreshing = false;
         }
 
@@ -253,7 +226,7 @@ namespace CookTime.ViewModels
                 CookingSpan = r.CookingSpan,
                 EatingTime = r.EatingTime,
                 Tags = r.Tags,
-                Image = r.Tags,
+                Image = r.Image,
                 Ingredients = r.Ingredients,
                 Steps = r.Steps,
                 Comments = r.Comments,
@@ -261,19 +234,9 @@ namespace CookTime.ViewModels
                 Difficulty = r.Difficulty,
                 Punctuation = r.Punctuation,
                 Shares = r.Shares,
-                RecipeImage = SelectImage(r.Image),
+                RecipeImage = r.RecipeImage,
                 UserImage = r.UserImage
             });
-        }
-
-        private ImageSource SelectImage(string image)
-        {
-            byte[] backToArray = Convert.FromBase64String(image);
-            var imagesource = ImageSource.FromStream(() =>
-            {
-                return new MemoryStream(backToArray);
-            });
-            return imagesource;
         }
 
         private async void ChangePicture()
@@ -353,6 +316,7 @@ namespace CookTime.ViewModels
                 recipe.Tags = ReadStringConverter.ChangeGetString(recipe.Tags);
             }
         }
+
         private async Task<Response> LoadUserProfilePic()
         {
             foreach (Recipe recipe in this.recipesList)
@@ -362,19 +326,10 @@ namespace CookTime.ViewModels
                     "http://localhost:8080/CookTime.BackEnd",
                     "/api",
                     controller);
-                User loggedUser = (User)checkEmail.Result;
-                string imageString = loggedUser.ProfilePic;
-                if (imageString == null)
-                {
-                    recipe.UserImage = "SignUpIcon";
-                    continue;
-                }
+                User userX = (User)checkEmail.Result;
 
-                byte[] backToArray = Convert.FromBase64String(imageString);
-                recipe.UserImage = ImageSource.FromStream(() =>
-                {
-                    return new MemoryStream(backToArray);
-                });
+                recipe.UserImage = userX.UserImage;
+
             }
             return new Response
             {
