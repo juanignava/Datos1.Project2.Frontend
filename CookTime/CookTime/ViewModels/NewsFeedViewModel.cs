@@ -31,10 +31,19 @@ namespace CookTime.ViewModels
 
         private ImageSource userProfilePic;
 
+        //USERS FOLLOWING
+        private string[] usersFollowing;
+
         #endregion
 
 
         #region PROPERTIES
+
+        public string[] UsersFollowing
+        {
+            get { return this.usersFollowing; }
+            set { SetValue(ref this.usersFollowing, value); }
+        }
 
         //LIST OBJECTS
         public ObservableCollection<RecipeItemViewModel> Recipes
@@ -71,6 +80,7 @@ namespace CookTime.ViewModels
 
         public NewsFeedViewModel()
         {
+            this.UsersFollowing = TabbedHomeViewModel.getUserInstance().UsersFollowing;
             this.LoadRecipes();
             this.IsRefreshing = false;
         }
@@ -116,13 +126,40 @@ namespace CookTime.ViewModels
             //Copies the list loaded from the server to the list in the attributes
             this.recipesList = (List<Recipe>)response.Result;
 
+            //FilterRecipes();
+            //this.recipesList = FilterRecipes(this.recipesList);
+
             var variable = await LoadUserProfilePic();
 
             ChangeStringSpaces();
 
+            
+
             //Creates the observable collection with the method 
             this.Recipes = new ObservableCollection<RecipeItemViewModel>(this.ToRecipeItemViewModel());
+            //FilterRecipes(this.Recipes);
+        }
 
+        private void FilterRecipes()
+        {
+            List<Recipe> recipeResult = null;
+           // recipeResult.Clear();
+            foreach (Recipe recipe in this.recipesList)
+            {
+                for (int i = 0; i < this.UsersFollowing.Length; i++)
+                {
+                    if (this.UsersFollowing[i] == recipe.Author)
+                    {
+                        recipeResult.Add(recipe);
+                        break;
+                    }
+                }
+                //if (isFollowing == false)
+                //{
+                //    recipeResult.RemoveAt(toRemove);
+                //}
+            }
+            this.recipesList = recipeResult;
         }
 
         /*
