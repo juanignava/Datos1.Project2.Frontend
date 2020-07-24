@@ -458,6 +458,8 @@ namespace CookTime.ViewModels
             {
                 string arrayConverted = Convert.ToBase64String(this.imageByteArray);
 
+                this.imageByteArray = null;
+
                 var recipeImage = new RecipeImage
                 {
                     RecipeName = this.TextRecipeName,

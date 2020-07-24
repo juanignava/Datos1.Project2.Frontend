@@ -104,9 +104,9 @@ namespace CookTime.ViewModels
         
             if (string.IsNullOrEmpty(this.TextEmail)) // No email written
             {
-                BCEmail = ColorsFonts.errorColor;
+                this.BCEmail = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter an Email", "Ok");
-                BCEmail = ColorsFonts.backGround;
+                this.BCEmail = ColorsFonts.backGround;
                 this.IsRunning = false;
                 return;
             }
@@ -114,9 +114,9 @@ namespace CookTime.ViewModels
             if (string.IsNullOrEmpty(this.TextPassword)) //No Password written
             {
                 this.IsRunning = false;
-                BCPassword = ColorsFonts.errorColor;
+                this.BCPassword = ColorsFonts.errorColor;
                 await Application.Current.MainPage.DisplayAlert("Error", "You must enter a password", "Ok");
-                BCPassword = ColorsFonts.backGround;
+                this.BCPassword = ColorsFonts.backGround;
                 return;
             }
 

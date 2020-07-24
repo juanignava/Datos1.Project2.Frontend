@@ -14,6 +14,7 @@
         <!--This Scorll view cointains every detailo of the recipe
             all the data is binded to the RecipeDetailViewModel propertie named Recipe-->
         <ScrollView
+            BackgroundColor="White"
             BindingContext="{Binding RecipeDetail}">
             <StackLayout>
 
@@ -278,6 +279,7 @@
                                 <ViewCell>
 
                                     <Frame
+                                       
                                         BackgroundColor="LightGray"
                                         CornerRadius="20"
                                         Margin="10"
@@ -286,7 +288,7 @@
 
                                         <Frame.GestureRecognizers>
                                             <TapGestureRecognizer>
-                                                
+
 
                                             </TapGestureRecognizer>
 
@@ -347,6 +349,37 @@
                         </ListView.ItemTemplate>
                     </ListView>
 
+                    <Grid
+                        Padding="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+
+                        </Grid.ColumnDefinitions>
+
+                        <Entry
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Placeholder="Comments"
+                            FontSize="Body"
+                            Keyboard="Email"
+                            Text="{Binding TextComment, Mode=TwoWay}"
+                            BackgroundColor="{Binding BCComment, Mode=TwoWay}">
+
+                        </Entry>
+
+                        <ImageButton
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Source="SendCommentIcon"
+                            WidthRequest="50"
+                            BackgroundColor="LightGray"
+                            Command="{Binding CommentCommand, Mode=TwoWay}">
+
+                        </ImageButton>
+
+                    </Grid>
                 </StackLayout>
             </StackLayout>
         </ScrollView>
