@@ -171,10 +171,6 @@ namespace CookTime.ViewModels
         private ImageSource SelectImage(string image)
         {
             byte[] backToArray = Convert.FromBase64String(image);
-            //recipe.RecipeImageStream = new MemoryStream(backToArray); //Esto no
-            
-            //MemoryStream ms = new MemoryStream(backToArray);
-            
             var imagesource = ImageSource.FromStream(() =>
             {
                 return new MemoryStream(backToArray); 
@@ -200,7 +196,6 @@ namespace CookTime.ViewModels
                 }
 
                 byte[] backToArray = Convert.FromBase64String(imageString);
-                //MemoryStream ms = new MemoryStream(backToArray);
                 recipe.UserImage = ImageSource.FromStream(() =>
                 {
                     return new MemoryStream(backToArray);
