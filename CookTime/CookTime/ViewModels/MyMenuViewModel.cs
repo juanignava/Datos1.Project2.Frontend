@@ -161,10 +161,10 @@ namespace CookTime.ViewModels
         private void LoadUserPicture()
         {
             byte[] backToArray = Convert.FromBase64String(loggedUser.ProfilePic);
-            MemoryStream ms = new MemoryStream(backToArray);
+            //MemoryStream ms = new MemoryStream(backToArray);
             var imagesource = ImageSource.FromStream(() =>
             {
-                return ms;
+                return new MemoryStream(backToArray);
             });
             this.AddImageSource = imagesource;
         }
@@ -271,10 +271,10 @@ namespace CookTime.ViewModels
         {
             byte[] backToArray = Convert.FromBase64String(image);
             //recipe.RecipeImageStream = new MemoryStream(backToArray);
-            MemoryStream ms = new MemoryStream(backToArray);
+            //MemoryStream ms = new MemoryStream(backToArray);
             var imagesource = ImageSource.FromStream(() =>
             {
-                return ms;
+                return new MemoryStream(backToArray);
             });
             return imagesource;
         }
@@ -374,10 +374,10 @@ namespace CookTime.ViewModels
                 }
 
                 byte[] backToArray = Convert.FromBase64String(imageString);
-                MemoryStream ms = new MemoryStream(backToArray);
+               // MemoryStream ms = new MemoryStream(backToArray);
                 recipe.UserImage = ImageSource.FromStream(() =>
                 {
-                    return ms;
+                    return new MemoryStream(backToArray);
                 });
             }
             return new Response

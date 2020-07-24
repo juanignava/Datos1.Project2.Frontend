@@ -23,6 +23,7 @@ namespace CookTime.ViewModels
         //USER
         private User loggedUser;
 
+
         #endregion
 
 

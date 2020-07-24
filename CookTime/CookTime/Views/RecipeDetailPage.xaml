@@ -27,7 +27,7 @@
                     <Image
                         Grid.Row="0"
                         Grid.Column="0"
-                        Source="DefaultRecipeIcon"
+                        Source="{Binding UserRecipe.RecipeImage}"
                         Aspect="AspectFill"
                         HorizontalOptions="Center"
                         VerticalOptions="Center">

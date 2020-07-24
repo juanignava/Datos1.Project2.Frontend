@@ -42,7 +42,7 @@ namespace CookTime.Models
 
         public ImageSource UserImage { get; set; }
 
-        public Stream RecipeImageStream { get; set; }
+        public MemoryStream RecipeImageStream { get; set; }
 
         [JsonProperty(PropertyName = "ingredients")]
         public string Ingredients { get; set; }
