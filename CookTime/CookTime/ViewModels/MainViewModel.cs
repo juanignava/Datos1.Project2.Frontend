@@ -33,6 +33,9 @@ namespace CookTime.ViewModels
 
         public RecipeDetailViewModel RecipeDetail { get; set; }
 
+        public ChefQueryViewModel ChefQuery { get; set; }
+
+
         #endregion
 
 

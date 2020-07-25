@@ -1,6 +1,7 @@
 ﻿using CookTime.FileHelpers;
 using CookTime.Models;
 using CookTime.Services;
+using CookTime.Views;
 using GalaSoft.MvvmLight.Command;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
@@ -168,9 +169,10 @@ namespace CookTime.ViewModels
         }
 
      
-        private void CheffQuery()
+        private async void CheffQuery()
         {
-            //ToDo: Command that creates the cheff query navigation page
+            MainViewModel.getInstance().ChefQuery = new ChefQueryViewModel();
+            await Application.Current.MainPage.Navigation.PushAsync(new ChefQueryPage());
         }
 
         /*

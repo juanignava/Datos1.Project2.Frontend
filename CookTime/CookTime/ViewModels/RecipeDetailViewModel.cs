@@ -413,6 +413,7 @@ namespace CookTime.ViewModels
                 return;
             }
 
+            this.TextComment = string.Empty;
             this.loadComments();
         }
 
