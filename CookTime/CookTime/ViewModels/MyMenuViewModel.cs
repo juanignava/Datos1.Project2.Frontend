@@ -181,7 +181,6 @@ namespace CookTime.ViewModels
         }
         #endregion
 
-
         #region CONSTRUCTOR
 
         public MyMenuViewModel()
@@ -201,7 +200,6 @@ namespace CookTime.ViewModels
             this.SortList("0");
         }
         #endregion
-
 
         #region METHODS
 

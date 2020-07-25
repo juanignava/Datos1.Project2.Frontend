@@ -11,49 +11,92 @@
             BindingContext="{Binding UserDetail}"
             BackgroundColor="White">
 
-            <Button
-                Text="{Binding TextFollow, Mode=TwoWay}"
-                Margin="5"
-                CornerRadius="20"
-                HeightRequest="40"
-                BackgroundColor="White"
-                BorderColor="#631B29" 
-                FontSize="Micro"
-                HorizontalOptions="End"
-                TextColor="Black"
-                BorderWidth="3"
-                Command="{Binding FollowCommand}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-            </Button>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="55"/>
+                </Grid.RowDefinitions>
+
+                <Button
+                    Grid.Column="1"
+                    Text="{Binding TextFollow, Mode=TwoWay}"
+                    Margin="5"
+                    CornerRadius="20"
+                    HeightRequest="45"
+                    BackgroundColor="White"
+                    BorderColor="#631B29" 
+                    FontSize="Micro"
+                    HorizontalOptions="End"
+                    TextColor="Black"
+                    BorderWidth="3"
+                    Command="{Binding FollowCommand}">
+                </Button>
+
+
+                <Button
+                    Grid.Column="0"
+                    IsVisible="{Binding IsCompany}"
+                    Margin="5"
+                    Text="See location"
+                    CornerRadius="20"
+                    HeightRequest="45"
+                    BackgroundColor="White"
+                    BorderColor="#631B29" 
+                    FontSize="Micro"
+                    HorizontalOptions="Start"
+                    TextColor="Black"
+                    BorderWidth="3"
+                    Command="{Binding SeeLocationCommand}"/>
+
+            </Grid>
+
 
             <Frame
                 CornerRadius="150" 
                 HorizontalOptions="Center"
                 WidthRequest="150"
-                HeightRequest="330"
+                HeightRequest="360"
                 IsClippedToBounds="True"
                 Padding="0">
 
                 <Image
-                    Source="SignUpIcon"
+                    Source="{Binding AddImageSource}"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
                     Aspect="AspectFill">
-                </Image>    
-                     
+                </Image>
+
             </Frame>
 
             <Label
-                Text="{Binding User.Name}"
+                Text="{Binding Name}"
                 FontAttributes="Bold"
                 FontSize="Title"
                 TextColor="Black"
                 HorizontalOptions="Center"/>
 
             <Label
-                Text="{Binding User.Email}"
+                Text="{Binding Email}"
                 FontSize="Small"
                 TextColor="#B09B35"
+                HorizontalOptions="Center"/>
+
+            <Label
+                IsVisible="{Binding IsCompany}"
+                Text="{Binding ContactMethod}"
+                FontSize="Small"
+                TextColor="Black"
+                HorizontalOptions="Center"/>
+
+            <Label
+                IsVisible="{Binding IsCompany}"
+                Text="{Binding ServiceHours}"
+                FontSize="Small"
+                TextColor="Black"
                 HorizontalOptions="Center"/>
 
             <StackLayout
@@ -72,7 +115,6 @@
                     TextColor="Black"
                     FontSize="Body"
                     BackgroundColor="White">
-
                 </Label>
 
                 <Label
@@ -80,7 +122,6 @@
                     TextColor="Black"
                     FontSize="Body"
                     BackgroundColor="White">
-
                 </Label>
 
                 <Label
@@ -97,7 +138,7 @@
                     BackgroundColor="White">
 
                 </Label>
-           
+
 
             </StackLayout>
 
@@ -117,7 +158,8 @@
                     TextColor="White"
                     VerticalOptions="Center"
                     HeightRequest="100"
-                    Command="{Binding SortDateCommand}"/>
+                    Command="{Binding SortCommand}"
+                    CommandParameter="0"/>
 
                 <Button
                     Grid.Column="1"
@@ -126,7 +168,8 @@
                     TextColor="White"
                     VerticalOptions="Center"
                     HeightRequest="100"
-                    Command="{Binding SortRateCommand}"/>
+                    Command="{Binding SortCommand}"
+                    CommandParameter="1"/>
 
                 <Button
                     Grid.Column="2"
@@ -135,11 +178,123 @@
                     TextColor="White"
                     VerticalOptions="Center"
                     HeightRequest="100"
-                    Command="{Binding SortDifficultyCommand}"/>
+                    Command="{Binding SortCommand}"
+                    CommandParameter="1"/>
             </Grid>
 
-            <ListView>
-                
+            <ListView
+                HasUnevenRows="True"
+                IsPullToRefreshEnabled="True"
+                IsRefreshing="{Binding IsRefreshing}"
+                RefreshCommand="{Binding RefreshCommand}"
+                ItemsSource="{Binding Recipes}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+
+                            <Frame
+                                HasShadow="True"
+                                Padding="10, 10, 0, 6">
+
+                                <Frame.GestureRecognizers>
+
+                                    <TapGestureRecognizer Command="{Binding SelectRecipeCommand}"/>
+
+                                </Frame.GestureRecognizers>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+
+                                    </Grid.ColumnDefinitions>
+
+                                    <Frame
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        CornerRadius="50" 
+                                        HeightRequest="50"
+                                        WidthRequest="50"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Start"
+                                        Padding="0">
+
+                                        <Image
+                                            Source="{Binding UserImage}"
+                                            Aspect="AspectFill">
+                                        </Image>
+
+                                    </Frame>
+
+                                    <StackLayout
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Padding="10,0">
+
+                                        <Label
+                                            Text="{Binding Author}"
+                                            TextColor="Black"
+                                            FontAttributes="bold"
+                                            FontSize="Body"
+                                            HorizontalOptions="StartAndExpand"
+                                            VerticalOptions="Center">
+
+                                        </Label>
+
+                                        <Label
+                                            Text="{Binding Name}"
+                                            TextColor="Black"
+                                            FontSize="Body"
+                                            HorizontalOptions="StartAndExpand"
+                                            VerticalOptions="Center">
+
+                                        </Label>
+
+                                        <Image
+                                            Source="{Binding RecipeImage}"
+                                            Aspect="AspectFill"
+                                            HeightRequest="150"
+                                            WidthRequest="500"
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="Center">
+
+                                        </Image>
+
+                                        <StackLayout
+                                            Orientation="Horizontal">
+
+                                            <Image
+                                                Source="UnLikedIcon"
+                                                Aspect="AspectFill"
+                                                WidthRequest="25"
+                                                HorizontalOptions="EndAndExpand"
+                                                VerticalOptions="Center">
+
+                                            </Image>
+
+                                            <Label
+                                                Text="{Binding Punctuation}"
+                                                TextColor="Black"
+                                                FontAttributes="Bold"
+                                                FontSize="Body"
+                                                VerticalOptions="Center">
+
+                                            </Label>
+
+
+                                        </StackLayout>
+
+                                    </StackLayout>
+
+                                </Grid>
+
+                            </Frame>
+
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
             </ListView>
         </StackLayout>
     </ContentPage.Content>

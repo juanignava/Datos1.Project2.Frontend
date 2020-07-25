@@ -7,7 +7,7 @@
     mc:Ignorable="d"
     x:Class="CookTime.Views.AddAdmin"
     BindingContext="{Binding Main, Source={StaticResource Locator}}"
-    Title="Chef Query">
+    Title="Add New Admin">
 
     <ContentPage.Content>
         <StackLayout

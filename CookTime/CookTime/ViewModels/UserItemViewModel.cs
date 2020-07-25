@@ -20,6 +20,7 @@ namespace CookTime.ViewModels
         private async void selectUser()
         {
             MainViewModel.getInstance().UserDetail = new UserDetailViewModel(this);
+            //new UserDetailViewModel(this);
             await Application.Current.MainPage.Navigation.PushAsync(new UserDetailPage());
         }
     }

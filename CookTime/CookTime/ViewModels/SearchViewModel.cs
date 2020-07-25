@@ -328,8 +328,8 @@ namespace CookTime.ViewModels
                 ProfilePic = u.ProfilePic,
                 UsersFollowing = u.UsersFollowing,
                 Followers = u.Followers,
-                Chef = u.Chef
-
+                Chef = u.Chef,
+                IsCompany = u.IsCompany
             });
         }
 
@@ -355,7 +355,6 @@ namespace CookTime.ViewModels
                 Shares = r.Shares,
                 RecipeImage = r.RecipeImage,
                 UserImage = r.UserImage
-
             });
         }
         #endregion
