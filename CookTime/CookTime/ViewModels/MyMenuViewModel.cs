@@ -186,7 +186,7 @@ namespace CookTime.ViewModels
         public MyMenuViewModel()
         {
             this.loggedUser = TabbedHomeViewModel.getUserInstance();
-            if (this.loggedUser.IsCompany == true)
+            if (this.loggedUser.IsCompany)
             {
                 this.IsCompany = true;
                 this.TextQuery = "Add admin";
@@ -229,7 +229,7 @@ namespace CookTime.ViewModels
      
         private async void CheffQuery()
         {
-            if (this.IsCompany == true)
+            if (this.IsCompany)
             {
                 MainViewModel.getInstance().AddAdmin = new AddAdminViewModel(this.Admins, this.email);
                 await Application.Current.MainPage.Navigation.PushAsync(new AddAdmin());

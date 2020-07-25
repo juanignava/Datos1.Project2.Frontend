@@ -158,25 +158,41 @@ namespace CookTime.ViewModels
         public string TextContactMethods 
         {
             get { return this.textContactMethods; }
-            set { SetValue(ref this.textContactMethods, value); }
+            set
+            {
+                SetValue(ref this.textContactMethods, value);
+                BCContactMethods = ColorsFonts.backGround;
+            }
         }
 
         public string TextAddressLat
         {
             get { return this.textAddressLat; }
-            set { SetValue(ref this.textAddressLat, value); }
+            set
+            {
+                SetValue(ref this.textAddressLat, value);
+                BCAddress = ColorsFonts.backGround;
+            }
         }
 
         public string TextAddressLon
         {
             get { return this.textAddressLon; }
-            set { SetValue(ref this.textAddressLon, value); }
+            set
+            {
+                SetValue(ref this.textAddressLon, value);
+                BCAddress = ColorsFonts.backGround;
+            }
         }
 
         public string TextServiceHours
         {
             get { return this.textServiceHours; }
-            set { SetValue(ref this.textServiceHours, value); }
+            set
+            {
+                SetValue(ref this.textServiceHours, value);
+                BCServiceHours = ColorsFonts.backGround;
+            }
         }
 
         //BACKGROUND COLOR
@@ -454,14 +470,13 @@ namespace CookTime.ViewModels
 
             
 
-            if (this.IsCompany == true)
+            if (this.IsCompany)
             {
                 if (string.IsNullOrEmpty(this.TextContactMethods))
                 {
                     IsRunning = false;
                     BCContactMethods = ColorsFonts.errorColor;
                     await Application.Current.MainPage.DisplayAlert("Error", "You must enter the company contact methods", "Ok");
-                    BCContactMethods = ColorsFonts.backGround;
                     return;
                 }
 
@@ -470,7 +485,6 @@ namespace CookTime.ViewModels
                     IsRunning = false;
                     BCAddress = ColorsFonts.errorColor;
                     await Application.Current.MainPage.DisplayAlert("Error", "You must enter the company adress latitud", "Ok");
-                    BCAddress = ColorsFonts.backGround;
                     return;
                 }
 
@@ -479,7 +493,6 @@ namespace CookTime.ViewModels
                     IsRunning = false;
                     BCAddress = ColorsFonts.errorColor;
                     await Application.Current.MainPage.DisplayAlert("Error", "You must enter the company adress longitud", "Ok");
-                    BCAddress = ColorsFonts.backGround;
                     return;
                 }
 
@@ -488,7 +501,6 @@ namespace CookTime.ViewModels
                     IsRunning = false;
                     BCServiceHours = ColorsFonts.errorColor;
                     await Application.Current.MainPage.DisplayAlert("Error", "You must enter the company service hours", "Ok");
-                    BCServiceHours = ColorsFonts.backGround;
                     return;
                 }
 
@@ -504,7 +516,6 @@ namespace CookTime.ViewModels
                     Password = this.TextPassword,
                     Contact = this.TextContactMethods,
                     ServiceSchedule = this.TextServiceHours,
-                   // Location = address2
                 };
 
                 string queryUrlC = "/companies?email=" + this.TextEmail + "&password=" + this.TextPassword
@@ -541,12 +552,12 @@ namespace CookTime.ViewModels
             //Generates the query url
             
             string queryUrl = "/users?email=" + this.TextEmail + "&password=" + this.TextPassword
-                + "&name=" + this.TextName + "&age=" + this.TextAge;
+                + "&name=" + this.TextName + "&age=" + this.TextAge + "&company=" + this.IsCompany;
 
-            if (this.IsCompany == true)
-            {
-                queryUrl += "&company=true";
-            }
+            //if (this.IsCompany == true)
+            //{
+            //    queryUrl += "&company=true";
+            //}
 
             //Posts the account
             Response response = await ApiService.Post<User>(
@@ -579,48 +590,9 @@ namespace CookTime.ViewModels
             MainViewModel.getInstance().TabbedHome = new TabbedHomeViewModel(loggedUser);
             await Application.Current.MainPage.Navigation.PushAsync(new TabbedHomePage());
 
-
-
         }
 
-        private async System.Threading.Tasks.Task createCompany()
-        {
-            var address = this.TextAddressLat + "," + this.TextAddressLon;
-            Company company = new Company
-            {
-                Email = this.TextEmail,
-                Name = this.TextName,
-                Password = this.TextPassword,
-                Contact = this.TextContactMethods,
-                ServiceSchedule = this.TextServiceHours,
-                //Location = address
-            };
-
-            string queryUrl = "/companies?email=" + this.TextEmail + "&password=" + this.TextPassword
-                + "&name=" + this.TextName + "&location=" + address + "&contact=" + this.TextContactMethods + "&serviceSchedule=" + this.TextServiceHours;
-
-            //Posts the Company
-            Response response = await ApiService.Post<Company>(
-                "http://localhost:8080/CookTime.BackEnd",
-                "/api",
-                queryUrl,
-                company,
-                true);
-
-            if (!response.IsSuccess)
-            {
-                IsRunning = false;
-                await Application.Current.MainPage.DisplayAlert(
-                    "Error",
-                    "Something was wrong",
-                    "Accept");
-                return;
-            }
-
-            return;
-        }
-
-        private async void Company()
+        private void Company()
         {
             if (this.IsCompany == false)
             {

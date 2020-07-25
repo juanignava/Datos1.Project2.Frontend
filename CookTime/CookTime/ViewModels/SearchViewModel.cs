@@ -19,6 +19,8 @@ namespace CookTime.ViewModels
         //TEXT
         private string textSearch;
 
+        private string filter;
+
         //BOOLEAN
         private bool isRefreshing;
 
@@ -136,6 +138,8 @@ namespace CookTime.ViewModels
         {
             this.loadUsers();
 
+            this.filter = "Users";
+
             this.IsVisibleUsers = true;
 
             this.IsRefreshing = false;
@@ -205,9 +209,11 @@ namespace CookTime.ViewModels
 
             ChangeStringSpaces(2);
 
-            this.Recipes = new ObservableCollection<RecipeItemViewModel>(this.ToRecipeItemViewModel());
+            if (this.recipesList != null)
+            {
+                this.Recipes = new ObservableCollection<RecipeItemViewModel>(this.ToRecipeItemViewModel());
 
-            
+            }
 
         }
 
@@ -238,32 +244,62 @@ namespace CookTime.ViewModels
         {
             if (string.IsNullOrEmpty(this.TextSearch))
             {
-                this.Users = new ObservableCollection<UserItemViewModel>(this.ToUserItemViewModel(this.usersList));
+                switch (this.filter)
+                {
+                    case "Chefs":
+                        if (this.chefsList != null)
+                        {
+                            this.Chefs = new ObservableCollection<UserItemViewModel>(this.ToUserItemViewModel(this.chefsList));
+                        }
+                        break;
 
-                this.Recipes = new ObservableCollection<RecipeItemViewModel>(this.ToRecipeItemViewModel());
+                    case "Recipes":
+                        if (this.recipesList != null)
+                        {
+                            this.Recipes = new ObservableCollection<RecipeItemViewModel>(this.ToRecipeItemViewModel());
+                        }
+                        break;
 
-                this.Chefs = new ObservableCollection<UserItemViewModel>(this.ToUserItemViewModel(this.chefsList));
+                    case "Users":
+                        this.Users = new ObservableCollection<UserItemViewModel>(this.ToUserItemViewModel(this.usersList));
+                        break;
+                }
 
             }
             else
             {
-                this.Users = new ObservableCollection<UserItemViewModel>(this.ToUserItemViewModel(this.usersList).Where(u => u.Name.ToLower().Contains(this.TextSearch.ToLower())
-                                                                                        || u.Email.ToLower().Contains(this.TextSearch.ToLower())));
+                switch (this.filter)
+                {
+                    case "Chefs":
+                        if (this.chefsList != null)
+                        {
+                            this.Chefs = new ObservableCollection<UserItemViewModel>(this.ToUserItemViewModel(this.chefsList).Where(c => c.Name.ToLower().Contains(this.TextSearch.ToLower())
+                                                                                                                    || c.Email.ToLower().Contains(this.TextSearch.ToLower())));
+                        }
+                        break;
 
-                this.Recipes = new ObservableCollection<RecipeItemViewModel>(this.ToRecipeItemViewModel().Where(r => r.Name.ToLower().Contains(this.TextSearch.ToLower())
-                                                                                        || r.Author.ToLower().Contains(this.TextSearch.ToLower())));
+                    case "Recipes":
+                        if (this.recipesList != null)
+                        {
+                            this.Recipes = new ObservableCollection<RecipeItemViewModel>(this.ToRecipeItemViewModel().Where(r => r.Name.ToLower().Contains(this.TextSearch.ToLower())
+                                                                                                                    || r.Author.ToLower().Contains(this.TextSearch.ToLower())));
+                        }
+                        break;
 
-                this.Chefs = new ObservableCollection<UserItemViewModel>(this.ToUserItemViewModel(this.chefsList).Where(c => c.Name.ToLower().Contains(this.TextSearch.ToLower())
-                                                                                        || c.Email.ToLower().Contains(this.TextSearch.ToLower())));
-
+                    case "Users":
+                        this.Users = new ObservableCollection<UserItemViewModel>(this.ToUserItemViewModel(this.usersList).Where(u => u.Name.ToLower().Contains(this.TextSearch.ToLower())
+                                                                          || u.Email.ToLower().Contains(this.TextSearch.ToLower())));
+                        break;
+                }
+               
             }
         }
 
         private async void Filter()
         {
-            string filter = await Application.Current.MainPage.DisplayActionSheet("Filter", "Cancel", null, "Chefs", "Recipes", "Users");
+           this.filter = await Application.Current.MainPage.DisplayActionSheet("Filter", "Cancel", null, "Chefs", "Recipes", "Users");
 
-            switch (filter)
+            switch (this.filter)
             {
 
                 case "Chefs":
@@ -335,27 +371,36 @@ namespace CookTime.ViewModels
 
         private IEnumerable<RecipeItemViewModel> ToRecipeItemViewModel()
         {
-            return this.recipesList.Select(r => new RecipeItemViewModel
+            try
             {
-                Name = r.Name,
-                Author = r.Author,
-                Type = r.Type,
-                Portions = r.Portions,
-                CookingSpan = r.CookingSpan,
-                EatingTime = r.EatingTime,
-                Tags = r.Tags,
-                Image = r.Image,
-                Ingredients = r.Ingredients,
-                Steps = r.Steps,
-                Comments = r.Comments,
-                Likers = r.Likers,
-                Price = r.Price,
-                Difficulty = r.Difficulty,
-                Punctuation = r.Punctuation,
-                Shares = r.Shares,
-                RecipeImage = r.RecipeImage,
-                UserImage = r.UserImage
-            });
+                return this.recipesList.Select(r => new RecipeItemViewModel
+                {
+                    Name = r.Name,
+                    Author = r.Author,
+                    Type = r.Type,
+                    Portions = r.Portions,
+                    CookingSpan = r.CookingSpan,
+                    EatingTime = r.EatingTime,
+                    Tags = r.Tags,
+                    Image = r.Image,
+                    Ingredients = r.Ingredients,
+                    Steps = r.Steps,
+                    Comments = r.Comments,
+                    Likers = r.Likers,
+                    Price = r.Price,
+                    Difficulty = r.Difficulty,
+                    Punctuation = r.Punctuation,
+                    Shares = r.Shares,
+                    RecipeImage = r.RecipeImage,
+                    UserImage = r.UserImage
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return null;
+            }
+            
         }
         #endregion
 

@@ -15,8 +15,6 @@ namespace CookTime.ViewModels
 
         public SignUpViewModel SignUp { get; set; }
 
-        public CompanySignUpViewModel CompanySignUp { get; set; }
-
         public TabbedHomeViewModel TabbedHome { get; set; }
 
         public NewsFeedViewModel NewsFeed { get; set; }
