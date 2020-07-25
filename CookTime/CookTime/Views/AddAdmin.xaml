@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    x:Class="CookTime.Views.AddAdmin"
+    BindingContext="{Binding Main, Source={StaticResource Locator}}"
+    Title="Chef Query">
+
+    <ContentPage.Content>
+        <StackLayout
+            BackgroundColor="white"
+            Padding="50,0"
+            BindingContext="{Binding AddAdmin}">
+
+            <StackLayout
+                    Padding="0,50"
+                    VerticalOptions="Start">
+                <Image
+                        Source="ChefQueryIcon">
+
+                </Image>
+            </StackLayout>
+
+            <ActivityIndicator
+                IsRunning="{Binding IsRunning, Mode=TwoWay}"
+                VerticalOptions="CenterAndExpand"
+                Color ="#631B29"
+                HeightRequest="20">
+            </ActivityIndicator>
+
+
+            <StackLayout
+                VerticalOptions="EndAndExpand"
+                Padding="0,10">
+
+
+                <Entry
+                    Margin="0, 50"
+                    Placeholder="Enter the user email"
+                    FontSize="Body"
+                    Keyboard="Email"
+                    PlaceholderColor="#B09B35"
+                    Text="{Binding TextChef, Mode=TwoWay}"
+                    BackgroundColor="{Binding BCChef, Mode=TwoWay}">
+
+                </Entry>
+                
+
+                <Button
+                    Text="Add Admin"
+                    FontSize="Body"
+                    TextColor="White"
+                    BackgroundColor="#631B29"
+                    CornerRadius="10"
+                    Command="{Binding AddAdminCommand}">
+                </Button>
+
+
+
+            </StackLayout>
+
+        </StackLayout>
+
+    </ContentPage.Content>
+</ContentPage>

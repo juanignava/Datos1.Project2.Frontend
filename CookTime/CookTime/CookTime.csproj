@@ -23,6 +23,9 @@
     <Folder Include="Constants\" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Update="Views\AddAdmin.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\RecipeDetailPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

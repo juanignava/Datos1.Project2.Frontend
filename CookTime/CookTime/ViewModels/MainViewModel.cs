@@ -35,6 +35,7 @@ namespace CookTime.ViewModels
 
         public ChefQueryViewModel ChefQuery { get; set; }
 
+        public AddAdminViewModel AddAdmin { get; set; }
 
         #endregion
 

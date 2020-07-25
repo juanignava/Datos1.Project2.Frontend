@@ -69,6 +69,8 @@ namespace CookTime.ViewModels
 
         private double longitud;
 
+        private List<String> admins;
+
         #endregion
 
         #region PROPERTIES
@@ -107,6 +109,12 @@ namespace CookTime.ViewModels
         {
             get { return this.longitud; }
             set { SetValue(ref this.longitud, value); }
+        }
+
+        public List<String> Admins
+        {
+            get { return this.admins; }
+            set { SetValue(ref this.admins, value); }
         }
         //VALUE
         public int Followers
@@ -223,6 +231,12 @@ namespace CookTime.ViewModels
      
         private async void CheffQuery()
         {
+            if (this.IsCompany == true)
+            {
+                MainViewModel.getInstance().AddAdmin = new AddAdminViewModel(this.Admins, this.email);
+                await Application.Current.MainPage.Navigation.PushAsync(new AddAdmin());
+                return;
+            }
             MainViewModel.getInstance().ChefQuery = new ChefQueryViewModel();
             await Application.Current.MainPage.Navigation.PushAsync(new ChefQueryPage());
         }
@@ -464,10 +478,11 @@ namespace CookTime.ViewModels
             //Copies the list loaded from the server
 
              this.loggedCompany = (Company) response.Result;
-             this.ServiceHours = "Service Hours " + ReadStringConverter.ChangeGetString(this.loggedCompany.ServiceSchedule);
-             this.ContactMethod = "Contact Method " + ReadStringConverter.ChangeGetString(this.loggedCompany.Contact);
+             this.ServiceHours = "Service Hours: " + ReadStringConverter.ChangeGetString(this.loggedCompany.ServiceSchedule);
+             this.ContactMethod = "Contact Method: " + ReadStringConverter.ChangeGetString(this.loggedCompany.Contact);
             this.Latitud = this.loggedCompany.Location[0];
             this.Longitud = this.loggedCompany.Location[1];
+            this.Admins = this.loggedCompany.Admins;
 
             return null;
         }
