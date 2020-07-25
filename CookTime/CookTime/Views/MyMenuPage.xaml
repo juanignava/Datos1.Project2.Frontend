@@ -84,7 +84,7 @@
             <Label
                 Text="Chef"
                 FontSize="Body"
-                TextColor="Black"
+                TextColor="Blue"
                 HorizontalOptions="Center"
                 IsVisible="{Binding VisibleChef, Mode=TwoWay}">
 
