@@ -30,6 +30,8 @@ namespace CookTime.ViewModels
 
         private bool isVisibleChefs;
 
+        private bool isVisibleCompanies;
+
         //OBSERVABLE COLLECTION
         private ObservableCollection<UserItemViewModel> users;
 
@@ -37,12 +39,16 @@ namespace CookTime.ViewModels
 
         private ObservableCollection<UserItemViewModel> chefs;
 
+        private ObservableCollection<UserItemViewModel> companies;
+
         //LIST
         private List<Recipe> recipesList;
 
         private List<User> usersList;
 
         private List<User> chefsList;
+
+        private List<User> companiesList;
         #endregion
 
 
@@ -84,6 +90,12 @@ namespace CookTime.ViewModels
             set { SetValue(ref this.isVisibleChefs, value); }
         }
 
+        public bool IsVisibleCompanies
+        {
+            get { return this.isVisibleCompanies; }
+            set { SetValue(ref this.isVisibleCompanies, value); }
+        }
+
         //OBSERVABLE COLLECTION
         public ObservableCollection<UserItemViewModel> Users
         {
@@ -103,6 +115,12 @@ namespace CookTime.ViewModels
             set { SetValue(ref this.chefs, value); }
         }
 
+        public ObservableCollection<UserItemViewModel> Companies
+        {
+            get { return this.companies; }
+            set { SetValue(ref this.companies, value); }
+        }
+
         //COMMAND
         public ICommand RefreshUsersCommand
         {
@@ -117,6 +135,11 @@ namespace CookTime.ViewModels
         public ICommand RefreshChefsCommand
         {
             get { return new RelayCommand(loadChefs); }
+        }
+
+        public ICommand RefreshCompaniesCommand
+        {
+            get { return new RelayCommand(loadCompanies); }
         }
 
         public ICommand SearchCommand
@@ -155,8 +178,6 @@ namespace CookTime.ViewModels
         private async void loadUsers()
         {
             this.IsRefreshing = true;
-
-            this.chefsList = new List<User>();
 
             Response userResponse = await ApiService.GetList<User>(
                 "http://localhost:8080/CookTime.BackEnd",
@@ -223,6 +244,8 @@ namespace CookTime.ViewModels
 
             this.loadUsers();
 
+            this.chefsList = new List<User>();
+
             foreach (User user in this.usersList)
             {
                 if (user.Chef)
@@ -240,12 +263,44 @@ namespace CookTime.ViewModels
 
         }
 
+        private void loadCompanies()
+        {
+            this.IsRefreshing = true;
+
+            this.loadUsers();
+
+            this.companiesList = new List<User>();
+
+            foreach (User user in this.usersList)
+            {
+                if (user.IsCompany)
+                {
+                    this.companiesList.Add(user);
+                }
+            }
+
+            this.IsRefreshing = false;
+
+            if (this.companiesList != null)
+            {
+                this.Companies = new ObservableCollection<UserItemViewModel>(this.ToUserItemViewModel(this.companiesList));
+            }
+
+        }
+
         private void Search()
         {
             if (string.IsNullOrEmpty(this.TextSearch))
             {
                 switch (this.filter)
                 {
+                    case "Companies":
+                        if (this.companiesList != null)
+                        {
+                            this.Companies = new ObservableCollection<UserItemViewModel>(this.ToUserItemViewModel(this.companiesList));
+                        }
+                        break;
+
                     case "Chefs":
                         if (this.chefsList != null)
                         {
@@ -270,6 +325,14 @@ namespace CookTime.ViewModels
             {
                 switch (this.filter)
                 {
+                    case "Companies":
+                        if (this.companiesList != null)
+                        {
+                            this.Companies = new ObservableCollection<UserItemViewModel>(this.ToUserItemViewModel(this.companiesList).Where(c => c.Name.ToLower().Contains(this.TextSearch.ToLower())
+                                                                                                                    || c.Email.ToLower().Contains(this.TextSearch.ToLower())));
+                        }
+                        break;
+
                     case "Chefs":
                         if (this.chefsList != null)
                         {
@@ -297,16 +360,26 @@ namespace CookTime.ViewModels
 
         private async void Filter()
         {
-           this.filter = await Application.Current.MainPage.DisplayActionSheet("Filter", "Cancel", null, "Chefs", "Recipes", "Users");
+           this.filter = await Application.Current.MainPage.DisplayActionSheet("Filter", "Cancel", null, "Companies", "Chefs", "Recipes", "Users");
 
             switch (this.filter)
             {
+
+                case "Companies":
+                    this.loadCompanies();
+                    this.IsVisibleUsers = false;
+                    this.IsVisibleRecipes = false;
+                    this.IsVisibleChefs = false;
+                    this.IsVisibleCompanies = true;
+
+                    break;
 
                 case "Chefs":
                     this.loadChefs();
                     this.IsVisibleUsers = false;
                     this.IsVisibleRecipes = false;
                     this.IsVisibleChefs = true;
+                    this.IsVisibleCompanies = false;
                     break;
 
                 case "Recipes":
@@ -314,6 +387,7 @@ namespace CookTime.ViewModels
                     this.IsVisibleUsers = false;
                     this.IsVisibleRecipes = true;
                     this.IsVisibleChefs = false;
+                    this.IsVisibleCompanies = false;
                     break;
 
                 case "Users":
@@ -321,6 +395,7 @@ namespace CookTime.ViewModels
                     this.IsVisibleUsers = true;
                     this.IsVisibleRecipes = false;
                     this.IsVisibleChefs = false;
+                    this.IsVisibleCompanies = false;
                     break;
 
             }
@@ -371,36 +446,29 @@ namespace CookTime.ViewModels
 
         private IEnumerable<RecipeItemViewModel> ToRecipeItemViewModel()
         {
-            try
+
+            return this.recipesList.Select(r => new RecipeItemViewModel
             {
-                return this.recipesList.Select(r => new RecipeItemViewModel
-                {
-                    Name = r.Name,
-                    Author = r.Author,
-                    Type = r.Type,
-                    Portions = r.Portions,
-                    CookingSpan = r.CookingSpan,
-                    EatingTime = r.EatingTime,
-                    Tags = r.Tags,
-                    Image = r.Image,
-                    Ingredients = r.Ingredients,
-                    Steps = r.Steps,
-                    Comments = r.Comments,
-                    Likers = r.Likers,
-                    Price = r.Price,
-                    Difficulty = r.Difficulty,
-                    Punctuation = r.Punctuation,
-                    Shares = r.Shares,
-                    RecipeImage = r.RecipeImage,
-                    UserImage = r.UserImage
-                });
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-                return null;
-            }
-            
+                Name = r.Name,
+                Author = r.Author,
+                Type = r.Type,
+                Portions = r.Portions,
+                CookingSpan = r.CookingSpan,
+                EatingTime = r.EatingTime,
+                Tags = r.Tags,
+                Image = r.Image,
+                Ingredients = r.Ingredients,
+                Steps = r.Steps,
+                Comments = r.Comments,
+                Likers = r.Likers,
+                Price = r.Price,
+                Difficulty = r.Difficulty,
+                Punctuation = r.Punctuation,
+                Shares = r.Shares,
+                RecipeImage = r.RecipeImage,
+                UserImage = r.UserImage
+            });
+
         }
         #endregion
 

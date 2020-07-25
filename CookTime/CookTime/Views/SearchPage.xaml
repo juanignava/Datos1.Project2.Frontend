@@ -187,6 +187,54 @@
                 </ListView.ItemTemplate>
             </ListView>
 
+            <ListView
+                HasUnevenRows="True"
+                IsPullToRefreshEnabled="True"
+                IsVisible="{Binding IsVisibleCompanies, Mode=TwoWay}"
+                RefreshCommand="{Binding RefreshUsersCommand}"
+                IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
+                ItemsSource="{Binding Companies}">
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame
+                                HasShadow="True">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding SelectUserCommand}">
+
+                                    </TapGestureRecognizer>
+
+                                </Frame.GestureRecognizers>
+                                <StackLayout>
+
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="Body"
+                                        TextColor="Black"
+                                        Text="{Binding Name}">
+
+                                    </Label>
+
+                                    <Label
+                                        FontSize="Body"
+                                        TextColor="Black"
+                                        Text="{Binding Email}">
+
+                                    </Label>
+
+                                </StackLayout>
+                            </Frame>
+
+                            
+                        </ViewCell>
+
+                    </DataTemplate>
+
+                </ListView.ItemTemplate>
+            </ListView>
+
 
         </StackLayout>
 
