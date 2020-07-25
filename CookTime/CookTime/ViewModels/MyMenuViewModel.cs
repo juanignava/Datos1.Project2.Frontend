@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace CookTime.ViewModels
@@ -51,10 +52,20 @@ namespace CookTime.ViewModels
 
         private Byte[] ImageByteArray;
 
+        //COMPANY ATTRIBUTES
+
+        private bool isCompany;
+
         #endregion
 
 
         #region PROPERTIES
+        //COMPANY
+        public bool IsCompany 
+        {
+            get { return this.isCompany; }
+            set { SetValue(ref this.isCompany, value); }
+        }
 
         //VALUE
         public int Followers
@@ -111,6 +122,8 @@ namespace CookTime.ViewModels
   
         public ICommand ChangePictureCommand { get { return new RelayCommand(ChangePicture); } }
 
+        public ICommand SeeLocationCommand { get { return new RelayCommand(SeeLocation); } }
+
         //IMAGE SOURCE
         public ImageSource AddImageSource
         {
@@ -125,6 +138,10 @@ namespace CookTime.ViewModels
         public MyMenuViewModel()
         {
             this.loggedUser = TabbedHomeViewModel.getUserInstance();
+            if (this.loggedUser.IsCompany == true)
+            {
+                this.IsCompany = true;
+            }
             init();
             this.SortList("0");
         }
@@ -345,6 +362,15 @@ namespace CookTime.ViewModels
 
             }
             return null;
+        }
+
+        private async void SeeLocation()
+        {
+            await Map.OpenAsync(47.3230, -122.0276, new MapLaunchOptions
+            {
+                Name = "MyPlace",
+                NavigationMode = NavigationMode.None
+            });
         }
         #endregion
     }

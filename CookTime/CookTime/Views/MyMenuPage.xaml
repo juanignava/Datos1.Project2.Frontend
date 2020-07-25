@@ -24,7 +24,21 @@
                 TextColor="Black"
                 BorderWidth="3"
                 Command="{Binding CheffQueryCommand}"/>
-            
+
+            <Button
+                IsVisible="{Binding IsCompany}"
+                Margin="5"
+                Text="See location"
+                CornerRadius="20"
+                HeightRequest="40"
+                BackgroundColor="White"
+                BorderColor="#631B29" 
+                FontSize="Micro"
+                HorizontalOptions="End"
+                TextColor="Black"
+                BorderWidth="3"
+                Command="{Binding SeeLocationCommand}"/>
+
             <Frame
                 CornerRadius="150" 
                 HorizontalOptions="Center"

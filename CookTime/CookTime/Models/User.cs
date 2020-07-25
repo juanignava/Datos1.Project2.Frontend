@@ -39,6 +39,8 @@ namespace CookTime.Models
         [JsonProperty(PropertyName = "chef")]
         public bool Chef { get; set; }
 
+        [JsonProperty(PropertyName = "company")]
+        public bool IsCompany { get; set; }
 
         //INTERNAL PROPERTIES
         public ImageSource UserImage { get { return ConvertImage(ProfilePic); } set { userImage = value; } }
