@@ -138,6 +138,9 @@ namespace CookTime.ViewModels
                 return;
             }
 
+            this.TextChef = string.Empty;
+            this.IsChecked = false;
+
             this.IsRunning = false;
 
         }
