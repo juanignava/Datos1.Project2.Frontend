@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="CookTime.Views.ChefQueryPage"
+    BindingContext="{Binding Main, Source={StaticResource Locator}}"
+    Title="Chef Query">
+
+    <ContentPage.Content>
+        <StackLayout
+            BackgroundColor="white"
+            Padding="50,0"
+            BindingContext="{Binding ChefQuery}">
+
+            <StackLayout
+                    Padding="0,50"
+                    VerticalOptions="Start">
+                <Image
+                        Source="ChefQueryIcon">
+
+                </Image>
+            </StackLayout>
+
+            <ActivityIndicator
+                IsRunning="{Binding IsRunning, Mode=TwoWay}"
+                VerticalOptions="CenterAndExpand"
+                Color ="#631B29"
+                HeightRequest="20">
+            </ActivityIndicator>
+
+
+            <StackLayout
+                VerticalOptions="EndAndExpand"
+                Padding="0,10">
+
+
+                <Entry
+                    Placeholder="Why are you a chef?"
+                    FontSize="Body"
+                    PlaceholderColor="#B09B35"
+                    Text="{Binding TextChef, Mode=TwoWay}"
+                    BackgroundColor="{Binding BCChef, Mode=TwoWay}">
+
+                </Entry>
+                <StackLayout
+                     Orientation="Horizontal">
+
+                    <Label
+                        Text="I accept to send my information"
+                        FontSize="Body"
+                        TextColor="#B09B35"
+                        FontAttributes="Bold"
+                        VerticalOptions="Center">
+
+                    </Label>
+
+                    <CheckBox
+                        HorizontalOptions="EndAndExpand"
+                        Color="#631B29"
+                        VerticalOptions="Center"
+                        IsChecked="{Binding IsChecked, Mode=TwoWay}">
+
+                    </CheckBox>
+
+
+                </StackLayout>
+
+                <Button
+                    Text="Send Query"
+                    FontSize="Body"
+                    TextColor="White"
+                    BackgroundColor="#631B29"
+                    CornerRadius="10"
+                    Command="{Binding SendQueryCommand}">
+                </Button>
+
+
+
+            </StackLayout>
+
+        </StackLayout>
+
+    </ContentPage.Content>
+</ContentPage>
