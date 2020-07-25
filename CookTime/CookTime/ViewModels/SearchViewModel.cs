@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using CookTime.FileHelpers;
 using CookTime.Models;
@@ -19,23 +20,27 @@ namespace CookTime.ViewModels
         private string textSearch;
 
         //BOOLEAN
-        private bool isRefreshingUsers;
-
-        private bool isRefreshingRecipes;
+        private bool isRefreshing;
 
         private bool isVisibleUsers;
 
         private bool isVisibleRecipes;
+
+        private bool isVisibleChefs;
 
         //OBSERVABLE COLLECTION
         private ObservableCollection<UserItemViewModel> users;
 
         private ObservableCollection<RecipeItemViewModel> recipes;
 
+        private ObservableCollection<UserItemViewModel> chefs;
+
         //LIST
         private List<Recipe> recipesList;
 
         private List<User> usersList;
+
+        private List<User> chefsList;
         #endregion
 
 
@@ -53,16 +58,10 @@ namespace CookTime.ViewModels
         }
 
         //BOOLEAN
-        public bool IsRefreshingUsers
+        public bool IsRefreshing
         {
-            get { return this.isRefreshingUsers; }
-            set { SetValue(ref this.isRefreshingUsers, value); }
-        }
-
-        public bool IsRefreshingRecipes
-        {
-            get { return this.isRefreshingRecipes; }
-            set { SetValue(ref this.isRefreshingRecipes, value); }
+            get { return this.isRefreshing; }
+            set { SetValue(ref this.isRefreshing, value); }
         }
 
         public bool IsVisibleUsers
@@ -75,6 +74,12 @@ namespace CookTime.ViewModels
         {
             get { return this.isVisibleRecipes; }
             set { SetValue(ref this.isVisibleRecipes, value); }
+        }
+
+        public bool IsVisibleChefs
+        {
+            get { return this.isVisibleChefs; }
+            set { SetValue(ref this.isVisibleChefs, value); }
         }
 
         //OBSERVABLE COLLECTION
@@ -90,6 +95,12 @@ namespace CookTime.ViewModels
             set { SetValue(ref this.recipes, value); }
         }
 
+        public ObservableCollection<UserItemViewModel> Chefs
+        {
+            get { return this.chefs; }
+            set { SetValue(ref this.chefs, value); }
+        }
+
         //COMMAND
         public ICommand RefreshUsersCommand
         {
@@ -99,6 +110,11 @@ namespace CookTime.ViewModels
         public ICommand RefreshRecipesCommand
         {
             get { return new RelayCommand(loadRecipes); }
+        }
+
+        public ICommand RefreshChefsCommand
+        {
+            get { return new RelayCommand(loadChefs); }
         }
 
         public ICommand SearchCommand
@@ -122,7 +138,7 @@ namespace CookTime.ViewModels
 
             this.IsVisibleUsers = true;
 
-            this.IsRefreshingUsers = false;
+            this.IsRefreshing = false;
 
 
         }
@@ -134,7 +150,9 @@ namespace CookTime.ViewModels
 
         private async void loadUsers()
         {
-            this.IsRefreshingUsers = true;
+            this.IsRefreshing = true;
+
+            this.chefsList = new List<User>();
 
             Response userResponse = await ApiService.GetList<User>(
                 "http://localhost:8080/CookTime.BackEnd",
@@ -143,7 +161,7 @@ namespace CookTime.ViewModels
 
             if (!userResponse.IsSuccess)
             {
-                this.IsRefreshingUsers = false;
+                this.IsRefreshing = false;
                 await Application.Current.MainPage.DisplayAlert(
                     "Error",
                     userResponse.Message,
@@ -151,20 +169,20 @@ namespace CookTime.ViewModels
                 return;
             }
 
-            this.IsRefreshingUsers = false;
+            this.IsRefreshing = false;
 
             this.usersList = (List<User>)userResponse.Result;
 
             ChangeStringSpaces(1);
 
-            this.Users = new ObservableCollection<UserItemViewModel>(this.ToUserItemViewModel());
+            this.Users = new ObservableCollection<UserItemViewModel>(this.ToUserItemViewModel(this.usersList));
 
 
         }
 
         private async void loadRecipes()
         {
-            this.IsRefreshingRecipes = true;
+            this.IsRefreshing = true;
 
             Response recipeResponse = await ApiService.GetList<Recipe>(
                 "http://localhost:8080/CookTime.BackEnd",
@@ -173,7 +191,7 @@ namespace CookTime.ViewModels
 
             if (!recipeResponse.IsSuccess)
             {
-                this.IsRefreshingRecipes = false;
+                this.IsRefreshing = false;
                 await Application.Current.MainPage.DisplayAlert(
                     "Error",
                     recipeResponse.Message,
@@ -181,7 +199,7 @@ namespace CookTime.ViewModels
                 return;
             }
 
-            this.IsRefreshingRecipes = false;
+            this.IsRefreshing = false;
 
             this.recipesList = (List<Recipe>)recipeResponse.Result;
 
@@ -193,45 +211,80 @@ namespace CookTime.ViewModels
 
         }
 
+        private void loadChefs()
+        {
+            this.IsRefreshing = true;
+
+            this.loadUsers();
+
+            foreach (User user in this.usersList)
+            {
+                if (user.Chef)
+                {
+                    this.chefsList.Add(user);
+                }
+            }
+
+            this.IsRefreshing = false;
+
+            if (this.chefsList != null)
+            {
+                this.Chefs = new ObservableCollection<UserItemViewModel>(this.ToUserItemViewModel(this.chefsList));
+            }
+
+        }
+
         private void Search()
         {
             if (string.IsNullOrEmpty(this.TextSearch))
             {
-                this.Users = new ObservableCollection<UserItemViewModel>(this.ToUserItemViewModel());
+                this.Users = new ObservableCollection<UserItemViewModel>(this.ToUserItemViewModel(this.usersList));
 
                 this.Recipes = new ObservableCollection<RecipeItemViewModel>(this.ToRecipeItemViewModel());
+
+                this.Chefs = new ObservableCollection<UserItemViewModel>(this.ToUserItemViewModel(this.chefsList));
+
             }
             else
             {
-                this.Users = new ObservableCollection<UserItemViewModel>(this.ToUserItemViewModel().Where(u => u.Name.ToLower().Contains(this.TextSearch.ToLower())
+                this.Users = new ObservableCollection<UserItemViewModel>(this.ToUserItemViewModel(this.usersList).Where(u => u.Name.ToLower().Contains(this.TextSearch.ToLower())
                                                                                         || u.Email.ToLower().Contains(this.TextSearch.ToLower())));
 
                 this.Recipes = new ObservableCollection<RecipeItemViewModel>(this.ToRecipeItemViewModel().Where(r => r.Name.ToLower().Contains(this.TextSearch.ToLower())
                                                                                         || r.Author.ToLower().Contains(this.TextSearch.ToLower())));
+
+                this.Chefs = new ObservableCollection<UserItemViewModel>(this.ToUserItemViewModel(this.chefsList).Where(c => c.Name.ToLower().Contains(this.TextSearch.ToLower())
+                                                                                        || c.Email.ToLower().Contains(this.TextSearch.ToLower())));
+
             }
         }
 
         private async void Filter()
         {
-            string filter = await Application.Current.MainPage.DisplayActionSheet("Filter", "Cancel", null, "Companies", "Recipes", "Users");
+            string filter = await Application.Current.MainPage.DisplayActionSheet("Filter", "Cancel", null, "Chefs", "Recipes", "Users");
 
             switch (filter)
             {
 
-                case "Companies":
-                    await Application.Current.MainPage.DisplayAlert(":)", "Elegiste companies", "Ok");
+                case "Chefs":
+                    this.loadChefs();
+                    this.IsVisibleUsers = false;
+                    this.IsVisibleRecipes = false;
+                    this.IsVisibleChefs = true;
                     break;
 
                 case "Recipes":
+                    this.loadRecipes();
                     this.IsVisibleUsers = false;
                     this.IsVisibleRecipes = true;
-                    this.loadRecipes();
+                    this.IsVisibleChefs = false;
                     break;
 
                 case "Users":
+                    this.loadUsers();
                     this.IsVisibleUsers = true;
                     this.IsVisibleRecipes = false;
-                    this.loadUsers();
+                    this.IsVisibleChefs = false;
                     break;
 
             }
@@ -264,9 +317,9 @@ namespace CookTime.ViewModels
             }
         }
 
-        private IEnumerable<UserItemViewModel> ToUserItemViewModel()
+        private IEnumerable<UserItemViewModel> ToUserItemViewModel(List<User> list)
         {
-            return this.usersList.Select(u => new UserItemViewModel
+            return list.Select(u => new UserItemViewModel
             {
                 Email = u.Email,
                 Name = u.Name,
