@@ -30,7 +30,9 @@ namespace CookTime.ViewModels
         private List<Recipe> recipesList; //list of teh recipes loaded from the server
 
         //ACTIVITY INDICATOR
-        private bool isRefreshing; 
+        private bool isRefreshing;
+
+        private bool visibleChef;
 
         //VALUE
         private int followers;
@@ -79,6 +81,12 @@ namespace CookTime.ViewModels
         {
             get { return this.isCompany; }
             set { SetValue(ref this.isCompany, value); }
+        }
+
+        public bool VisibleChef
+        {
+            get { return this.visibleChef; }
+            set { SetValue(ref this.visibleChef, value); }
         }
 
         public string TextQuery
@@ -198,6 +206,11 @@ namespace CookTime.ViewModels
             }
             init();
             this.SortList("0");
+
+            if (this.loggedUser.Chef)
+            {
+                this.VisibleChef = true;
+            }
         }
         #endregion
 

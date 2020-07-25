@@ -82,6 +82,15 @@
             </Frame>
 
             <Label
+                Text="Chef"
+                FontSize="Body"
+                TextColor="Black"
+                HorizontalOptions="Center"
+                IsVisible="{Binding VisibleChef, Mode=TwoWay}">
+
+            </Label>
+
+            <Label
                 Text="{Binding Name}"
                 FontAttributes="Bold"
                 FontSize="Title"
