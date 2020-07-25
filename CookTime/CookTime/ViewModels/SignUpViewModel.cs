@@ -9,6 +9,7 @@ using CookTime.Services;
 using CookTime.Models;
 using Plugin.Media.Abstractions;
 using CookTime.FileHelpers;
+using System.Linq;
 
 namespace CookTime.ViewModels
 {
@@ -521,8 +522,14 @@ namespace CookTime.ViewModels
             };
 
             //Generates the query url
+            
             string queryUrl = "/users?email=" + this.TextEmail + "&password=" + this.TextPassword
                 + "&name=" + this.TextName + "&age=" + this.TextAge;
+
+            if (this.IsCompany == true)
+            {
+                queryUrl += "&company=true";
+            }
 
             //Posts the account
             Response response = await ApiService.Post<User>(
