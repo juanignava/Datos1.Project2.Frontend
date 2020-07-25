@@ -103,10 +103,32 @@
 
                     <Entry
                         IsVisible="{Binding IsCompany}"
-                        Placeholder="Address"
+                        Placeholder="Address: Latitud"
                         FontSize="Body"
+                        Keyboard="Numeric"
                         PlaceholderColor="#B09B35"
-                        Text="{Binding TextAddress, Mode=TwoWay}"
+                        Text="{Binding TextAddressLat, Mode=TwoWay}"
+                        BackgroundColor="{Binding BCAddress, Mode=TwoWay}">
+
+                    </Entry>
+
+                    <Entry
+                        IsVisible="{Binding IsCompany}"
+                        Placeholder="Address: Longitud"
+                        FontSize="Body"
+
+                        
+                        
+                        
+                        
+                        
+                     
+                        
+                        
+                        
+                        Keyboard="Numeric"
+                        PlaceholderColor="#B09B35"
+                        Text="{Binding TextAddressLon, Mode=TwoWay}"
                         BackgroundColor="{Binding BCAddress, Mode=TwoWay}">
 
                     </Entry>
@@ -116,7 +138,6 @@
                         Placeholder="Service hours"
                         FontSize="Body"
                         PlaceholderColor="#B09B35"
-                        Keyboard="Numeric"
                         Text="{Binding TextServiceHours, Mode=TwoWay}"
                         BackgroundColor="{Binding BCServiceHours, Mode=TwoWay}">
 

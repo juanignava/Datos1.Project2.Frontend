@@ -12,32 +12,47 @@
             BindingContext="{Binding MyMenu}"
             BackgroundColor="White">
 
-            <Button
-                Margin="5"
-                Text="Chef Query"
-                CornerRadius="20"
-                HeightRequest="40"
-                BackgroundColor="White"
-                BorderColor="#631B29" 
-                FontSize="Micro"
-                HorizontalOptions="End"
-                TextColor="Black"
-                BorderWidth="3"
-                Command="{Binding CheffQueryCommand}"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-            <Button
-                IsVisible="{Binding IsCompany}"
-                Margin="5"
-                Text="See location"
-                CornerRadius="20"
-                HeightRequest="40"
-                BackgroundColor="White"
-                BorderColor="#631B29" 
-                FontSize="Micro"
-                HorizontalOptions="End"
-                TextColor="Black"
-                BorderWidth="3"
-                Command="{Binding SeeLocationCommand}"/>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="55"/>
+                </Grid.RowDefinitions>
+
+                <Button
+                    Grid.Column="1"
+                    Margin="5"
+                    Text="{Binding TextQuery}"
+                    CornerRadius="20"
+                    HeightRequest="45"
+                    BackgroundColor="White"
+                    BorderColor="#631B29" 
+                    FontSize="Micro"
+                    HorizontalOptions="End"
+                    TextColor="Black"
+                    BorderWidth="3"
+                    Command="{Binding CheffQueryCommand}"/>
+
+                <Button
+                    Grid.Column="0"
+                    IsVisible="{Binding IsCompany}"
+                    Margin="5"
+                    Text="See location"
+                    CornerRadius="20"
+                    HeightRequest="45"
+                    BackgroundColor="White"
+                    BorderColor="#631B29" 
+                    FontSize="Micro"
+                    HorizontalOptions="Start"
+                    TextColor="Black"
+                    BorderWidth="3"
+                    Command="{Binding SeeLocationCommand}"/>
+
+            </Grid>
+            
 
             <Frame
                 CornerRadius="150" 
@@ -79,6 +94,20 @@
                 TextColor="#B09B35"
                 HorizontalOptions="Center"/>
 
+            <Label
+                IsVisible="{Binding IsCompany}"
+                Text="{Binding ContactMethod}"
+                FontSize="Small"
+                TextColor="Black"
+                HorizontalOptions="Center"/>
+
+            <Label
+                IsVisible="{Binding IsCompany}"
+                Text="{Binding ServiceHours}"
+                FontSize="Small"
+                TextColor="Black"
+                HorizontalOptions="Center"/>
+
             <StackLayout
                 Orientation="Horizontal"
                 HorizontalOptions="Center">
@@ -95,7 +124,6 @@
                     TextColor="Black"
                     FontSize="Body"
                     BackgroundColor="White">
-
                 </Label>
 
                 <Label
@@ -103,7 +131,6 @@
                     TextColor="Black"
                     FontSize="Body"
                     BackgroundColor="White">
-
                 </Label>
 
                 <Label

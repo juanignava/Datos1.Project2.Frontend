@@ -35,9 +35,9 @@ namespace CookTime.ViewModels
 
         private string textContactMethods;
 
-        private string textAddress;
+        private string textAddressLat;
 
-
+        private string textAddressLon; 
         //BACKGROUND COLOR
         private string bCName;
 
@@ -75,6 +75,7 @@ namespace CookTime.ViewModels
         private ImageSource signUpIcon;
 
         private string companyText;
+
 
         #endregion
 
@@ -160,10 +161,16 @@ namespace CookTime.ViewModels
             set { SetValue(ref this.textContactMethods, value); }
         }
 
-        public string TextAddress
+        public string TextAddressLat
         {
-            get { return this.textAddress; }
-            set { SetValue(ref this.textAddress, value); }
+            get { return this.textAddressLat; }
+            set { SetValue(ref this.textAddressLat, value); }
+        }
+
+        public string TextAddressLon
+        {
+            get { return this.textAddressLon; }
+            set { SetValue(ref this.textAddressLon, value); }
         }
 
         public string TextServiceHours
@@ -458,11 +465,20 @@ namespace CookTime.ViewModels
                     return;
                 }
 
-                if (string.IsNullOrEmpty(this.TextAddress))
+                if (string.IsNullOrEmpty(this.TextAddressLat))
                 {
                     IsRunning = false;
                     BCAddress = ColorsFonts.errorColor;
-                    await Application.Current.MainPage.DisplayAlert("Error", "You must enter the company adress", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Error", "You must enter the company adress latitud", "Ok");
+                    BCAddress = ColorsFonts.backGround;
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(this.TextAddressLon))
+                {
+                    IsRunning = false;
+                    BCAddress = ColorsFonts.errorColor;
+                    await Application.Current.MainPage.DisplayAlert("Error", "You must enter the company adress longitud", "Ok");
                     BCAddress = ColorsFonts.backGround;
                     return;
                 }
@@ -477,8 +493,9 @@ namespace CookTime.ViewModels
                 }
 
                 this.TextContactMethods = ReadStringConverter.ChangePostString(this.TextContactMethods);
-                this.TextAddress = ReadStringConverter.ChangePostString(this.TextAddress);
                 this.TextServiceHours = ReadStringConverter.ChangePostString(this.TextServiceHours);
+
+                var address2 = this.TextAddressLat + "," + this.TextAddressLon;
 
                 Company company = new Company
                 {
@@ -487,11 +504,11 @@ namespace CookTime.ViewModels
                     Password = this.TextPassword,
                     Contact = this.TextContactMethods,
                     ServiceSchedule = this.TextServiceHours,
-                    Location = this.TextAddress
+                   // Location = address2
                 };
 
                 string queryUrlC = "/companies?email=" + this.TextEmail + "&password=" + this.TextPassword
-                    + "&name=" + this.TextName + "&location=" + this.TextAddress + "&contact=" + this.TextContactMethods + "&serviceSchedule=" + this.TextServiceHours;
+                    + "&name=" + this.TextName + "&location=" + address2 + "&contact=" + this.TextContactMethods + "&serviceSchedule=" + this.TextServiceHours;
 
                 //Posts the Company
                 Response responseC = await ApiService.Post<Company>(
@@ -568,6 +585,7 @@ namespace CookTime.ViewModels
 
         private async System.Threading.Tasks.Task createCompany()
         {
+            var address = this.TextAddressLat + "," + this.TextAddressLon;
             Company company = new Company
             {
                 Email = this.TextEmail,
@@ -575,11 +593,11 @@ namespace CookTime.ViewModels
                 Password = this.TextPassword,
                 Contact = this.TextContactMethods,
                 ServiceSchedule = this.TextServiceHours,
-                Location = this.TextAddress
+                //Location = address
             };
 
             string queryUrl = "/companies?email=" + this.TextEmail + "&password=" + this.TextPassword
-                + "&name=" + this.TextName + "&location=" + this.TextAddress + "&contact=" + this.TextContactMethods + "&serviceSchedule=" + this.TextServiceHours;
+                + "&name=" + this.TextName + "&location=" + address + "&contact=" + this.TextContactMethods + "&serviceSchedule=" + this.TextServiceHours;
 
             //Posts the Company
             Response response = await ApiService.Post<Company>(

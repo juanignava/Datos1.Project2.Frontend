@@ -57,8 +57,19 @@ namespace CookTime.ViewModels
 
         private bool isCompany;
 
-        #endregion
+        private string textQuery;
 
+        private string contactMethod;
+
+        private string serviceHours;
+
+        private Company loggedCompany;
+
+        private double latitud;
+
+        private double longitud;
+
+        #endregion
 
         #region PROPERTIES
         //COMPANY
@@ -68,6 +79,35 @@ namespace CookTime.ViewModels
             set { SetValue(ref this.isCompany, value); }
         }
 
+        public string TextQuery
+        {
+            get { return this.textQuery; }
+            set { SetValue(ref this.textQuery, value); }
+        }
+
+        public string ContactMethod 
+        {
+            get { return this.contactMethod; }
+            set { SetValue(ref this.contactMethod, value); }
+        }
+
+        public string ServiceHours 
+        {
+            get { return this.serviceHours; }
+            set { SetValue(ref this.serviceHours, value); }
+        }
+
+        public double Latitud
+        {
+            get { return this.latitud; }
+            set { SetValue(ref this.latitud, value); }
+        }
+
+        public double Longitud
+        {
+            get { return this.longitud; }
+            set { SetValue(ref this.longitud, value); }
+        }
         //VALUE
         public int Followers
         {
@@ -142,6 +182,12 @@ namespace CookTime.ViewModels
             if (this.loggedUser.IsCompany == true)
             {
                 this.IsCompany = true;
+                this.TextQuery = "Add admin";
+                
+            }
+            else
+            {
+                this.TextQuery = "Chef Query";
             }
             init();
             this.SortList("0");
@@ -151,13 +197,18 @@ namespace CookTime.ViewModels
 
         #region METHODS
 
-        private void init()
+        private async void init()
         {
             this.Name = loggedUser.Name;
             this.Email = loggedUser.Email;
             this.Age = loggedUser.Age;
             this.Followers = loggedUser.Followers.Length;
             this.Following = loggedUser.UsersFollowing.Length;
+
+            if (this.IsCompany == true)
+            {
+                await LoadCompanyData();
+            }
 
             if (loggedUser.ProfilePic == null)
             {
@@ -166,6 +217,7 @@ namespace CookTime.ViewModels
             }
 
             this.AddImageSource = loggedUser.UserImage;
+            
         }
 
      
@@ -368,11 +420,56 @@ namespace CookTime.ViewModels
 
         private async void SeeLocation()
         {
-            await Map.OpenAsync(47.3230, -122.0276, new MapLaunchOptions
+            await Map.OpenAsync(this.Latitud, this.Longitud, new MapLaunchOptions
             {
                 Name = "MyPlace",
                 NavigationMode = NavigationMode.None
             });
+        }
+
+        private async Task<Response> LoadCompanyData()
+        {
+            //Check internet connection
+            var connection = await ApiService.CheckConnection();
+
+            if (!connection.IsSuccess)
+            {
+                this.IsRefreshing = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    "Error",
+                    connection.Message,
+                    "Accept");
+                return null;
+            }
+
+            //Creates the url needed to getthe information
+            var url = "/companies/" + this.Email;
+
+            //Asks the server for the list of recipes
+            var response = await ApiService.Get<Company>(
+                "http://localhost:8080/CookTime.BackEnd",
+                "/api",
+                url);
+
+            if (!response.IsSuccess)
+            {
+                this.IsRefreshing = false;
+                await Application.Current.MainPage.DisplayAlert( //if something goes wrong the page displays a message
+                    "Welcome to CookTime",
+                    "Add new recipes to have a complete MyMenu",
+                    "Accept");
+                return null;
+            }
+
+            //Copies the list loaded from the server
+
+             this.loggedCompany = (Company) response.Result;
+             this.ServiceHours = "Service Hours " + ReadStringConverter.ChangeGetString(this.loggedCompany.ServiceSchedule);
+             this.ContactMethod = "Contact Method " + ReadStringConverter.ChangeGetString(this.loggedCompany.Contact);
+            this.Latitud = this.loggedCompany.Location[0];
+            this.Longitud = this.loggedCompany.Location[1];
+
+            return null;
         }
         #endregion
     }

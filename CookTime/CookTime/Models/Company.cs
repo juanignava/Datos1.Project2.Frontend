@@ -27,7 +27,7 @@ namespace CookTime.Models
         public string ServiceSchedule { get; set; }
 
         [Newtonsoft.Json.JsonProperty(PropertyName = "location")]
-        public string Location { get; set; }
+        public double[] Location { get; set; }
 
         [Newtonsoft.Json.JsonProperty(PropertyName = "punctuation")]
         public int Punctuation { get; set; }
